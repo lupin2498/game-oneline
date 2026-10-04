@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p out/Payload
           cp -R build/Build/Products/Release-iphoneos/OneLine.app out/Payload/
-          cd out && zip -qr OneLine-1.0-unsigned.ipa Payload
+          cd out && zip -qr OneLine-1.1-unsigned.ipa Payload
 
       - uses: actions/upload-artifact@v4
         with:

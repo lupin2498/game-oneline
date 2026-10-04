@@ -1,4 +1,4 @@
-const CACHE = 'one-line-v1';
+const CACHE = 'one-line-v2';
 const ASSETS = ['./', './index.html', './manifest.webmanifest',
   './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png'];
 
