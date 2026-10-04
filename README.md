@@ -1,12 +1,13 @@
 # Đường Kẻ Một Nét (One Line)
 
 Game HTML5 canvas: vẽ **một đường liền** qua mê cung đang cuộn. Hai cách điều khiển:
-giữ **vòng sáng** rồi kéo trực tiếp, hoặc giữ **nút tròn** (joystick) ở đáy màn hình và đẩy núm để lái. **Nhấc tay hoặc chạm tường là thua.** Hành lang hẹp dần (±54px → ±12px),
+giữ **vòng sáng** rồi kéo trực tiếp, hoặc giữ **nút tròn** ở đáy màn hình rồi rê núm —
+nhân vật di chuyển đúng bằng quãng và tốc độ ngón tay di (1:1). **Nhấc tay hoặc chạm tường là thua.** Hành lang hẹp dần (±54px → ±12px),
 thỉnh thoảng có cửa thắt, tốc độ cuộn tăng dần (130 → 440 px/s). Kỷ lục lưu bằng `localStorage`.
 
 | Bản | Cài thế nào |
 |---|---|
-| **Android** | Tải [`dist/OneLine-1.1.apk`](dist/) → mở file → cho phép "Cài ứng dụng không rõ nguồn gốc". Đã cài 1.0 thì cài đè được luôn |
+| **Android** | Tải [`dist/OneLine-1.2.apk`](dist/) → mở file → cho phép "Cài ứng dụng không rõ nguồn gốc". Đã cài bản cũ thì cài đè được luôn |
 | **iPhone / iPad** | Mở trang web bằng **Safari** → nút Chia sẻ → **Thêm vào màn hình chính** (chạy toàn màn hình, offline) |
 | **Máy tính / trình duyệt** | Mở `index.html`, hoặc bật GitHub Pages rồi vào link |
 
@@ -17,7 +18,7 @@ index.html              game (một file, chạy offline)
 manifest.webmanifest    PWA: cài lên màn hình chính, chạy fullscreen
 sw.js                   service worker: cache offline
 icons/                  bộ icon 48 → 1024 px
-dist/OneLine-1.1.apk    bản cài Android đã ký sẵn
+dist/OneLine-1.2.apk    bản cài Android đã ký sẵn
 android/                nguồn app Android (WebView) + build.sh
 ios/                    nguồn app iOS (WKWebView) + XcodeGen
 .github/workflows/      CI build APK (Ubuntu) và IPA chưa ký (macOS)
@@ -31,7 +32,7 @@ targetSdk 29, ký theo APK Signature Scheme v2, không xin quyền nào.
 Build lại — **không cần Android Studio hay Android SDK**, chỉ cần JDK 11+, curl, zip:
 
 ```bash
-bash android/build.sh        # -> dist/OneLine-1.1.apk
+bash android/build.sh        # -> dist/OneLine-1.2.apk
 ```
 
 Script tự tải công cụ về `android/.tools/`: `aapt2` (npm `aaptjs3`), `android.jar`,

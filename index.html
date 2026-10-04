@@ -62,7 +62,7 @@
     <h1>ĐƯỜNG KẺ<br>MỘT NÉT</h1>
     <p>Đặt ngón tay (hoặc giữ chuột) vào <b>vòng sáng</b> rồi kéo đi — vẽ <b>một đường liền</b>
        qua mê cung đang cuộn.</p>
-    <p>Hoặc giữ <b>nút tròn</b> ở đáy màn hình và đẩy núm để lái — ngón tay không che đường đi.</p>
+    <p>Hoặc giữ <b>nút tròn</b> ở đáy màn hình rồi rê núm — nhân vật đi đúng bằng quãng ngón tay di, ngón tay không che đường đi.</p>
     <p class="tag">Nhấc tay hay chạm tường là thua. Mê cung hẹp dần và cuộn nhanh dần.</p>
     <button id="bStart">Bắt đầu</button>
   </div>
@@ -78,7 +78,7 @@
 'use strict';
 var cv=document.getElementById('cv'), ctx=cv.getContext('2d'), wrap=document.getElementById('wrap');
 var W=480, H=760, STEP=92, Y_MIN=H*0.15, Y_MAX=H*0.78, R=6.5, M2PX=22;
-var JX=240, JY=680, JR=58, JK=25, JT=46, STICK_SPD=520;  // nút tròn: tâm, nền, núm, tầm đẩy, tốc độ gốc
+var JX=240, JY=680, JR=58, JK=25, JT=46;  // nút tròn: tâm, bán kính nền, bán kính núm, tầm lệch núm
 
 function fit(){
   var dpr=Math.min(window.devicePixelRatio||1,2.5), r=cv.getBoundingClientRect();
@@ -121,6 +121,7 @@ var state='idle', scroll=0, dist=0, speed=0, best=0;
 var dotX=240, dotY=H*0.66, tgtX=240, tgtY=H*0.66, trail=[], sparks=[];
 var startX=240, startY=H*0.66, shake=0, time=0, last=0, overReason='', hudTick=0, anchor=null;
 var mode='drag', stickX=0, stickY=0;   // mode: 'drag' kéo trực tiếp | 'stick' nút tròn
+var lastPX=0, lastPY=0, pendX=0, pendY=0;  // nút tròn: vị trí ngón tay lần trước, quãng dời chờ áp dụng
 var hD=document.getElementById('hD'), hB=document.getElementById('hB'),
     bW=document.querySelector('#bW em'), bS=document.querySelector('#bS em'),
     pStart=document.getElementById('pStart'), pOver=document.getElementById('pOver'),
@@ -141,7 +142,7 @@ function reset(){
   ensure(H+STEP*3);
   startY=H*0.66; startX=corridor(wy(startY)).x;
   dotX=tgtX=startX; dotY=tgtY=startY;
-  anchor=null; mode='drag'; stickX=stickY=0; state='ready'; hud();
+  anchor=null; mode='drag'; stickX=stickY=pendX=pendY=0; state='ready'; hud();
 }
 function lose(reason){
   if(state!=='run') return;
@@ -157,7 +158,7 @@ function begin(x,y){
   else return;
   dotX=tgtX=startX; dotY=tgtY=startY;          // luôn bắt đầu đúng tâm vòng sáng
   anchor={px:x, py:y, dx:startX, dy:startY};   // điểm chạm làm gốc kéo / tâm nút tròn
-  stickX=stickY=0;
+  stickX=stickY=pendX=pendY=0; lastPX=x; lastPY=y;
   trail=[[dotX,wy(dotY)]];
   state='run';
 }
@@ -177,8 +178,13 @@ wrap.addEventListener('pointermove',function(e){
   if(state!=='run'||!anchor) return;
   var p=pos(e), ox=p[0]-anchor.px, oy=p[1]-anchor.py;
   if(mode==='stick'){
+    pendX+=p[0]-lastPX; pendY+=p[1]-lastPY;   // nhân vật dời đúng bằng quãng ngón tay dời (1:1)
+    lastPX=p[0]; lastPY=p[1];
     var L=Math.hypot(ox,oy);
-    if(L>JT){ ox*=JT/L; oy*=JT/L; }
+    if(L>JT){                                  // ngón tay ra quá tầm: kéo nền nút theo
+      anchor.px+=ox*(1-JT/L); anchor.py+=oy*(1-JT/L);
+      ox=p[0]-anchor.px; oy=p[1]-anchor.py;
+    }
     stickX=ox; stickY=oy;
   } else {
     tgtX=clamp(anchor.dx+ox, -60, W+60);
@@ -217,10 +223,8 @@ function step(dt){
   while(wps.length>6 && wps[1].y<scroll-STEP*2) wps.shift();
 
   var mvx=0, mvy=0;
-  if(mode==='stick'){                       // nút tròn: độ lệch núm = vận tốc
-    var m=Math.hypot(stickX,stickY)/JT;      // 0..1, đường cong mũ 1.7 cho lái nhẹ chính xác hơn
-    var vmax=STICK_SPD+speed*1.6;            // tốc độ tối đa tăng theo tốc độ cuộn
-    if(m>0.06){ var f=Math.pow(m,1.7)*vmax*dt/(m*JT); mvx=stickX*f; mvy=stickY*f; }
+  if(mode==='stick'){                       // nút tròn: dời theo đúng quãng ngón tay đã dời
+    mvx=pendX; mvy=pendY; pendX=pendY=0;
   } else {                                  // kéo trực tiếp: chạy tới điểm ngón tay
     var dx=tgtX-dotX, dy=tgtY-dotY, L=Math.hypot(dx,dy), mv=Math.min(L,1250*dt);
     if(L>0.0001){ mvx=dx/L*mv; mvy=dy/L*mv; }

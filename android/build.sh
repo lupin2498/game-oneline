@@ -15,7 +15,7 @@ TOOLS="$HERE/.tools"
 BUILD="$HERE/.build"
 DIST="$ROOT/dist"
 
-VERSION_NAME="1.1"
+VERSION_NAME="1.2"
 MIN_SDK=24
 TARGET_SDK=29
 PKG="vn.lupin.oneline"
