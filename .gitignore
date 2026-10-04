@@ -1,0 +1,6 @@
+ios/www/
+android/.tools/
+android/.build/
+android/.keystore/
+ios/OneLine.xcodeproj/
+.DS_Store

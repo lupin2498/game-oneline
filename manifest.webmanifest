@@ -1,0 +1,19 @@
+{
+  "name": "Đường Kẻ Một Nét",
+  "short_name": "Một Nét",
+  "description": "Vẽ một đường liền qua mê cung đang cuộn — nhấc tay hay chạm tường là thua.",
+  "lang": "vi",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "portrait",
+  "background_color": "#04060c",
+  "theme_color": "#04060c",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-1024.png", "sizes": "1024x1024", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,38 @@
+name: Build iOS (unsigned IPA)
+
+# Chỉ chạy khi bấm tay: runner macOS tốn gấp 10 lần phút Actions.
+on:
+  workflow_dispatch:
+
+jobs:
+  ipa:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cài XcodeGen
+        run: brew install xcodegen
+
+      - name: Chuẩn bị web assets + sinh Xcode project
+        run: |
+          bash ios/prepare.sh
+          cd ios && xcodegen generate
+
+      - name: Build (không ký)
+        run: |
+          xcodebuild -project ios/OneLine.xcodeproj -scheme OneLine \
+            -configuration Release -sdk iphoneos -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            ONLY_ACTIVE_ARCH=NO build
+
+      - name: Đóng gói IPA
+        run: |
+          mkdir -p out/Payload
+          cp -R build/Build/Products/Release-iphoneos/OneLine.app out/Payload/
+          cd out && zip -qr OneLine-1.0-unsigned.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OneLine-ipa-unsigned
+          path: out/*.ipa
+          if-no-files-found: error
