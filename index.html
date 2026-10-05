@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="Một Nét">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%;background:#04060c;overflow:hidden;color:#e9f2ff;
@@ -23,6 +23,8 @@
     touch-action:none;user-select:none;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6);
     cursor:crosshair}
   canvas{display:block;width:100%;height:100%}
+  #ui{position:absolute;left:0;top:0;width:400px;height:633.33px;transform-origin:0 0;pointer-events:none}
+  #ui .panel{pointer-events:auto}
   .hud{position:absolute;left:0;right:0;top:0;display:flex;gap:8px;padding:12px 14px;pointer-events:none}
   .chip{background:rgba(10,18,32,.72);border:1px solid rgba(130,255,235,.16);border-radius:12px;padding:6px 10px}
   .chip span{display:block;opacity:.55;font-size:9px;text-transform:uppercase;letter-spacing:1.2px}
@@ -50,6 +52,7 @@
 <body>
 <div id="wrap">
   <canvas id="cv"></canvas>
+  <div id="ui">
   <div class="hud">
     <div class="chip"><span>Quãng đường</span><b id="hD">0 m</b></div>
     <div class="chip"><span>Tốt nhất</span><b id="hB">0 m</b></div>
@@ -72,11 +75,12 @@
     <p class="tag" id="oB"></p>
     <button id="bAgain">Chơi lại</button>
   </div>
+  </div>
 </div>
 <script>
 (function(){
 'use strict';
-var cv=document.getElementById('cv'), ctx=cv.getContext('2d'), wrap=document.getElementById('wrap');
+var cv=document.getElementById('cv'), ctx=cv.getContext('2d'), wrap=document.getElementById('wrap'), ui=document.getElementById('ui');
 var W=480, H=760, STEP=92, Y_MIN=H*0.15, Y_MAX=H*0.78, R=6.5, M2PX=22;
 var JX=240, JY=680, JR=58, JK=25, JT=46;  // nút tròn: tâm, bán kính nền, bán kính núm, tầm lệch núm
 
@@ -85,6 +89,7 @@ function fit(){
   cv.width=Math.max(1,Math.round(r.width*dpr));
   cv.height=Math.max(1,Math.round(r.height*dpr));
   ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
+  if(r.width>0) ui.style.transform='scale('+(r.width/400)+')';   // HUD + bảng co theo khung
 }
 window.addEventListener('resize',fit);
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
@@ -109,9 +114,13 @@ function corridor(wy){
   var i=Math.floor((wy-wps[0].y)/STEP);
   if(i<0) i=0;
   if(i>wps.length-2) i=wps.length-2;
-  var a=wps[i], b=wps[i+1];
-  var s=(1-Math.cos(Math.PI*clamp((wy-a.y)/STEP,0,1)))*0.5;
-  return {x:a.x+(b.x-a.x)*s, hw:a.hw+(b.hw-a.hw)*s};
+  var a=wps[i], b=wps[i+1], u=clamp((wy-a.y)/STEP,0,1);
+  var s=(1-Math.cos(Math.PI*u))*0.5;
+  var x=a.x+(b.x-a.x)*s, hb=a.hw+(b.hw-a.hw)*s;
+  var slope=(b.x-a.x)*Math.PI*0.5*Math.sin(Math.PI*u)/STEP;        // dx/dy của đường tâm
+  // nới bề ngang theo độ dốc để bề rộng vuông góc với hành lang luôn là hb
+  var hw=Math.min(hb*Math.sqrt(1+slope*slope), x-4, W-4-x);
+  return {x:x, hw:hw, hb:hb};
 }
 function sy(wy){ return H-(wy-scroll); }           // world -> screen
 function wy(syv){ return scroll+H-syv; }           // screen -> world
@@ -122,27 +131,29 @@ var dotX=240, dotY=H*0.66, tgtX=240, tgtY=H*0.66, trail=[], sparks=[];
 var startX=240, startY=H*0.66, shake=0, time=0, last=0, overReason='', hudTick=0, anchor=null;
 var mode='drag', stickX=0, stickY=0;   // mode: 'drag' kéo trực tiếp | 'stick' nút tròn
 var lastPX=0, lastPY=0, pendX=0, pendY=0;  // nút tròn: vị trí ngón tay lần trước, quãng dời chờ áp dụng
+var activeId=null;                         // pointerId của ngón đang vẽ; ngón khác bị bỏ qua
 var hD=document.getElementById('hD'), hB=document.getElementById('hB'),
     bW=document.querySelector('#bW em'), bS=document.querySelector('#bS em'),
     pStart=document.getElementById('pStart'), pOver=document.getElementById('pOver'),
     oTitle=document.getElementById('oTitle'), oD=document.getElementById('oD'), oB=document.getElementById('oB');
 
-try{ best=parseInt(localStorage.getItem('oneline.best')||'0',10)||0; }catch(e){ best=0; }
+try{ best=Math.min(1e7, Math.max(0, parseInt(localStorage.getItem('oneline.best')||'0',10)||0)); }catch(e){ best=0; }
 function meters(){ return Math.floor(dist/M2PX); }
 function hud(){
   hD.textContent=meters()+' m';
   hB.textContent=best+' m';
   var c=corridor(wy(dotY));
-  bW.style.width=Math.round(clamp((c.hw-10)/46,0.04,1)*100)+'%';
+  bW.style.width=Math.round(clamp((c.hb-10)/46,0.04,1)*100)+'%';
   bS.style.width=Math.round(clamp((speed-110)/330,0.03,1)*100)+'%';
 }
 function reset(){
-  wps=[{y:0,x:240,hw:54},{y:STEP,x:240,hw:54},{y:STEP*2,x:240,hw:54},{y:STEP*3,x:240,hw:52}];
+  wps=[];
+  for(var k=0;k<=6;k++) wps.push({y:STEP*k, x:240, hw:54});   // đoạn thẳng khởi động
   scroll=0; dist=0; speed=130; trail=[]; sparks=[];
   ensure(H+STEP*3);
   startY=H*0.66; startX=corridor(wy(startY)).x;
   dotX=tgtX=startX; dotY=tgtY=startY;
-  anchor=null; mode='drag'; stickX=stickY=pendX=pendY=0; state='ready'; hud();
+  anchor=null; activeId=null; mode='drag'; stickX=stickY=pendX=pendY=0; state='ready'; hud();
 }
 function lose(reason){
   if(state!=='run') return;
@@ -155,12 +166,13 @@ function lose(reason){
 function begin(x,y){
   if(Math.hypot(x-JX,y-JY)<=JR+18) mode='stick';             // giữ nút tròn
   else if(Math.hypot(x-startX,y-startY)<=58) mode='drag';    // giữ vòng sáng
-  else return;
+  else return false;
   dotX=tgtX=startX; dotY=tgtY=startY;          // luôn bắt đầu đúng tâm vòng sáng
   anchor={px:x, py:y, dx:startX, dy:startY};   // điểm chạm làm gốc kéo / tâm nút tròn
   stickX=stickY=pendX=pendY=0; lastPX=x; lastPY=y;
   trail=[[dotX,wy(dotY)]];
   state='run';
+  return true;
 }
 
 /* ---------- input ---------- */
@@ -170,12 +182,15 @@ function pos(e){
 }
 wrap.addEventListener('pointerdown',function(e){
   e.preventDefault();
-  if(cv.setPointerCapture){ try{cv.setPointerCapture(e.pointerId);}catch(err){} }
+  if(state!=='ready') return;
   var p=pos(e);
-  if(state==='ready') begin(p[0],p[1]);
+  if(begin(p[0],p[1])){
+    activeId=e.pointerId;
+    if(cv.setPointerCapture){ try{cv.setPointerCapture(e.pointerId);}catch(err){} }
+  }
 });
 wrap.addEventListener('pointermove',function(e){
-  if(state!=='run'||!anchor) return;
+  if(state!=='run'||!anchor||e.pointerId!==activeId) return;
   var p=pos(e), ox=p[0]-anchor.px, oy=p[1]-anchor.py;
   if(mode==='stick'){
     pendX+=p[0]-lastPX; pendY+=p[1]-lastPY;   // nhân vật dời đúng bằng quãng ngón tay dời (1:1)
@@ -191,9 +206,12 @@ wrap.addEventListener('pointermove',function(e){
     tgtY=clamp(anchor.dy+oy, Y_MIN, Y_MAX);
   }
 });
-window.addEventListener('pointerup',function(){ if(state==='run') lose('Nhấc tay rồi!'); });
-window.addEventListener('pointercancel',function(){ if(state==='run') lose('Nhấc tay rồi!'); });
-window.addEventListener('blur',function(){ if(state==='run') lose('Nhấc tay rồi!'); });
+function lift(e){ if(state==='run' && (!e || e.pointerId===undefined || e.pointerId===activeId)) lose('Nhấc tay rồi!'); }
+window.addEventListener('pointerup',lift);
+window.addEventListener('pointercancel',lift);
+window.addEventListener('blur',function(){ lift(); });
+document.addEventListener('visibilitychange',function(){ if(document.hidden) lift(); });   // chuyển app / tắt màn
+window.addEventListener('pagehide',function(){ lift(); });
 function btn(id,fn){
   var b=document.getElementById(id);
   b.addEventListener('pointerdown',function(e){e.stopPropagation();});
@@ -203,9 +221,12 @@ btn('bStart',function(){ pStart.classList.add('hide'); pOver.classList.add('hide
 btn('bAgain',function(){ pOver.classList.add('hide'); reset(); });
 
 /* ---------- cập nhật ---------- */
-function hitWall(){
-  var c=corridor(wy(dotY));
-  return Math.abs(dotX-c.x) > c.hw-R+1.5;
+function hitWall(){                        // va chạm hình tròn: xét 9 lát ngang trong bán kính chấm
+  for(var k=-4;k<=4;k++){
+    var dy=k*R/4, ch=Math.sqrt(R*R-dy*dy), c=corridor(wy(dotY+dy));
+    if(Math.abs(dotX-c.x)+ch > c.hw+1.5) return true;
+  }
+  return false;
 }
 function step(dt){
   time+=dt; shake=Math.max(0,shake-dt*3);
@@ -226,7 +247,7 @@ function step(dt){
   if(mode==='stick'){                       // nút tròn: dời theo đúng quãng ngón tay đã dời
     mvx=pendX; mvy=pendY; pendX=pendY=0;
   } else {                                  // kéo trực tiếp: chạy tới điểm ngón tay
-    var dx=tgtX-dotX, dy=tgtY-dotY, L=Math.hypot(dx,dy), mv=Math.min(L,1250*dt);
+    var dx=tgtX-dotX, dy=tgtY-dotY, L=Math.hypot(dx,dy), mv=Math.min(L,2600*dt);
     if(L>0.0001){ mvx=dx/L*mv; mvy=dy/L*mv; }
   }
   var sub=Math.max(1,Math.ceil(Math.max(Math.hypot(mvx,mvy),ds)/4));

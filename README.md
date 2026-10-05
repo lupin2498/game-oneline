@@ -7,7 +7,7 @@ thỉnh thoảng có cửa thắt, tốc độ cuộn tăng dần (130 → 440 p
 
 | Bản | Cài thế nào |
 |---|---|
-| **Android** | Tải [`dist/OneLine-1.2.apk`](dist/) → mở file → cho phép "Cài ứng dụng không rõ nguồn gốc". Đã cài bản cũ thì cài đè được luôn |
+| **Android** | Tải [`dist/OneLine-1.3.apk`](dist/) → mở file → cho phép "Cài ứng dụng không rõ nguồn gốc". Đã cài bản cũ thì cài đè được luôn |
 | **iPhone / iPad** | Mở trang web bằng **Safari** → nút Chia sẻ → **Thêm vào màn hình chính** (chạy toàn màn hình, offline) |
 | **Máy tính / trình duyệt** | Mở `index.html`, hoặc bật GitHub Pages rồi vào link |
 
@@ -18,7 +18,7 @@ index.html              game (một file, chạy offline)
 manifest.webmanifest    PWA: cài lên màn hình chính, chạy fullscreen
 sw.js                   service worker: cache offline
 icons/                  bộ icon 48 → 1024 px
-dist/OneLine-1.2.apk    bản cài Android đã ký sẵn
+dist/OneLine-1.3.apk    bản cài Android đã ký sẵn
 android/                nguồn app Android (WebView) + build.sh
 ios/                    nguồn app iOS (WKWebView) + XcodeGen
 .github/workflows/      CI build APK (Ubuntu) và IPA chưa ký (macOS)
@@ -32,7 +32,7 @@ targetSdk 29, ký theo APK Signature Scheme v2, không xin quyền nào.
 Build lại — **không cần Android Studio hay Android SDK**, chỉ cần JDK 11+, curl, zip:
 
 ```bash
-bash android/build.sh        # -> dist/OneLine-1.2.apk
+bash android/build.sh        # -> dist/OneLine-1.3.apk
 ```
 
 Script tự tải công cụ về `android/.tools/`: `aapt2` (npm `aaptjs3`), `android.jar`,

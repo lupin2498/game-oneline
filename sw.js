@@ -1,9 +1,13 @@
-const CACHE = 'one-line-v3';
+const CACHE = 'one-line-v4';
 const ASSETS = ['./', './index.html', './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png'];
+  './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png',
+  './icons/maskable-512.png'];
 
 self.addEventListener('install', function (e) {
-  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function () {
+  // cache:'reload' -> lấy bản mới từ máy chủ, không dùng bản cũ trong HTTP cache (GitHub Pages để max-age=600)
+  e.waitUntil(caches.open(CACHE).then(function (c) {
+    return c.addAll(ASSETS.map(function (u) { return new Request(u, { cache: 'reload' }); }));
+  }).then(function () {
     return self.skipWaiting();
   }));
 });

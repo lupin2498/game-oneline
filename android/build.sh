@@ -15,7 +15,7 @@ TOOLS="$HERE/.tools"
 BUILD="$HERE/.build"
 DIST="$ROOT/dist"
 
-VERSION_NAME="1.2"
+VERSION_NAME="1.3"
 MIN_SDK=24
 TARGET_SDK=29
 PKG="vn.lupin.oneline"
@@ -32,12 +32,14 @@ KS_PASS="onelinegame"
 KS_ALIAS="oneline"
 
 say(){ printf "\033[36m==>\033[0m %s\n" "$*"; }
+# tải có thử lại (Maven Central đôi khi trả 429/5xx), ghi ra file tạm rồi mới đổi tên
+fetch(){ curl -fsSL --retry 5 --retry-delay 4 --retry-all-errors "$1" -o "$2.part" && mv "$2.part" "$2"; }
 
 # ---------------------------------------------------------------- 1. công cụ
 mkdir -p "$TOOLS"
 if [ ! -x "$TOOLS/aapt2" ]; then
   say "Tải aapt2 (npm aaptjs3)"
-  curl -fsSL "$AAPT2_TGZ" -o "$TOOLS/aapt2.tgz"
+  fetch "$AAPT2_TGZ" "$TOOLS/aapt2.tgz"
   tar xzf "$TOOLS/aapt2.tgz" -C "$TOOLS" package/bin/x64/linux/aapt2 2>/dev/null \
     || tar xzf "$TOOLS/aapt2.tgz" -C "$TOOLS" package/bin/x64/darwin/aapt2
   mv "$TOOLS"/package/bin/x64/*/aapt2 "$TOOLS/aapt2"
@@ -46,7 +48,7 @@ if [ ! -x "$TOOLS/aapt2" ]; then
 fi
 for pair in "android.jar|$ANDROID_JAR" "dx.jar|$DX_JAR" "ecj.jar|$ECJ_JAR" "apksig.jar|$APKSIG_JAR"; do
   f="${pair%%|*}"; u="${pair##*|}"
-  [ -f "$TOOLS/$f" ] || { say "Tải $f"; curl -fsSL "$u" -o "$TOOLS/$f"; }
+  [ -f "$TOOLS/$f" ] || { say "Tải $f"; fetch "$u" "$TOOLS/$f"; }
 done
 
 # ------------------------------------------------------------- 2. dọn & assets
