@@ -15,7 +15,7 @@ TOOLS="$HERE/.tools"
 BUILD="$HERE/.build"
 DIST="$ROOT/dist"
 
-VERSION_NAME="1.3"
+VERSION_NAME="1.4"
 MIN_SDK=24
 TARGET_SDK=29
 PKG="vn.lupin.oneline"
@@ -54,8 +54,10 @@ done
 # ------------------------------------------------------------- 2. dọn & assets
 rm -rf "$BUILD"; mkdir -p "$BUILD/assets" "$BUILD/flat" "$BUILD/classes" "$DIST"
 say "Chép web assets"
-cp "$ROOT/index.html" "$ROOT/manifest.webmanifest" "$ROOT/sw.js" "$BUILD/assets/"
+cp "$ROOT/index.html" "$ROOT/manifest.webmanifest" "$ROOT/sw.js" "$ROOT/firebase-config.js" \
+   "$ROOT/privacy.html" "$BUILD/assets/"
 cp -r "$ROOT/icons" "$BUILD/assets/icons"
+cp -r "$ROOT/lib" "$BUILD/assets/lib"
 
 # ------------------------------------------------------------ 3. tài nguyên
 say "aapt2 compile + link"

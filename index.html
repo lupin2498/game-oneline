@@ -47,6 +47,35 @@
   button{border:0;border-radius:99px;padding:13px 32px;font-size:16px;font-weight:700;color:#04221c;cursor:pointer;
     background:linear-gradient(180deg,#a8ffe4,#49d8c0);box-shadow:0 8px 24px rgba(73,216,192,.3)}
   button:active{transform:translateY(1px)}
+  .hide{display:none !important}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  button.ghost{background:rgba(125,255,212,.08);color:#d9fff4;border:1px solid rgba(125,255,212,.35);box-shadow:none}
+  button[disabled]{opacity:.5;cursor:default}
+  .acct{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .logins{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  button.soc{display:flex;align-items:center;gap:8px;padding:10px 16px;font-size:14px;box-shadow:none}
+  button.soc svg{width:18px;height:18px;flex:none}
+  button.soc.g{background:#fff;color:#1f1f1f}
+  button.soc.f{background:#1877f2;color:#fff}
+  button.link{background:none;box-shadow:none;padding:4px 6px;font-size:12px;font-weight:600;color:#9fb3c8;text-decoration:underline}
+  a.lnk{font-size:12px;font-weight:600;color:#9fb3c8;padding:4px 6px}
+  .who{display:flex;align-items:center;gap:10px;justify-content:center;font-size:14px;max-width:330px}
+  .who b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+  .av{width:28px;height:28px;border-radius:50%;object-fit:cover;background:#1b2540;flex:none;
+    display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#7dffd4}
+  .panel p.tiny{font-size:12px;opacity:.62;line-height:1.5;max-width:320px}
+  .panel p.err{color:#ff9f9f;opacity:1}
+  #pBoard h2{color:#ffd166}
+  .board{list-style:none;width:100%;max-width:330px;max-height:300px;overflow-y:auto;touch-action:pan-y;
+    -webkit-overflow-scrolling:touch;text-align:left;padding:0;margin:0;border-radius:12px;background:rgba(255,255,255,.03)}
+  .board li{display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
+  .board li:last-child{border-bottom:0}
+  .board .rk{width:24px;text-align:right;font-weight:800;opacity:.65;flex:none}
+  .board .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .board .sc{font-weight:700;color:#7dffd4;flex:none}
+  .board li.me{background:rgba(125,255,212,.12)}
+  .board li.r1 .rk{color:#ffd166;opacity:1} .board li.r2 .rk{color:#d4dbe8;opacity:1} .board li.r3 .rk{color:#e8a86c;opacity:1}
+  .board li.msg{justify-content:center;opacity:.6;border:0;padding:18px 10px}
 </style>
 </head>
 <body>
@@ -63,20 +92,37 @@
   </div>
   <div class="panel" id="pStart">
     <h1>ĐƯỜNG KẺ<br>MỘT NÉT</h1>
-    <p>Đặt ngón tay (hoặc giữ chuột) vào <b>vòng sáng</b> rồi kéo đi — vẽ <b>một đường liền</b>
+    <p>Giữ <b>vòng sáng</b> rồi kéo, hoặc giữ <b>nút tròn</b> ở đáy rồi rê núm — vẽ <b>một đường liền</b>
        qua mê cung đang cuộn.</p>
-    <p>Hoặc giữ <b>nút tròn</b> ở đáy màn hình rồi rê núm — nhân vật đi đúng bằng quãng ngón tay di, ngón tay không che đường đi.</p>
     <p class="tag">Nhấc tay hay chạm tường là thua. Mê cung hẹp dần và cuộn nhanh dần.</p>
-    <button id="bStart">Bắt đầu</button>
+    <div class="acct">
+      <div class="who hide" id="who"><span class="av" id="whoAv"></span><b id="whoName"></b><button class="link" id="bLogout">Đăng xuất</button></div>
+      <div class="logins" id="logins1"><button class="soc g" data-login="google"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Google</button><button class="soc f" data-login="facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.62 23.1 24 18.1 24 12.07"/></svg>Facebook</button></div>
+      <p class="tiny" id="acctNote"></p>
+    </div>
+    <div class="btns"><button id="bStart">Bắt đầu</button><button class="ghost" id="bBoard1">Bảng xếp hạng</button></div>
   </div>
   <div class="panel hide" id="pOver">
     <h2 id="oTitle">Thua rồi!</h2>
     <div class="big" id="oD">0 m</div>
     <p class="tag" id="oB"></p>
-    <button id="bAgain">Chơi lại</button>
+    <p class="tiny" id="oNet"></p>
+    <div class="logins" id="logins2"><button class="soc g" data-login="google"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Google</button><button class="soc f" data-login="facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.62 23.1 24 18.1 24 12.07"/></svg>Facebook</button></div>
+    <div class="btns"><button id="bAgain">Chơi lại</button><button class="ghost" id="bBoard2">Bảng xếp hạng</button></div>
+  </div>
+  <div class="panel hide" id="pBoard">
+    <h2>Bảng xếp hạng</h2>
+    <p class="tiny" id="bdSub"></p>
+    <ol class="board" id="bdList"></ol>
+    <p class="tiny" id="bdMe"></p>
+    <div class="logins" id="logins3"><button class="soc g" data-login="google"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Google</button><button class="soc f" data-login="facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.62 23.1 24 18.1 24 12.07"/></svg>Facebook</button></div>
+    <div class="btns"><button id="bClose">Đóng</button></div>
+    <div><button class="link hide" id="bLogout2">Đăng xuất</button><button class="link hide" id="bDelete">Xoá dữ liệu của tôi</button><a class="lnk" href="privacy.html">Quyền riêng tư</a></div>
   </div>
   </div>
 </div>
+<script src="firebase-config.js"></script>
+<script src="lib/online.js"></script>
 <script>
 (function(){
 'use strict';
@@ -162,6 +208,7 @@ function lose(reason){
   oTitle.textContent=reason; oD.textContent=meters()+' m';
   oB.textContent='Tốt nhất: '+best+' m';
   pOver.classList.remove('hide'); hud();
+  netAfterRun(meters());
 }
 function begin(x,y){
   if(Math.hypot(x-JX,y-JY)<=JR+18) mode='stick';             // giữ nút tròn
@@ -221,9 +268,9 @@ btn('bStart',function(){ pStart.classList.add('hide'); pOver.classList.add('hide
 btn('bAgain',function(){ pOver.classList.add('hide'); reset(); });
 
 /* ---------- cập nhật ---------- */
-function hitWall(){                        // va chạm hình tròn: xét 9 lát ngang trong bán kính chấm
-  for(var k=-4;k<=4;k++){
-    var dy=k*R/4, ch=Math.sqrt(R*R-dy*dy), c=corridor(wy(dotY+dy));
+function hitWall(){                        // va chạm hình tròn: xét 13 lát ngang trong bán kính chấm
+  for(var k=-6;k<=6;k++){
+    var dy=k*R/6, ch=Math.sqrt(R*R-dy*dy), c=corridor(wy(dotY+dy));
     if(Math.abs(dotX-c.x)+ch > c.hw+1.5) return true;
   }
   return false;
@@ -420,6 +467,135 @@ function draw(){
   }
   ctx.restore();
 }
+/* ---------- online: đăng nhập Google/Facebook + bảng xếp hạng ---------- */
+var NET=window.Online||null, pBoard=document.getElementById('pBoard');
+var $=function(id){ return document.getElementById(id); };
+var boardFrom='start', netRun=0, lastUid=null, delArmed=0;
+var ERR={
+  'not-configured':'Chưa cấu hình máy chủ (firebase-config.js).',
+  'state-mismatch':'Phiên đăng nhập không khớp, hãy thử lại.',
+  'auth/popup-blocked':'Trình duyệt chặn cửa sổ đăng nhập.',
+  'auth/network-request-failed':'Mất kết nối mạng, thử lại sau.',
+  'auth/account-exists-with-different-credential':'Email này đã dùng cách đăng nhập khác — hãy chọn cách đó.',
+  'auth/unauthorized-domain':'Tên miền chưa được cho phép trong Firebase.',
+  'auth/operation-not-allowed':'Cách đăng nhập này chưa được bật trong Firebase.',
+  'auth/user-disabled':'Tài khoản đã bị khoá.'
+};
+function netState(){ return NET ? NET.state() : {configured:false, ready:true, user:null, busy:false, error:''}; }
+function avatar(name, photo){
+  if(photo){
+    var img=document.createElement('img'); img.className='av'; img.alt=''; img.referrerPolicy='no-referrer';
+    img.src=photo; img.onerror=function(){ img.replaceWith(initial(name)); };
+    return img;
+  }
+  return initial(name);
+}
+function initial(name){ var sp=document.createElement('span'); sp.className='av'; sp.textContent=(name||'?').trim().charAt(0).toUpperCase(); return sp; }
+function renderAcct(s){
+  var conf=s.configured, u=s.user;
+  ['logins1','logins2','logins3'].forEach(function(id){ $(id).classList.toggle('hide', !conf || !!u); });
+  $('bLogout2').classList.toggle('hide', !u);
+  $('who').classList.toggle('hide', !u);
+  if(u){ $('whoName').textContent=u.name; var a=avatar(u.name,u.photo); a.id='whoAv'; $('whoAv').replaceWith(a); }
+  var note=$('acctNote');
+  note.classList.toggle('err', !!s.error);
+  note.textContent = !conf ? '' : s.error ? (ERR[s.error]||('Đăng nhập không thành công ('+s.error+').'))
+    : s.busy ? (s.native ? 'Đang mở trình duyệt để đăng nhập…' : 'Đang đăng nhập…')
+    : u ? (s.serverBest ? 'Kỷ lục trên bảng xếp hạng: '+s.serverBest+' m' : 'Điểm cao nhất sẽ tự lưu lên bảng xếp hạng.')
+    : 'Đăng nhập để lưu điểm lên bảng xếp hạng. Tên và ảnh đại diện sẽ hiện công khai.';
+  document.querySelectorAll('[data-login]').forEach(function(b){ b.disabled=!!s.busy; });
+  if(!pBoard.classList.contains('hide')) $('bDelete').classList.toggle('hide', !u);
+}
+function localRuns(){ try{ var a=JSON.parse(localStorage.getItem('oneline.runs')||'[]'); return Array.isArray(a)?a.filter(function(x){return x&&x.m>0;}):[]; }catch(e){ return []; } }
+function saveLocalRun(m){
+  if(m<1) return;
+  var a=localRuns(); a.push({m:m|0, t:Date.now()});
+  a.sort(function(x,y){ return y.m-x.m; }); a=a.slice(0,10);
+  try{ localStorage.setItem('oneline.runs', JSON.stringify(a)); }catch(e){}
+}
+function netAfterRun(m){
+  saveLocalRun(m);
+  var s=netState(), el=$('oNet'), id=++netRun;
+  el.textContent = !s.configured ? '' : !s.user ? 'Đăng nhập để lưu điểm lên bảng xếp hạng.' : 'Đang lưu điểm…';
+  if(!s.configured || !s.user) return;
+  NET.submit(m).then(function(r){
+    if(id!==netRun) return;
+    if(r.status==='saved'){
+      el.textContent='Kỷ lục mới đã lưu lên bảng xếp hạng!';
+      return NET.myRank().then(function(rk){ if(id===netRun && rk) el.textContent='Kỷ lục mới đã lưu · hạng #'+rk; });
+    }
+    if(r.status==='not-better') el.textContent='Kỷ lục trên bảng xếp hạng: '+(r.best|0)+' m';
+  }).catch(function(){ if(id===netRun) el.textContent='Chưa lưu được điểm — kiểm tra kết nối mạng.'; });
+}
+function boardRow(rank, name, photo, m, me){
+  var li=document.createElement('li');
+  if(rank<=3) li.className='r'+rank;
+  if(me) li.className+=' me';
+  var rk=document.createElement('span'); rk.className='rk'; rk.textContent=rank;
+  var nm=document.createElement('span'); nm.className='nm'; nm.textContent=name;
+  var sc=document.createElement('span'); sc.className='sc'; sc.textContent=m+' m';
+  li.appendChild(rk); if(photo!==false) li.appendChild(avatar(name,photo)); li.appendChild(nm); li.appendChild(sc);
+  return li;
+}
+function boardMsg(t){ var l=$('bdList'); l.textContent=''; var li=document.createElement('li'); li.className='msg'; li.textContent=t; l.appendChild(li); }
+function loadBoard(){
+  var s=netState(), list=$('bdList'), me=$('bdMe'), id=++netRun;
+  me.textContent=''; delArmed=0; $('bDelete').textContent='Xoá dữ liệu của tôi';
+  $('bDelete').classList.toggle('hide', !s.user);
+  if(!s.configured){
+    $('bdSub').textContent='Kỷ lục trên máy này';
+    var runs=localRuns(); list.textContent='';
+    if(!runs.length) return boardMsg('Chưa có lượt chơi nào.');
+    runs.forEach(function(r,i){ list.appendChild(boardRow(i+1, new Date(r.t).toLocaleDateString('vi-VN'), false, r.m, false)); });
+    return;
+  }
+  $('bdSub').textContent='Toàn cầu · top 20';
+  boardMsg('Đang tải…');
+  NET.top(20).then(function(rows){
+    if(id!==netRun) return;
+    list.textContent='';
+    if(!rows.length) return boardMsg('Chưa có ai — hãy là người đầu tiên!');
+    var uid=s.user&&s.user.uid;
+    rows.forEach(function(r){ list.appendChild(boardRow(r.rank, r.name, r.photo, r.best, r.uid===uid)); });
+    if(s.user) NET.myRank().then(function(rk){ if(id===netRun) me.textContent = rk ? 'Bạn: hạng #'+rk+' · '+NET.state().serverBest+' m' : 'Bạn chưa có điểm trên bảng xếp hạng.'; });
+    else me.textContent='Đăng nhập để có tên trên bảng xếp hạng.';
+  }).catch(function(){ if(id===netRun) boardMsg('Không tải được bảng xếp hạng. Kiểm tra kết nối mạng.'); });
+}
+function openBoard(from){
+  boardFrom=from; pStart.classList.add('hide'); pOver.classList.add('hide');
+  pBoard.classList.remove('hide'); loadBoard();
+}
+function closeBoard(){
+  pBoard.classList.add('hide');
+  if(state==='over') pOver.classList.remove('hide');
+  else if(state==='idle') pStart.classList.remove('hide');
+}
+document.querySelectorAll('[data-login]').forEach(function(b){
+  b.addEventListener('pointerdown',function(e){ e.stopPropagation(); });
+  b.addEventListener('click',function(e){ e.stopPropagation(); if(NET) NET.login(b.getAttribute('data-login')); });
+});
+btn('bLogout',function(){ if(NET) NET.logout(); });
+btn('bLogout2',function(){ if(NET) NET.logout(); });
+btn('bBoard1',function(){ openBoard('start'); });
+btn('bBoard2',function(){ openBoard('over'); });
+btn('bClose',closeBoard);
+btn('bDelete',function(){
+  if(!NET) return;
+  var b=$('bDelete');
+  if(Date.now()-delArmed>4000){ delArmed=Date.now(); b.textContent='Bấm lần nữa để xoá vĩnh viễn'; return; }
+  delArmed=0; b.textContent='Đang xoá…';
+  NET.deleteMe().then(loadBoard).catch(function(){ b.textContent='Không xoá được — thử lại'; });
+});
+pBoard.addEventListener('pointerdown',function(e){ e.stopPropagation(); });
+if(NET) NET.onChange(function(s){
+  renderAcct(s);
+  var uid=s.user?s.user.uid:null;
+  if(uid && uid!==lastUid && best>0) NET.submit(best).catch(function(){});   // đưa kỷ lục trên máy lên khi vừa đăng nhập
+  if(uid!==lastUid && !pBoard.classList.contains('hide')) loadBoard();
+  lastUid=uid;
+});
+else renderAcct(netState());
+
 function loop(ts){
   if(!last) last=ts;
   var dt=Math.min(0.05,(ts-last)/1000); last=ts;

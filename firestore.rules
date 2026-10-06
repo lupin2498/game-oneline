@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// Bảng xếp hạng: mỗi người chơi 1 tài liệu scores/{uid}. Ai cũng đọc được; chỉ chủ tài khoản ghi.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function validScore() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['name', 'photo', 'provider', 'best', 'updatedAt'])
+        && d.keys().hasAll(['name', 'photo', 'provider', 'best', 'updatedAt'])
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 40
+        && d.photo is string && d.photo.size() <= 500
+        && (d.photo == '' || d.photo.matches('https://.*'))
+        && d.provider in ['google.com', 'facebook.com']
+        && d.provider == request.auth.token.firebase.sign_in_provider
+        && d.best is int && d.best >= 1 && d.best <= 50000
+        && d.updatedAt == request.time;
+    }
+
+    match /scores/{uid} {
+      allow read: if true;
+      allow create: if signedIn(uid) && validScore();
+      // chỉ được nâng kỷ lục, và tối đa 1 lần mỗi 3 giây
+      allow update: if signedIn(uid) && validScore()
+        && request.resource.data.best > resource.data.best
+        && request.time > resource.data.updatedAt + duration.value(3, 's');
+      allow delete: if signedIn(uid);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

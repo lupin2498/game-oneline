@@ -1,6 +1,6 @@
-const CACHE = 'one-line-v4';
-const ASSETS = ['./', './index.html', './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png',
+const CACHE = 'one-line-v5';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './firebase-config.js', './lib/online.js',
+  './privacy.html', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png',
   './icons/maskable-512.png'];
 
 self.addEventListener('install', function (e) {
@@ -17,11 +17,13 @@ self.addEventListener('activate', function (e) {
   }).then(function () { return self.clients.claim(); }));
 });
 self.addEventListener('fetch', function (e) {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request).then(function (hit) {
-    return hit || fetch(e.request).then(function (res) {
-      var copy = res.clone();
-      caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+  var req = e.request, url = new URL(req.url);
+  // chỉ cache file của chính game; không đụng tới Firebase, ảnh đại diện, trang đăng nhập
+  if (req.method !== 'GET' || url.origin !== self.location.origin) return;
+  if (/\/(login\.html|__\/)/.test(url.pathname)) return;
+  e.respondWith(caches.match(req).then(function (hit) {
+    return hit || fetch(req).then(function (res) {
+      if (res.ok) { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, copy); }); }
       return res;
     }).catch(function () { return caches.match('./index.html'); });
   }));

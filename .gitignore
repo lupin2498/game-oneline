@@ -1,6 +1,8 @@
-ios/www/
-android/.tools/
+.DS_Store
 android/.build/
 android/.keystore/
+android/.tools/
 ios/OneLine.xcodeproj/
-.DS_Store
+ios/www/
+node_modules/
+package-lock.json

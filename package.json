@@ -1,0 +1,14 @@
+{
+  "name": "one-line-game",
+  "private": true,
+  "description": "Đường Kẻ Một Nét — build lớp online (Firebase) cho game",
+  "scripts": {
+    "build:online": "bash tools/build-online.sh",
+    "emulators": "firebase emulators:start --only auth,firestore,hosting --project demo-oneline"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "firebase": "12.19.0",
+    "firebase-tools": "15.32.1"
+  }
+}

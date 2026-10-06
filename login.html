@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đăng nhập — Một Nét</title>
+<style>
+  html,body{margin:0;height:100%;background:#04060c;color:#e9f2ff;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+  main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;box-sizing:border-box}
+  h1{font-size:22px;margin:0} p{opacity:.75;max-width:320px;line-height:1.6;margin:0}
+  a.btn{display:none;text-decoration:none;border-radius:99px;padding:13px 30px;font-weight:700;color:#04221c;
+    background:linear-gradient(180deg,#a8ffe4,#49d8c0)}
+  .err{color:#ff9f9f}
+</style>
+</head>
+<body>
+<main>
+  <h1>Đường Kẻ Một Nét</h1>
+  <p id="msg">Đang mở trang đăng nhập…</p>
+  <a class="btn" id="back" href="#">Quay lại game</a>
+</main>
+<script>window.__OL_BRIDGE__ = true;</script>
+<script src="firebase-config.js"></script>
+<script src="lib/online.js"></script>
+<script>
+(function () {
+  'use strict';
+  var q = new URLSearchParams(location.search);
+  var provider = q.get('provider'), state = q.get('state') || '', ret = q.get('return');
+  var msg = document.getElementById('msg'), back = document.getElementById('back');
+  var ALLOWED = ['vn.lupin.oneline://auth'];
+
+  function finish(params, text) {
+    params.state = state;
+    var qs = Object.keys(params).map(function (k) { return k + '=' + encodeURIComponent(params[k]); }).join('&');
+    var url = /Android/i.test(navigator.userAgent)
+      ? 'intent://auth?' + qs + '#Intent;scheme=vn.lupin.oneline;package=vn.lupin.oneline;end'
+      : ret + '?' + qs;
+    back.href = url; back.style.display = 'inline-block';
+    msg.textContent = text;
+    location.replace(url);
+  }
+  function stop(text) { msg.textContent = text; msg.className = 'err'; }
+
+  if (ALLOWED.indexOf(ret) < 0) return stop('Liên kết không hợp lệ.');
+  if (!/^[0-9a-f]{32}$/.test(state)) return stop('Thiếu mã phiên đăng nhập.');
+  if (provider !== 'google' && provider !== 'facebook') return stop('Nhà cung cấp không hợp lệ.');
+  if (!window.Online || !Online.configured) return stop('Máy chủ chưa được cấu hình (firebase-config.js).');
+
+  Online.bridge(provider, state, ret).then(function (r) {
+    if (!r) return;                                  // đang chuyển sang Google/Facebook
+    if (r.error) return finish({ error: r.error }, 'Đã huỷ đăng nhập.');
+    finish(r, 'Đăng nhập xong. Đang quay lại game…');
+  }).catch(function (e) {
+    finish({ error: (e && e.code) || 'failed' }, 'Đăng nhập không thành công.');
+  });
+})();
+</script>
+</body>
+</html>
