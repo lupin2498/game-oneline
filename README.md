@@ -26,6 +26,7 @@ firestore.rules         luật bảo vệ bảng xếp hạng
 dist/OneLine-1.4.apk    bản cài Android đã ký sẵn
 android/                nguồn app Android (WebView) + build.sh
 ios/                    nguồn app iOS (WKWebView) + XcodeGen
+extras/pour/            game phụ "Rót Nước" (Pour), một file HTML, mở là chơi
 .github/workflows/      CI build APK (Ubuntu) và IPA chưa ký (macOS)
 ```
 
@@ -106,3 +107,9 @@ npm install
 bash tools/build-online.sh                         # src/online.js -> lib/online.js
 npx firebase emulators:start --only auth,firestore,hosting --project demo-oneline   # chạy thử không cần dự án thật
 ```
+
+## Game phụ: Rót Nước (Pour)
+
+`extras/pour/index.html` — giữ ngón tay (hoặc chuột / Space) để rót nước, thả ra đúng vạch vàng; tràn hoặc
+thiếu là thua. Mỗi lượt cốc một dáng khác (loe, thu miệng, thắt eo, phình bụng, gợn sóng, nghiêng) nên nước
+dâng không đều, vạch hẹp dần theo màn. Không dính tới app Android/iOS hay Firebase.

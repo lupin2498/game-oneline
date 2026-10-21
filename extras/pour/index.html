@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Rót Nước</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:#05070d;overflow:hidden;color:#eaf3ff;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  body{display:flex;align-items:center;justify-content:center}
+  #wrap{position:relative;width:min(100vw, calc(100dvh * 480 / 760));aspect-ratio:480/760;
+    touch-action:none;user-select:none;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  canvas{display:block;width:100%;height:100%}
+  .hud{position:absolute;left:0;right:0;top:0;display:flex;gap:8px;padding:12px 14px;pointer-events:none}
+  .chip{background:rgba(12,22,38,.72);border:1px solid rgba(140,190,255,.18);border-radius:12px;padding:6px 10px}
+  .chip span{display:block;opacity:.55;font-size:9px;text-transform:uppercase;letter-spacing:1.2px}
+  .chip b{display:block;font-size:17px;font-weight:700}
+  .bar{flex:1;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0}
+  .bar i{font-style:normal;font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:1.2px;text-align:right}
+  .track{height:7px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+  .track em{display:block;height:100%;width:100%;border-radius:99px;
+    background:linear-gradient(90deg,#ffd166,#ff7b7b);transition:width .25s}
+  .panel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;text-align:center;padding:28px;background:rgba(5,9,16,.8)}
+  .panel.hide{display:none}
+  .panel h1{font-size:34px;letter-spacing:2px}
+  .panel h2{font-size:27px;color:#ff9f9f}
+  .panel p{font-size:14px;opacity:.8;line-height:1.6;max-width:310px}
+  .big{font-size:54px;font-weight:800;color:#ffd166;line-height:1}
+  .tag{font-size:12px;opacity:.55}
+  button{border:0;border-radius:99px;padding:13px 32px;font-size:16px;font-weight:700;color:#06121f;cursor:pointer;
+    background:linear-gradient(180deg,#9ce7ff,#4fb8f0);box-shadow:0 8px 24px rgba(79,184,240,.35)}
+  button:active{transform:translateY(1px)}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="cv"></canvas>
+  <div class="hud">
+    <div class="chip"><span>Màn</span><b id="hLv">1</b></div>
+    <div class="chip"><span>Điểm</span><b id="hSc">0</b></div>
+    <div class="chip"><span>Tốt nhất</span><b id="hBest">0</b></div>
+    <div class="bar"><i>Bề rộng vạch</i><div class="track"><em id="hTol"></em></div></div>
+  </div>
+  <div class="panel" id="pStart">
+    <h1>RÓT NƯỚC</h1>
+    <p><b>Giữ</b> ngón tay (hoặc chuột / phím Space) để rót nước, <b>thả ra đúng vạch vàng</b>.
+       Tràn hoặc thiếu là thua.</p>
+    <p class="tag">Mỗi lượt một dáng cốc khác nhau — loe, thu miệng, thắt eo, phình bụng, nghiêng —
+       nên tốc độ dâng không đều. Vạch ngày càng hẹp.</p>
+    <button id="bStart">Bắt đầu</button>
+  </div>
+  <div class="panel hide" id="pOver">
+    <h2 id="oTitle">Thua rồi!</h2>
+    <p id="oSub"></p>
+    <div class="big" id="oScore">0</div>
+    <p class="tag" id="oBest"></p>
+    <button id="bAgain">Chơi lại</button>
+  </div>
+</div>
+<script>
+(function(){
+'use strict';
+var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+var W=480, H=760, CX=240, BASE_Y=644, SPOUT_Y=104;
+
+function fit(){
+  var dpr=Math.min(window.devicePixelRatio||1,2.5), r=cv.getBoundingClientRect();
+  cv.width=Math.max(1,Math.round(r.width*dpr));
+  cv.height=Math.max(1,Math.round(r.height*dpr));
+  ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
+}
+window.addEventListener('resize',fit);
+
+function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+function rnd(a,b){return a+Math.random()*(b-a);}
+
+/* ---------- hình học cốc ---------- */
+function rotp(p,cx,cy,a){
+  var s=Math.sin(a),c=Math.cos(a),dx=p[0]-cx,dy=p[1]-cy;
+  return [cx+dx*c-dy*s, cy+dx*s+dy*c];
+}
+function areaOf(p){
+  var s=0;
+  for(var i=0;i<p.length;i++){var a=p[i],b=p[(i+1)%p.length];s+=a[0]*b[1]-b[0]*a[1];}
+  return Math.abs(s)*0.5;
+}
+function clipBelow(p,yw){ // giữ phần y >= yw (phần dưới mực nước)
+  var o=[];
+  for(var i=0;i<p.length;i++){
+    var a=p[i], b=p[(i+1)%p.length], ai=a[1]>=yw, bi=b[1]>=yw;
+    if(ai) o.push(a);
+    if(ai!==bi){var t=(yw-a[1])/(b[1]-a[1]); o.push([a[0]+(b[0]-a[0])*t, yw]);}
+  }
+  return o;
+}
+function volAt(cup,yw){return areaOf(clipBelow(cup.poly,yw));}
+function levelAt(cup,v){ // mực nước ứng với thể tích v
+  var lo=cup.yTop-4, hi=cup.yBot+4, m;
+  for(var i=0;i<30;i++){m=(lo+hi)*0.5; if(volAt(cup,m)>v) lo=m; else hi=m;}
+  return (lo+hi)*0.5;
+}
+function spanAt(cup,yw){ // bề rộng mặt nước
+  var p=cup.poly, mn=1e9, mx=-1e9;
+  for(var i=0;i<p.length;i++){
+    var a=p[i], b=p[(i+1)%p.length];
+    if(a[1]!==b[1] && (a[1]-yw)*(b[1]-yw)<=0){
+      var t=(yw-a[1])/(b[1]-a[1]), x=a[0]+(b[0]-a[0])*t;
+      if(x<mn)mn=x; if(x>mx)mx=x;
+    }
+  }
+  return mn>mx?null:[mn,mx];
+}
+function makeCup(level){
+  var kinds = level<2 ? ['cone','taper']
+            : level<4 ? ['cone','taper','bulge']
+                      : ['cone','taper','bulge','waist','wave'];
+  var kind=kinds[(Math.random()*kinds.length)|0], hgt=rnd(290,378), prof, name, a, b, k, p, f;
+  if(kind==='cone'){ a=rnd(24,38); b=rnd(72,96); p=rnd(.55,1.1);
+    prof=function(t){return a+(b-a)*Math.pow(t,p);}; name='Cốc loe'; }
+  else if(kind==='taper'){ a=rnd(74,94); b=rnd(28,42); p=rnd(.6,1.2);
+    prof=function(t){return a+(b-a)*Math.pow(t,p);}; name='Cốc thu miệng'; }
+  else if(kind==='bulge'){ a=rnd(34,46); k=rnd(.5,.95);
+    prof=function(t){return a*(1+k*Math.sin(Math.PI*t));}; name='Cốc phình bụng'; }
+  else if(kind==='waist'){ a=rnd(72,88); k=rnd(.42,.66);
+    prof=function(t){return a*(1-k*Math.sin(Math.PI*t));}; name='Cốc thắt eo'; }
+  else { a=rnd(54,66); k=rnd(.2,.38); f=rnd(1.6,2.7);
+    prof=function(t){return a*(1+k*Math.sin(Math.PI*f*t));}; name='Cốc gợn sóng'; }
+
+  var tiltMax=Math.min(.26,.05*(level-2));
+  var tilt=(level>=3 && Math.random()<.55) ? rnd(.07,Math.max(.085,tiltMax))*(Math.random()<.5?-1:1) : 0;
+
+  var N=46, pts=[], i, t;
+  for(i=0;i<=N;i++){t=i/N; pts.push([CX-prof(t), BASE_Y-t*hgt]);}
+  for(i=N;i>=0;i--){t=i/N; pts.push([CX+prof(t), BASE_Y-t*hgt]);}
+  var poly = tilt ? pts.map(function(q){return rotp(q,CX,BASE_Y,tilt);}) : pts;
+  var low=-1e9;
+  for(i=0;i<poly.length;i++) low=Math.max(low,poly[i][1]);
+  var dy=BASE_Y-low;                      // đặt cốc đứng trên mặt bàn
+  if(dy) for(i=0;i<poly.length;i++) poly[i]=[poly[i][0],poly[i][1]+dy];
+
+  var yTop=1e9,yBot=-1e9,xMin=1e9,xMax=-1e9;
+  for(i=0;i<poly.length;i++){
+    yTop=Math.min(yTop,poly[i][1]); yBot=Math.max(yBot,poly[i][1]);
+    xMin=Math.min(xMin,poly[i][0]); xMax=Math.max(xMax,poly[i][0]);
+  }
+  var rimA=poly[N], rimB=poly[N+1];
+  var cup={poly:poly, name:(tilt?name+' nghiêng':name), tilt:tilt,
+    yTop:yTop, yBot:yBot, xMin:xMin, xMax:xMax, rimA:rimA, rimB:rimB,
+    rimLow:Math.max(rimA[1],rimB[1]), mouthX:(rimA[0]+rimB[0])*0.5,
+    baseA:poly[0], baseB:poly[poly.length-1]};
+  cup.cap=volAt(cup,cup.rimLow);
+  return cup;
+}
+
+/* ---------- trạng thái ---------- */
+var state='idle', level=1, score=0, best=0, streak=0;
+var cup=null, tol=16, yTarget=0, yw=0, vol=0, rate=1, wave=0, resT=0, resMsg='', resPts=0, nameT=0, shake=0;
+var drops=[], floats=[], last=0, time=0;
+var elLv=document.getElementById('hLv'), elSc=document.getElementById('hSc'),
+    elBest=document.getElementById('hBest'), elTol=document.getElementById('hTol'),
+    pStart=document.getElementById('pStart'), pOver=document.getElementById('pOver'),
+    oTitle=document.getElementById('oTitle'), oSub=document.getElementById('oSub'),
+    oScore=document.getElementById('oScore'), oBest=document.getElementById('oBest');
+
+try{ best=parseInt(localStorage.getItem('pour.best')||'0',10)||0; }catch(e){ best=0; }
+elBest.textContent=best;
+
+function hud(){
+  elLv.textContent=level; elSc.textContent=score; elBest.textContent=best;
+  elTol.style.width=Math.round(clamp(tol/16,0.06,1)*100)+'%';
+}
+function newRound(){
+  cup=makeCup(level);
+  tol=Math.max(2.0, 16*Math.pow(0.912, level-1));
+  var lowLimit=levelAt(cup, cup.cap*0.14);
+  yTarget=clamp(levelAt(cup, cup.cap*rnd(.45,.85)), cup.rimLow+tol+9, lowLimit);
+  rate=cup.cap*clamp(0.27+0.021*(level-1),0.27,0.8)*rnd(.92,1.08);
+  vol=0; yw=cup.yBot; wave=0; nameT=1.6; state='ready'; hud();
+}
+function startGame(){
+  level=1; score=0; streak=0; drops=[]; floats=[];
+  pStart.classList.add('hide'); pOver.classList.add('hide');
+  newRound();
+}
+function lose(title,sub){
+  state='over'; shake=1;
+  if(score>best){ best=score; try{localStorage.setItem('pour.best',String(best));}catch(e){} }
+  oTitle.textContent=title; oSub.textContent=sub;
+  oScore.textContent=score; oBest.textContent='Màn '+level+' · Tốt nhất: '+best;
+  pOver.classList.remove('hide'); hud();
+}
+function press(){
+  if(state==='ready'){ state='pour'; vol=0; yw=cup.yBot; }
+}
+function release(){
+  if(state!=='pour') return;
+  var diff=yw-yTarget; // >0: dưới vạch (thiếu), <0: trên vạch (tràn vạch)
+  if(Math.abs(diff)<=tol){
+    var acc=1-Math.abs(diff)/tol;
+    var pts=Math.round((60+160*acc)*(1+Math.min(streak,9)*0.1));
+    score+=pts; streak++;
+    resMsg=acc>.8?'HOÀN HẢO!':acc>.45?'Chuẩn!':'Vừa kịp!';
+    resPts=pts; resT=0.85; state='result';
+    floats.push({x:CX, y:cup.rimLow-60, t:1, txt:'+'+pts, c:'#ffd166'});
+    hud();
+  } else if(diff<0){
+    lose('Tràn vạch!','Nước vượt vạch '+(-diff).toFixed(1)+' px.');
+  } else {
+    lose('Thiếu nước!','Còn thiếu '+diff.toFixed(1)+' px.');
+  }
+}
+
+/* ---------- input ---------- */
+var wrap=document.getElementById('wrap');
+wrap.addEventListener('pointerdown',function(e){ e.preventDefault(); press(); });
+window.addEventListener('pointerup',function(){ release(); });
+window.addEventListener('pointercancel',function(){ release(); });
+window.addEventListener('keydown',function(e){
+  if(e.code==='Space'||e.code==='ArrowDown'){ e.preventDefault(); if(!e.repeat) press(); }
+});
+window.addEventListener('keyup',function(e){
+  if(e.code==='Space'||e.code==='ArrowDown'){ e.preventDefault(); release(); }
+});
+document.getElementById('bStart').addEventListener('pointerdown',function(e){e.stopPropagation();});
+document.getElementById('bStart').addEventListener('click',function(e){e.stopPropagation();startGame();});
+document.getElementById('bAgain').addEventListener('pointerdown',function(e){e.stopPropagation();});
+document.getElementById('bAgain').addEventListener('click',function(e){e.stopPropagation();startGame();});
+
+/* ---------- cập nhật ---------- */
+function waveAt(x){
+  var amp=wave*2.6;
+  return Math.sin(x*0.075+time*7.5)*amp + Math.sin(x*0.17-time*5.1)*amp*0.45;
+}
+function step(dt){
+  time+=dt;
+  shake=Math.max(0,shake-dt*3);
+  if(state==='pour'){
+    vol+=rate*dt;
+    wave=Math.min(1,wave+dt*5);
+    if(vol>=cup.cap){ vol=cup.cap; yw=levelAt(cup,vol); lose('Tràn ly!','Nước đã trào ra ngoài.'); }
+    else {
+      yw=levelAt(cup,vol);
+      var sp=spanAt(cup,yw);
+      if(sp){
+        var mx=(sp[0]+sp[1])*0.5;
+        for(var i=0;i<2;i++) drops.push({x:mx+rnd(-9,9), y:yw-2, vx:rnd(-62,62), vy:rnd(-130,-30), t:1});
+      }
+    }
+  } else {
+    wave=Math.max(0,wave-dt*1.7);
+  }
+  if(state==='result'){ resT-=dt; if(resT<=0){ level++; newRound(); } }
+  var j;
+  for(j=drops.length-1;j>=0;j--){
+    var d=drops[j]; d.vy+=620*dt; d.x+=d.vx*dt; d.y+=d.vy*dt; d.t-=dt*1.9;
+    if(d.t<=0) drops.splice(j,1);
+  }
+  for(j=floats.length-1;j>=0;j--){
+    var f=floats[j]; f.y-=42*dt; f.t-=dt*1.1;
+    if(f.t<=0) floats.splice(j,1);
+  }
+}
+
+/* ---------- vẽ ---------- */
+function polyPath(p){
+  ctx.beginPath(); ctx.moveTo(p[0][0],p[0][1]);
+  for(var i=1;i<p.length;i++) ctx.lineTo(p[i][0],p[i][1]);
+  ctx.closePath();
+}
+function drawBg(){
+  var g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#0c1526'); g.addColorStop(.55,'#101d33'); g.addColorStop(1,'#060a12');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  var r=ctx.createRadialGradient(CX,430,20,CX,430,330);
+  r.addColorStop(0,'rgba(90,170,255,.16)'); r.addColorStop(1,'rgba(90,170,255,0)');
+  ctx.fillStyle=r; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.04)'; ctx.fillRect(0,BASE_Y+2,W,3);
+  ctx.save(); ctx.globalAlpha=.5; ctx.fillStyle='rgba(0,0,0,.45)';
+  ctx.beginPath(); ctx.ellipse(CX,BASE_Y+12,120,16,0,0,6.2832); ctx.fill(); ctx.restore();
+}
+function drawSpout(sx){
+  ctx.save();
+  ctx.fillStyle='#2c3c58';
+  ctx.fillRect(sx-9,0,18,SPOUT_Y-34);
+  var g=ctx.createLinearGradient(sx-34,0,sx+34,0);
+  g.addColorStop(0,'#52678c'); g.addColorStop(.45,'#9fb6d8'); g.addColorStop(1,'#415574');
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.moveTo(sx-34,SPOUT_Y-36); ctx.lineTo(sx+34,SPOUT_Y-36);
+  ctx.lineTo(sx+16,SPOUT_Y); ctx.lineTo(sx-16,SPOUT_Y); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.22)';
+  ctx.fillRect(sx-30,SPOUT_Y-34,8,30);
+  ctx.fillStyle='#0d1420';
+  ctx.beginPath(); ctx.ellipse(sx,SPOUT_Y,16,5,0,0,6.2832); ctx.fill();
+  ctx.restore();
+}
+function drawTarget(){
+  var x0=cup.xMin-28, x1=cup.xMax+28;
+  ctx.fillStyle='rgba(255,209,102,.17)';
+  ctx.fillRect(x0,yTarget-tol,x1-x0,tol*2);
+  ctx.strokeStyle='rgba(255,209,102,.95)'; ctx.lineWidth=2;
+  ctx.setLineDash([9,7]); ctx.beginPath();
+  ctx.moveTo(x0,yTarget); ctx.lineTo(x1,yTarget); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='rgba(255,209,102,.95)';
+  ctx.beginPath(); ctx.moveTo(x0-4,yTarget-7); ctx.lineTo(x0+8,yTarget); ctx.lineTo(x0-4,yTarget+7); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x1+4,yTarget-7); ctx.lineTo(x1-8,yTarget); ctx.lineTo(x1+4,yTarget+7); ctx.closePath(); ctx.fill();
+  ctx.font='600 11px system-ui,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='bottom';
+  ctx.fillText('VẠCH', x0+12, yTarget-tol-5);
+}
+function drawWater(){
+  if(vol<=0) return;
+  var x0=cup.xMin-24, x1=cup.xMax+24, x;
+  ctx.save(); polyPath(cup.poly); ctx.clip();
+  var g=ctx.createLinearGradient(0,yw,0,cup.yBot);
+  g.addColorStop(0,'#8fe3ff'); g.addColorStop(.45,'#3aa2e8'); g.addColorStop(1,'#1b55a8');
+  ctx.beginPath(); ctx.moveTo(x0,yw+waveAt(x0));
+  for(x=x0;x<=x1;x+=6) ctx.lineTo(x,yw+waveAt(x));
+  ctx.lineTo(x1,cup.yBot+60); ctx.lineTo(x0,cup.yBot+60); ctx.closePath();
+  ctx.fillStyle=g; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x0,yw+waveAt(x0));
+  for(x=x0;x<=x1;x+=6) ctx.lineTo(x,yw+waveAt(x));
+  ctx.strokeStyle='rgba(255,255,255,.8)'; ctx.lineWidth=2.5; ctx.stroke();
+  ctx.restore();
+  var sp=spanAt(cup,yw);
+  if(sp){
+    ctx.save(); ctx.globalAlpha=.5; ctx.fillStyle='#bdefff';
+    ctx.beginPath(); ctx.ellipse((sp[0]+sp[1])*0.5, yw, Math.max(2,(sp[1]-sp[0])*0.5-2), 6, 0, 0, 6.2832);
+    ctx.fill(); ctx.restore();
+  }
+}
+function drawGlass(){
+  polyPath(cup.poly);
+  ctx.fillStyle='rgba(190,225,255,.055)'; ctx.fill();
+  ctx.lineWidth=6; ctx.strokeStyle='rgba(176,214,255,.5)'; ctx.stroke();
+  ctx.lineWidth=2; ctx.strokeStyle='rgba(255,255,255,.3)'; ctx.stroke();
+  ctx.save(); polyPath(cup.poly); ctx.clip();
+  var g=ctx.createLinearGradient(cup.xMin,0,cup.xMax,0);
+  g.addColorStop(0,'rgba(255,255,255,.14)'); g.addColorStop(.25,'rgba(255,255,255,0)');
+  g.addColorStop(.72,'rgba(255,255,255,0)'); g.addColorStop(1,'rgba(255,255,255,.09)');
+  ctx.fillStyle=g; ctx.fillRect(cup.xMin,cup.yTop,cup.xMax-cup.xMin,cup.yBot-cup.yTop);
+  ctx.restore();
+  var mw=Math.hypot(cup.rimB[0]-cup.rimA[0], cup.rimB[1]-cup.rimA[1])*0.5;
+  ctx.save();
+  ctx.translate((cup.rimA[0]+cup.rimB[0])*0.5,(cup.rimA[1]+cup.rimB[1])*0.5);
+  ctx.rotate(cup.tilt);
+  ctx.beginPath(); ctx.ellipse(0,0,mw,8,0,0,6.2832);
+  ctx.strokeStyle='rgba(215,240,255,.65)'; ctx.lineWidth=3; ctx.stroke();
+  ctx.restore();
+}
+function drawStream(sx){
+  if(state!=='pour') return;
+  var sp=spanAt(cup,yw), ex=sx, ey;
+  if(sp){ ex=clamp(sx,sp[0]+7,sp[1]-7); ey=yw+waveAt(ex)+2; } else { ey=cup.rimLow; }
+  if(ey<=SPOUT_Y+2) return;
+  var y;
+  ctx.beginPath(); ctx.moveTo(sx,SPOUT_Y-2);
+  for(y=SPOUT_Y;y<ey;y+=12){
+    var k=(y-SPOUT_Y)/Math.max(1,ey-SPOUT_Y);
+    ctx.lineTo(sx+(ex-sx)*k+Math.sin(y*0.09+time*11)*2.2, y);
+  }
+  ctx.lineTo(ex,ey);
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  ctx.lineWidth=9; ctx.strokeStyle='rgba(140,215,255,.6)'; ctx.stroke();
+  ctx.lineWidth=4.5; ctx.strokeStyle='rgba(225,248,255,.9)'; ctx.stroke();
+}
+function drawFx(){
+  var i;
+  for(i=0;i<drops.length;i++){
+    var d=drops[i];
+    ctx.globalAlpha=clamp(d.t,0,1); ctx.fillStyle='#cdefff';
+    ctx.beginPath(); ctx.arc(d.x,d.y,2.1,0,6.2832); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  ctx.textAlign='center';
+  for(i=0;i<floats.length;i++){
+    var f=floats[i];
+    ctx.globalAlpha=clamp(f.t,0,1); ctx.fillStyle=f.c;
+    ctx.font='800 28px system-ui,sans-serif'; ctx.textBaseline='middle';
+    ctx.fillText(f.txt,f.x,f.y);
+  }
+  ctx.globalAlpha=1;
+}
+function drawText(){
+  ctx.textAlign='center';
+  if(nameT>0){
+    ctx.globalAlpha=clamp(nameT,0,1);
+    ctx.fillStyle='rgba(235,245,255,.9)'; ctx.font='700 19px system-ui,sans-serif'; ctx.textBaseline='middle';
+    ctx.fillText(cup.name, CX, 186);
+    ctx.globalAlpha=1;
+  }
+  if(state==='ready'){
+    var a=0.55+0.45*Math.sin(time*4);
+    ctx.globalAlpha=a; ctx.fillStyle='#9ce7ff'; ctx.font='600 15px system-ui,sans-serif';
+    ctx.fillText('GIỮ để rót — THẢ đúng vạch', CX, 700); ctx.globalAlpha=1;
+  }
+  if(state==='result'){
+    ctx.fillStyle='#ffd166'; ctx.font='800 26px system-ui,sans-serif';
+    ctx.fillText(resMsg, CX, 700);
+  }
+}
+function draw(){
+  ctx.save();
+  if(shake>0) ctx.translate(rnd(-1,1)*shake*7, rnd(-1,1)*shake*7);
+  drawBg();
+  if(cup){
+    var sx=clamp(cup.mouthX,40,W-40);
+    drawSpout(sx);
+    drawWater();
+    drawTarget();
+    drawGlass();
+    drawStream(sx);
+    drawFx();
+    drawText();
+  }
+  ctx.restore();
+}
+function loop(ts){
+  if(!last) last=ts;
+  var dt=Math.min(0.05,(ts-last)/1000); last=ts;
+  if(cup) step(dt);
+  else time+=dt;
+  draw();
+  requestAnimationFrame(loop);
+}
+fit(); hud();
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
