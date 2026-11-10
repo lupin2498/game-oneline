@@ -70,6 +70,23 @@ def main():
                 if 0.299 * r + 0.587 * g + 0.114 * b > 70:
                     n += 1
         print(n)
+    if cmd == 'ascii':                       # TẠM: in ảnh thu nhỏ bằng ký tự (xem được ngay trong log CI)
+        cols, ramp = 64, ' .:-=+*#%@'
+        cw = w / cols
+        ch = cw * 2
+        for j in range(int(h / ch)):
+            line = ''
+            for i in range(cols):
+                m = 0
+                for y in range(int(j * ch), min(h, int((j + 1) * ch))):
+                    row = rows[y]
+                    for x in range(int(i * cw), min(w, int((i + 1) * cw))):
+                        r, g, b = row[x * bpp:x * bpp + 3]
+                        l = 0.299 * r + 0.587 * g + 0.114 * b
+                        if l > m:
+                            m = l
+                line += ramp[min(9, int(m / 25.6))]
+            print(line)
     if cmd == 'rightedge':
         n = 0
         for y in range(int(h * 0.10), int(h * 0.90)):

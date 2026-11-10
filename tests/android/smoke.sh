@@ -158,6 +158,9 @@ CV="$(last 'canvas ')"; BR="$(bright_px 02-ready)"
 ok "A12d Canvas nhận nét vẽ của game" "$(grep -q 'canvas ok' <<<"$CV" && echo 1 || echo 0)" "$CV"
 if [ "$BR" = '?' ] || [ "$BR" -ge 300 ]; then echo "INFO  Ảnh chụp lúc sẵn sàng chơi: $BR điểm sáng ở sân chơi"
 else echo "WARN  Ảnh chụp lúc sẵn sàng chơi KHÔNG thấy mê cung ($BR điểm sáng) dù game báo: $CV"; fi
+python3 "$LIBDIR/pngcheck.py" ascii "$OUT/02-ready.png" 2>/dev/null | sed 's/^/ASCII |/; s/$/|/' || true
+adb shell dumpsys gfxinfo "$PKG" 2>/dev/null | tr -d '\r' | grep -i -E "Total frames|Janky|percentile" | head -6 | sed 's/^/GFX   /' || true
+grep -a -E "chromium: \[(ERROR|WARNING|FATAL)|GL_INVALID|EGL_BAD|glError|OpenGLRenderer: (GL|Fail)" "$OUT/logcat.txt" | awk '{ $1="";$2="";$3="";$4=""; print }' | sort | uniq -c | sort -rn | head -12 | sed 's/^/GLLOG /' || true
 
 # ---------- lỗi ----------
 sleep 1

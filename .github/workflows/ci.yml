@@ -49,12 +49,15 @@ jobs:
           if [ "$rc" = 3 ]; then echo "::warning::IPA trong dist/ cũ hơn mã nguồn: lấy bản mới từ artifact 'ios' của lượt CI này"; elif [ "$rc" != 0 ]; then exit "$rc"; fi
       - name: Build bản test đăng nhập (cấu hình Firebase giả, chỉ để chạy trên máy ảo)
         run: ONELINE_CONFIG_JS=tests/fixtures/firebase-config.login-test.js DIST="$PWD/out/logintest" bash android/build.sh
+      - name: Build các biến thể dò lỗi canvas
+        run: bash tests/android/probe-variants.sh "$PWD/out"
       - uses: actions/upload-artifact@v4
         with:
           name: OneLine-apk
           path: |
             out/*.apk
             out/logintest/*.apk
+            out/probe-*/*.apk
           if-no-files-found: error
 
   android:
@@ -66,14 +69,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { api: 24, target: default, gpu: swiftshader_indirect }       # Android 7.0: phiên bản thấp nhất được hỗ trợ, WebView rất cũ
-          - { api: 30, target: google_apis, gpu: swiftshader_indirect }   # Android 11: bắt đầu bắt buộc căn chỉnh resources.arsc
-          - { api: 35, target: google_apis, gpu: swiftshader_indirect }   # Android 15: đúng targetSdk, ép tràn viền
-          - { api: 36, target: google_apis, gpu: swiftshader_indirect }   # Android 16
-          # TẠM (dò lỗi canvas không hiện trên máy ảo Android 7): chế độ GPU khác và các bản Android/WebView kế tiếp
-          - { api: 24, target: default, gpu: guest, tag: '-guest' }
-          - { api: 26, target: default, gpu: swiftshader_indirect }
-          - { api: 28, target: default, gpu: swiftshader_indirect }
+          # TẠM (dò lỗi canvas không hiện trên máy ảo Android 7-9): GLES 3.0 (mặc định của máy ảo) so với GLES 2.0
+          - { api: 24, target: default, feat: '' }
+          - { api: 24, target: default, feat: '-feature -GLESDynamicVersion', tag: '-es2' }
+          - { api: 28, target: default, feat: '' }
+          - { api: 28, target: default, feat: '-feature -GLESDynamicVersion', tag: '-es2' }
+          - { api: 30, target: google_apis, feat: '' }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -92,7 +93,7 @@ jobs:
           target: ${{ matrix.target }}
           arch: x86_64
           disable-animations: true
-          emulator-options: -no-snapshot-save -no-window -gpu ${{ matrix.gpu }} -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none ${{ matrix.feat }}
           script: bash tests/android/ci.sh
       - uses: actions/upload-artifact@v4
         if: always()

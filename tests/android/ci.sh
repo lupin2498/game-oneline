@@ -1,25 +1,17 @@
 #!/usr/bin/env bash
-# Dùng trong CI: chạy smoke test trên máy ảo cho cả APK phát hành (dist/) lẫn APK vừa build từ mã nguồn (out/).
+# TẠM (nhánh dò lỗi): chạy smoke test cho APK build từ mã nguồn và từng biến thể dò lỗi canvas.
 set -uo pipefail
 API="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
 BASE="out/android-$API"
-# Máy ảo mới tinh: bỏ lời nhắc "Viewing full screen" (hiện lần đầu một app vào chế độ toàn màn hình) và hộp thoại
-# "System UI isn't responding" — cả hai đều che mất app. Trên máy thật, smoke.sh tự bấm nút đóng nếu gặp.
 adb shell settings put secure immersive_mode_confirmations confirmed >/dev/null 2>&1 || true
 adb shell settings put global hide_error_dialogs 1 >/dev/null 2>&1 || true
 adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1 || true
-rc=0
-for kind in shipped built; do
-  dir=dist; [ "$kind" = built ] && dir=out
-  apk="$(ls $dir/OneLine-*.apk 2>/dev/null | head -1)"
-  [ -n "$apk" ] || { echo "(không có APK trong $dir/, bỏ qua)"; continue; }
-  echo; echo "=================== $kind: $apk ==================="
-  bash tests/android/smoke.sh "$apk" "$BASE/$kind" || rc=1
+echo "GLES: $(adb shell getprop ro.opengles.version | tr -d '\r') / qemu.gles=$(adb shell getprop ro.kernel.qemu.gles | tr -d '\r') / $(adb shell getprop ro.hardware.egl | tr -d '\r')"
+adb shell dumpsys SurfaceFlinger 2>/dev/null | tr -d '\r' | grep -i -m3 -E "GLES|OpenGL" | sed 's/^/SF    /' || true
+for d in out out/probe-*; do
+  apk="$(ls $d/OneLine-*.apk 2>/dev/null | head -1)"
+  [ -n "$apk" ] || continue
+  echo; echo "=================== $d: $apk ==================="
+  bash tests/android/smoke.sh "$apk" "$BASE/$(basename $d)" || true
 done
-# Cầu nối đăng nhập: APK build với cấu hình giả (job "apk" đặt ở out/logintest/)
-apk="$(ls out/logintest/OneLine-*.apk 2>/dev/null | head -1)"
-if [ -n "$apk" ]; then
-  echo; echo "=================== đăng nhập: $apk ==================="
-  bash tests/android/login.sh "$apk" "$BASE/login" || rc=1
-fi
-exit $rc
+exit 0
