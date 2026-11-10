@@ -14,7 +14,18 @@ mkdir -p "$OUT"
 API="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
 REL="$(adb shell getprop ro.build.version.release | tr -d '\r')"
 WV="$(adb shell dumpsys webviewupdate 2>/dev/null | grep -i -m1 'Current WebView package' | sed 's/.*: *//' | tr -d '\r')"
-echo "Thiết bị: Android $REL (API $API) · WebView ${WV:-không rõ}"
+# Android 7 không báo bản WebView qua dumpsys: lấy từ gói đang làm WebView
+if [ -z "$WV" ]; then
+  for p in com.google.android.webview com.android.webview com.android.chrome; do
+    v="$(adb shell dumpsys package $p 2>/dev/null | grep -m1 versionName | sed 's/.*versionName=//' | tr -d '\r ')"
+    [ -n "$v" ] && { WV="($p, $v)"; break; }
+  done
+fi
+# Máy ảo (emulator của Android SDK)?
+EMU=0
+{ [ "$(adb shell getprop ro.kernel.qemu | tr -d '\r')" = 1 ] || [ "$(adb shell getprop ro.boot.qemu | tr -d '\r')" = 1 ] \
+  || grep -q -E 'ranchu|goldfish' <<<"$(adb shell getprop ro.hardware | tr -d '\r')"; } && EMU=1
+echo "Thiết bị: Android $REL (API $API)$([ $EMU = 1 ] && echo ' máy ảo') · WebView ${WV:-không rõ}"
 
 # ---------- cài đặt ----------
 adb uninstall "$PKG" >/dev/null 2>&1 || true
@@ -156,8 +167,16 @@ ok "A12b Trang quyền riêng tư mở trong app; nút Back đưa về game (kh�
 wait_log "canvas " 1 40
 CV="$(last 'canvas ')"; BR="$(bright_px 02-ready)"
 ok "A12d Canvas nhận nét vẽ của game" "$(grep -q 'canvas ok' <<<"$CV" && echo 1 || echo 0)" "$CV"
-if [ "$BR" = '?' ] || [ "$BR" -ge 300 ]; then echo "INFO  Ảnh chụp lúc sẵn sàng chơi: $BR điểm sáng ở sân chơi"
-else echo "WARN  Ảnh chụp lúc sẵn sàng chơi KHÔNG thấy mê cung ($BR điểm sáng) dù game báo: $CV"; fi
+# Ảnh chụp phải thấy mê cung (đo được 4.000-7.000 điểm sáng; sân chơi trống = 0). Ngoại lệ đã kiểm chứng: MÁY ẢO Android
+# chạy WebView cũ (đo trên bản 52 và 66) không đưa được canvas tăng tốc GPU của BẤT KỲ trang nào lên màn hình — kể cả
+# trang chỉ có một canvas vẽ vài hình vuông — trong khi canvas không tăng tốc, và WebView 83 trở lên trên cùng máy ảo,
+# hiện bình thường. Ở đó chỉ ghi nhận (dòng A12d ở trên vẫn xác nhận game đã vẽ); máy thật và WebView mới thì tính lỗi.
+WVMAJ="$(sed -n 's/.*, *\([0-9][0-9]*\)\..*/\1/p' <<<"$WV")"
+if [ "$BR" = '?' ]; then echo "INFO  Không đọc được ảnh chụp màn hình lúc sẵn sàng chơi"
+elif [ "$BR" -ge 300 ]; then ok "A12e Màn hình hiện sân chơi (ảnh chụp lúc sẵn sàng chơi thấy mê cung)" 1 "$BR điểm sáng"
+elif [ "$EMU" = 1 ] && [ "${WVMAJ:-0}" -lt 80 ]; then
+  echo "INFO  Máy ảo với WebView cũ (${WVMAJ:-không rõ bản}) không hiện canvas tăng tốc GPU của mọi trang: ảnh chụp trống ($BR điểm sáng), bỏ qua A12e"
+else ok "A12e Màn hình hiện sân chơi (ảnh chụp lúc sẵn sàng chơi thấy mê cung)" 0 "$BR điểm sáng dù game báo: $CV"; fi
 
 # ---------- lỗi ----------
 sleep 1

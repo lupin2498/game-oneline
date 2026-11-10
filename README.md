@@ -148,9 +148,16 @@ ONELINE_CONFIG_JS=tests/fixtures/firebase-config.login-test.js DIST=out/logintes
 bash tests/android/login.sh out/logintest/OneLine-1.6.apk    # Android; trên iOS, run-ui-tests.sh tự chạy lượt 2
 ```
 
-CI (`.github/workflows/ci.yml`) chạy tất cả mỗi lần push: test web + online trên Chromium, build APK và kiểm tra
-tĩnh, **cài và chơi thử APK bằng thao tác cảm ứng thật trên máy ảo Android 7 / 11 / 15 / 16**, biên dịch app iOS,
-**UI test giữ / kéo thật trên iOS Simulator**, thử cầu nối đăng nhập trên cả hai nền tảng và build IPA chưa ký.
+CI (`.github/workflows/ci.yml`) chạy tất cả mỗi lần push: test web + online trên Chromium, chạy lại phần test web
+trên Firefox và WebKit (nhân của Safari), build APK và kiểm tra tĩnh, **cài và chơi thử APK bằng thao tác cảm ứng
+thật trên máy ảo Android 7 / 11 / 15 / 16**, biên dịch app iOS, **UI test giữ / kéo thật trên iOS Simulator**
+(iPhone và iPad), thử cầu nối đăng nhập trên cả hai nền tảng và build IPA chưa ký.
+
+`smoke.sh` còn so ảnh chụp màn hình để chắc sân chơi thật sự hiện ra. Riêng **máy ảo** Android chạy WebView cũ (bản
+52–66, tức ảnh Android 7–9 chưa cập nhật) không đưa được canvas tăng tốc GPU của bất kỳ trang web nào lên màn hình
+nên sân chơi trống trong ảnh chụp; script nhận ra trường hợp này và chỉ ghi nhận (game vẫn tự xác nhận đã vẽ qua dòng
+`[oneline] canvas ok`). Trên điện thoại thật, ảnh chụp trống luôn bị tính là lỗi.
+
 Game ghi các mốc `[oneline] ...` ra console (khởi động, từng lượt chơi, trạng thái đăng nhập `auth user=… busy=… err=…`;
 không ghi tên, mã tài khoản hay token) — xem bằng `adb logcat | grep oneline` hoặc Web Inspector để chẩn đoán trên máy thật.
 

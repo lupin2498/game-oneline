@@ -130,6 +130,19 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      - name: Tải sẵn ảnh hệ thống của máy ảo (thử lại khi mạng chập chờn)
+        # Bước chạy máy ảo bên dưới chỉ tải một lần; đường truyền đứt giữa chừng ("Premature EOF") là hỏng cả job
+        run: |
+          SM="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          [ -x "$SM" ] || { echo "Không thấy sdkmanager: để bước sau tự cài"; exit 0; }
+          yes | "$SM" --licenses >/dev/null 2>&1 || true
+          for i in 1 2 3 4; do
+            if "$SM" --install "system-images;android-${{ matrix.api }};${{ matrix.target }};x86_64" --channel=0 >/dev/null; then
+              echo "Đã có ảnh hệ thống Android ${{ matrix.api }} (lần tải thứ $i)"; exit 0
+            fi
+            echo "::warning::Tải ảnh hệ thống Android ${{ matrix.api }} hỏng (lần $i), thử lại"; sleep $((i * 10))
+          done
+          exit 0
       - name: Chạy APK trên máy ảo
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -173,31 +186,3 @@ jobs:
             out/ios/shots-ipad
             out/ios/*.log
           if-no-files-found: ignore
-
-  # TẠM THỜI (chỉ trên nhánh claude/**): gom kết quả vào nhánh ci-out để xem ảnh chụp và lấy file IPA
-  publish:
-    name: Gom kết quả
-    if: always() && startsWith(github.ref, 'refs/heads/claude/')
-    needs: [web, web-cross, apk, android, ios]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: art
-      - name: Thu nhỏ ảnh, đẩy lên nhánh ci-out
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RESULTS: ${{ toJSON(needs) }}
-        run: |
-          sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
-          find art -name '*.png' -exec mogrify -resize '420x>' {} + 2>/dev/null || true
-          find art -name 'logcat.txt' -exec sh -c 'tail -c 300000 "$1" > "$1.tail" && mv "$1.tail" "$1"' _ {} \;
-          rm -rf art/ios/*.xcresult
-          cd art
-          printf '%s\n' "$RESULTS" > results.json
-          echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt
-          git init -q && git checkout -q -b ci-out
-          git add -A && git -c user.name="ci" -c user.email="ci@users.noreply.github.com" commit -q -m "CI output ${{ github.run_id }}"
-          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}" ci-out

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
@@ -225,6 +226,9 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         if (web != null) {
             web.stopLoading();
+            // Theo tài liệu Android, destroy() phải gọi SAU khi WebView đã gỡ khỏi cây giao diện
+            // (huỷ lúc còn gắn thì WebView ghi cảnh báo mỗi lần thoát app)
+            if (web.getParent() instanceof ViewGroup) ((ViewGroup) web.getParent()).removeView(web);
             web.destroy();
             web = null;
         }
