@@ -37,6 +37,8 @@ VIEW="$(sed -n 's/.* view=\([0-9x-]*\).*/\1/p' <<<"$BOOT")"
 grep -q -E '^[1-9][0-9]*x[1-9][0-9]*$' <<<"$VIEW" || wait_log "view [1-9][0-9]*x[1-9]" 1 10
 ok "A02b Game biết kích thước cửa sổ để dàn khung chơi" "$( { grep -q -E '^[1-9][0-9]*x[1-9][0-9]*$' <<<"$VIEW" || [ "$(count 'view [1-9][0-9]*x[1-9]')" -ge 1 ]; } && echo 1 || echo 0)" "lúc khởi động view=$VIEW $(last 'view [1-9]')"
 sleep 2; shot 01-start
+E1="$(edge_px 01-start)"
+ok "A02c Vừa mở app không lộ bảng chưa co giãn (nội dung không bị cắt ở mép phải màn hình)" "$(edge_ok "$E1" && echo 1 || echo 0)" "$E1 điểm sáng sát mép phải"
 if [ $booted != 0 ]; then
   grep -a -E "AndroidRuntime|chromium|$PKG" "$OUT/logcat.txt" | tail -40
   echo "==> Android API $API: app không khởi động"; exit 1
@@ -133,6 +135,8 @@ wait_log "boot v" 2 60
 B2="$(last 'boot v')"; BEST="$(sed -n 's/.* best=\([0-9]*\).*/\1/p' <<<"$B2")"
 ok "A12 Tắt hẳn rồi mở lại: kỷ lục vẫn còn (lưu trữ của WebView bền)" "$([ "$(count 'boot v')" -ge 2 ] && [ "${BEST:-0}" -ge 1 ] && echo 1 || echo 0)" "$B2"
 sleep 2; shot 07-relaunch
+E2="$(edge_px 07-relaunch)"
+ok "A12c Mở lại app cũng không lộ bảng chưa co giãn" "$(edge_ok "$E2" && echo 1 || echo 0)" "$E2 điểm sáng sát mép phải"
 
 # ---------- trang quyền riêng tư mở ngay trong app; nút Back của máy đưa về game chứ không thoát app ----------
 NB="$(count 'boot v')"

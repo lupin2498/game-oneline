@@ -16,7 +16,9 @@
   body{display:flex;align-items:center;justify-content:center;
     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
   /* Kích thước dưới đây chỉ dùng trước khi JS chạy; fit() đặt lại bằng px */
-  #wrap{position:relative;flex:none;width:100vw;height:158.334vw;max-width:63.158vh;max-height:100vh;
+  /* visibility:hidden cho tới khi script dàn xong khung (fit): trình duyệt hay vẽ trang một lần TRƯỚC khi script chạy,
+     lúc đó bảng chưa được co theo màn hình nên trông quá cỡ, lệch phải */
+  #wrap{position:relative;flex:none;width:100vw;height:158.334vw;max-width:63.158vh;max-height:100vh;visibility:hidden;
     -ms-touch-action:none;touch-action:none;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
   canvas{display:block;width:100%;height:100%;-ms-touch-action:none;touch-action:none}
   #ui{position:absolute;left:0;top:0;width:400px;height:633.34px;-webkit-transform-origin:0 0;transform-origin:0 0;pointer-events:none}
@@ -104,7 +106,7 @@ function fit(){
   ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
   var sc='scale('+(w/400)+')';               // HUD + bảng co theo khung
   ui.style.webkitTransform=sc; ui.style.transform=sc;
-  fitOK=true; wrap.style.visibility='';
+  fitOK=true; wrap.style.visibility='visible';
 }
 function refit(){ if(!fitOK || window.innerWidth!==fitW || window.innerHeight!==fitH || viewDpr()!==fitD) fit(); }
 window.addEventListener('resize',fit);

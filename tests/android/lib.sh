@@ -12,6 +12,9 @@ count(){ lines | grep -c -- "$1" || true; }
 last(){ lines | grep -- "$1" | tail -1; }
 # wait_log <mẫu> <số lần phải có> <giây>
 wait_log(){ local i=0; while [ "$i" -lt "$(( $3 * 2 ))" ]; do [ "$(count "$1")" -ge "$2" ] && return 0; sleep 0.5; i=$((i+1)); done; return 1; }
+# Ảnh chụp có lộ bố cục chưa co giãn không (nội dung bị cắt ở mép phải màn hình)? In số điểm sáng sát mép phải; "?" = không đọc được ảnh
+edge_px(){ python3 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/pngcheck.py" rightedge "$OUT/$1.png" 2>/dev/null || echo '?'; }
+edge_ok(){ [ "$1" = '?' ] || [ "$1" -lt 4 ]; }
 # Activity đang ở trên cùng (tên trường khác nhau giữa các bản Android, đều chứa "ResumedActivity")
 top_activity(){ adb shell dumpsys activity activities 2>/dev/null </dev/null | grep -E 'ResumedActivity' | head -2 | tr -d '\r'; }
 

@@ -110,6 +110,17 @@ H.main('Bố cục', async function (t, cleanup) {
   t.ok('Z5 Sau đó chơi bình thường', (await H.snap(z)).st === 'ready');
   await z.context().close();
 
+  // Lần vẽ đầu tiên của trang (trước khi script chạy) không được lộ bảng chưa co giãn: thử bằng cách tắt hẳn JavaScript
+  for (const page of ['/index.html', '/extras/pour/index.html']) {
+    const nj = await browser.newContext({ viewport: { width: 320, height: 640 }, javaScriptEnabled: false });
+    const np = await nj.newPage();
+    await np.goto(srv.url + page);
+    const hid = await np.locator('#wrap').evaluate(function (el) { return getComputedStyle(el).visibility; }).catch(function () { return 'lỗi'; });
+    const shown = await np.locator('#bStart').isVisible();
+    t.ok('F1 ' + page + ': trước khi script chạy, khung chơi còn giấu (không nháy bảng quá cỡ)', hid === 'hidden' && !shown, hid + ' / nút Bắt đầu hiện: ' + shown);
+    await nj.close();
+  }
+
   // Trang quyền riêng tư: dài hơn màn hình điện thoại nên phải cuộn được, có nút Về game ở cả đầu và cuối trang
   const pv = await H.newPage(browser, srv.url + '/privacy.html', { viewport: { width: 320, height: 568 }, touch: true, mobile: true, wait: false });
   const pi = await pv.evaluate(function () {
