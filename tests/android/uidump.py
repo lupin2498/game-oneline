@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Đọc tệp XML của `uiautomator dump` (cây trợ năng của màn hình đang hiện).
 
-  uidump.py find   <ui.xml> <chữ>   -> in "x y" là tâm của nút mang đúng chữ đó (không có thì không in gì)
+  uidump.py find   <ui.xml> <chữ>   -> in "x y" là tâm của nút mang đúng chữ đó (không có thì không in gì);
+                                       <chữ> bắt đầu bằng "~" thì chỉ cần nút CHỨA phần chữ sau dấu "~"
   uidump.py dialog <ui.xml>         -> nếu màn hình đang là một hộp thoại của hệ thống che mất app (lời nhắc
                                        "Viewing full screen" lần đầu vào chế độ toàn màn hình, "... isn't
                                        responding", "... keeps stopping"): in "x y" của nút đóng nó
@@ -55,7 +56,7 @@ def main():
     if cmd == 'find':
         want = sys.argv[3]
         for n in ns:
-            if n['text'] == want or n['desc'] == want:
+            if (want[1:] in n['text'] or want[1:] in n['desc']) if want.startswith('~') else (n['text'] == want or n['desc'] == want):
                 print(center(n))
                 return
     elif cmd == 'dialog':

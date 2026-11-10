@@ -22,7 +22,7 @@ H.main('Logic game', async function (t, cleanup) {
   // ---- khởi động ----
   let s = await snap();
   t.ok('G01 Khởi động: trạng thái idle, hiện bảng mở đầu', s.st === 'idle' && await pg.locator('#pStart').isVisible());
-  t.ok('G02 Ghi log khởi động kèm phiên bản', pg._logs.some(function (l) { return /^\[oneline\] boot v\d+\.\d+ online=off pointer=1 best=0$/.test(l); }), pg._logs.join(' | '));
+  t.ok('G02 Ghi log khởi động kèm phiên bản', pg._logs.some(function (l) { return /^\[oneline\] boot v\d+\.\d+ online=off pointer=1 best=0 view=\d+x\d+$/.test(l); }), pg._logs.join(' | '));
   t.ok('G03 Nhãn phiên bản hiện trên bảng mở đầu', /^v\d+\.\d+$/.test(await pg.locator('#ver').innerText()));
   t.ok('G04 Chưa cấu hình Firebase: không hiện nút đăng nhập', !(await pg.locator('#logins1').isVisible()) && !(await pg.locator('#acct').isVisible()));
 

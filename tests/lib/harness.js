@@ -158,7 +158,27 @@ function main(name, fn) {
 const snap = function (page) { return page.evaluate(function () { return window.__dbg.snap(); }); };
 const run = function (page, code) { return page.evaluate(function (c) { return window.__dbg.run(c); }, code); };
 
-module.exports = { ROOT, OUT, serve, fileCopy, launch, newPage, suite, main, snap, run, instrument, emulatorConfig };
+// Giả lập WebView chưa có kích thước lúc trang chạy (innerWidth/innerHeight = 0, không bắn "resize" khi có kích thước):
+// dùng làm o.init của newPage; bật kích thước thật bằng  window.__zero = false
+function zeroViewport() {
+  var w = Object.getOwnPropertyDescriptor(window, 'innerWidth'), h = Object.getOwnPropertyDescriptor(window, 'innerHeight');
+  var cw = Object.getOwnPropertyDescriptor(Element.prototype, 'clientWidth'), ch = Object.getOwnPropertyDescriptor(Element.prototype, 'clientHeight');
+  window.__zero = true;
+  Object.defineProperty(window, 'innerWidth', { configurable: true, get: function () { return window.__zero ? 0 : w.get.call(window); } });
+  Object.defineProperty(window, 'innerHeight', { configurable: true, get: function () { return window.__zero ? 0 : h.get.call(window); } });
+  Object.defineProperty(Element.prototype, 'clientWidth', { configurable: true, get: function () { return window.__zero && this === document.documentElement ? 0 : cw.get.call(this); } });
+  Object.defineProperty(Element.prototype, 'clientHeight', { configurable: true, get: function () { return window.__zero && this === document.documentElement ? 0 : ch.get.call(this); } });
+}
+// Trạng thái khung chơi + nút Bắt đầu (toạ độ so với khung, theo tỉ lệ)
+function frameInfo(page) {
+  return page.evaluate(function () {
+    var wr = document.getElementById('wrap'), w = wr.getBoundingClientRect(), b = document.getElementById('bStart').getBoundingClientRect(), cv = document.getElementById('cv');
+    return { vis: getComputedStyle(wr).visibility, w: w.width, bx: (b.left + b.width / 2 - w.left) / w.width, bw: b.width / w.width,
+      inside: b.left >= w.left - 0.5 && b.right <= w.right + 0.5, canvas: cv.width, ui: document.getElementById('ui').style.transform };
+  });
+}
+
+module.exports = { ROOT, OUT, serve, fileCopy, launch, newPage, suite, main, snap, run, instrument, emulatorConfig, zeroViewport, frameInfo };
 
 // Xoá sạch dữ liệu Firebase Emulator (tài khoản + bảng điểm) trước mỗi file test online
 async function resetEmulators() {

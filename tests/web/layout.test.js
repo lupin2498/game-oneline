@@ -89,6 +89,44 @@ H.main('Bố cục', async function (t, cleanup) {
     'khung từ y=' + sr.top.toFixed(0) + ' tới ' + sr.bottom.toFixed(0));
   await sa.context().close();
 
+  // App Android 15+ từng chạy trang khi WebView chưa có kích thước: bảng mở đầu hiện quá cỡ, lệch phải, tới khi
+  // game tự dàn lại. Giờ: chưa có kích thước thì giấu khung, có kích thước là dàn ngay.
+  const ref = await H.newPage(browser, srv.url + '/index.html', { viewport: { width: 320, height: 640 }, dpr: 1 });
+  const want = await H.frameInfo(ref); await ref.context().close();
+  const z = await H.newPage(browser, srv.url + '/index.html', { viewport: { width: 320, height: 640 }, dpr: 1, init: H.zeroViewport });
+  await z.waitForTimeout(500);
+  const z0 = await H.frameInfo(z);
+  t.ok('Z1 Trang chạy khi cửa sổ chưa có kích thước: không lộ bố cục chưa co giãn', z0.vis === 'hidden', JSON.stringify(z0));
+  t.ok('Z2 Log khởi động ghi view=0x0', z._logs.some(function (l) { return /boot v.* view=0x0$/.test(l); }), z._logs.join(' | '));
+  const tz = Date.now();
+  await z.evaluate(function () { window.__zero = false; });
+  await z.waitForFunction(function () { return getComputedStyle(document.getElementById('wrap')).visibility === 'visible'; }, null, { timeout: 3000 }).catch(function () {});
+  const dz = Date.now() - tz, z1 = await H.frameInfo(z);
+  t.ok('Z3 Có kích thước là dàn lại ngay (không chờ sự kiện resize), đúng như khi mở bình thường',
+    z1.vis === 'visible' && dz < 400 && z1.canvas === want.canvas && z1.inside && Math.abs(z1.bx - want.bx) < 0.005 && Math.abs(z1.bw - want.bw) < 0.005 && z1.ui === want.ui,
+    'sau ' + dz + ' ms: ' + JSON.stringify(z1) + ' / chuẩn ' + JSON.stringify(want));
+  t.ok('Z4 Ghi mốc "view WxH" để chẩn đoán trên máy thật', z._logs.some(function (l) { return /^\[oneline\] view 320x640 t=\d+$/.test(l); }) && !z._errs.length, z._logs.join(' | ') + z._errs.join(','));
+  await z.click('#bStart');
+  t.ok('Z5 Sau đó chơi bình thường', (await H.snap(z)).st === 'ready');
+  await z.context().close();
+
+  // Trang quyền riêng tư: dài hơn màn hình điện thoại nên phải cuộn được, có nút Về game ở cả đầu và cuối trang
+  const pv = await H.newPage(browser, srv.url + '/privacy.html', { viewport: { width: 320, height: 568 }, touch: true, mobile: true, wait: false });
+  const pi = await pv.evaluate(function () {
+    var b = document.querySelectorAll('a.back'), de = document.documentElement;
+    return { n: b.length, top: b[0] ? b[0].getBoundingClientRect().top : -1, last: b[b.length - 1] ? b[b.length - 1].getBoundingClientRect().top : -1,
+      href: Array.prototype.map.call(b, function (a) { return a.getAttribute('href'); }).join(','), sh: de.scrollHeight, vh: innerHeight,
+      ov: getComputedStyle(document.body).overflowY + '/' + getComputedStyle(de).overflowY, wide: de.scrollWidth > de.clientWidth + 1 };
+  });
+  t.ok('V1 Trang quyền riêng tư: nút Về game ngay đầu trang (không cần cuộn) và ở cuối trang', pi.n === 2 && pi.top >= 0 && pi.top < 120 && pi.last > pi.vh && pi.href === 'index.html,index.html', JSON.stringify(pi));
+  await pv.mouse.wheel(0, 5000); await pv.waitForTimeout(300);
+  const py = await pv.evaluate(function () { var b = document.querySelectorAll('a.back'); return { y: scrollY, lastBottom: b[b.length - 1].getBoundingClientRect().bottom, vh: innerHeight }; });
+  t.ok('V2 Trang quyền riêng tư cuộn được tới cuối, không tràn ngang', py.y > 100 && py.lastBottom <= py.vh + 0.5 && !pi.wide && !/hidden/.test(pi.ov) && !pv._errs.length, JSON.stringify(py) + ' ' + pi.ov);
+  await pv.click('a.back >> nth=1');
+  await pv.waitForFunction(function () { return !!document.getElementById('bStart'); }, null, { timeout: 8000 }).catch(function () {});
+  t.ok('V3 Bấm Về game ở cuối trang trở lại game', /index\.html$/.test(pv.url()), pv.url());
+  await pv.context().close();
+
   // Tỉ lệ điểm ảnh rất cao: canvas bị giới hạn ở 2.5x để không ngốn bộ nhớ
   const hd = await H.newPage(browser, srv.url + '/index.html', { viewport: { width: 412, height: 915 }, dpr: 4 });
   const hc = await hd.evaluate(function () { return document.getElementById('cv').width; });

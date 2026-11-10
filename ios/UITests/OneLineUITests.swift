@@ -71,6 +71,15 @@ final class OneLineUITests: XCTestCase {
             .withOffset(CGVector(dx: origin.x + gx / 480 * size.width, dy: origin.y + gy / 760 * size.height))
     }
 
+    /// Vuốt lên bằng cử chỉ thật (như ngón tay người chơi) cho tới khi phần tử nằm trong màn hình
+    private func swipeUntilHittable(_ e: XCUIElement, limit: Int = 8) {
+        var n = 0
+        while !e.isHittable && n < limit {
+            app.swipeUp()
+            n += 1
+        }
+    }
+
     private func startGame(_ button: String) {
         let b = el(button)
         XCTAssertTrue(b.waitForExistence(timeout: 20), "không thấy nút \(button)")
@@ -116,21 +125,30 @@ final class OneLineUITests: XCTestCase {
         XCTAssertGreaterThanOrEqual(meters().count, 3, "bảng xếp hạng phải liệt kê các lượt vừa chơi")
         shot("06-board")
 
-        // 5) Trang quyền riêng tư mở ngay trong app và quay về được
+        // 5) Trang quyền riêng tư mở ngay trong app, CUỘN ĐƯỢC BẰNG NGÓN TAY (trang dài hơn màn hình) và quay về được
         el("Quyền riêng tư").tap()
         XCTAssertTrue(elContaining("Chính sách quyền riêng tư").waitForExistence(timeout: 10), "trang quyền riêng tư không mở")
         shot("07-privacy")
         let external = elContaining("myaccount.google.com")
         if external.waitForExistence(timeout: 5) {
+            swipeUntilHittable(external)
+            XCTAssertTrue(external.isHittable, "vuốt lên phải cuộn được trang quyền riêng tư tới link ở gần cuối trang")
+            shot("07b-privacy-scrolled")
             external.tap()
             let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
-            XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 20), "link ngoài phải mở bằng Safari, không mở trong khung game")
+            XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 40), "link ngoài phải mở bằng Safari, không mở trong khung game")
             app.activate()
             XCTAssertTrue(elContaining("Chính sách quyền riêng tư").waitForExistence(timeout: 10), "quay lại app: trang riêng tư vẫn còn")
         } else {
             XCTFail("không thấy link ngoài trong trang quyền riêng tư")
         }
-        elContaining("Về game").tap()
+        // nút "Về game" ở cuối trang: phải vuốt tới được rồi bấm
+        let backs = app.links.matching(NSPredicate(format: "label CONTAINS[c] %@", "Về game"))
+        XCTAssertGreaterThanOrEqual(backs.count, 2, "trang quyền riêng tư phải có nút Về game ở cả đầu và cuối trang")
+        let back = backs.element(boundBy: max(0, backs.count - 1))
+        swipeUntilHittable(back)
+        XCTAssertTrue(back.isHittable, "vuốt lên phải tới được nút Về game ở cuối trang")
+        back.tap()
         XCTAssertTrue(el("Bắt đầu").waitForExistence(timeout: 15), "bấm Về game phải trở lại màn mở đầu")
     }
 

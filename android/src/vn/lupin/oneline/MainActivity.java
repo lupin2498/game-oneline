@@ -97,7 +97,14 @@ public class MainActivity extends Activity {
 
         setContentView(web);
         handleIntent(getIntent());
-        web.loadUrl(ASSET_BASE + "index.html");
+        // Nạp trang SAU lượt dàn giao diện đầu tiên để WebView đã có kích thước khi trang chạy. Nạp ngay trong
+        // onCreate thì trên Android 15+ trang thấy cửa sổ 0x0 và phải tự dàn lại sau (game có xử lý, nhưng chậm một nhịp).
+        web.post(new Runnable() {
+            @Override
+            public void run() {
+                if (web != null) web.loadUrl(ASSET_BASE + "index.html");
+            }
+        });
         hideBars();
     }
 

@@ -31,6 +31,11 @@ adb shell am start -W -n "$PKG/.MainActivity" >/dev/null 2>&1
 wait_log "boot v" 1 120; booted=$?
 BOOT="$(last 'boot v')"
 ok "A02 Mở app: trang game khởi động trong WebView" "$([ $booted = 0 ] && echo 1 || echo 0)" "$BOOT"
+# Trang phải biết kích thước cửa sổ: ngay lúc chạy (view=WxH trong dòng boot), hoặc muộn hơn một nhịp (dòng "view WxH t=ms";
+# trong lúc chờ game giấu khung nên không lộ bố cục vỡ). Không bao giờ có kích thước = lỗi.
+VIEW="$(sed -n 's/.* view=\([0-9x-]*\).*/\1/p' <<<"$BOOT")"
+grep -q -E '^[1-9][0-9]*x[1-9][0-9]*$' <<<"$VIEW" || wait_log "view [1-9][0-9]*x[1-9]" 1 10
+ok "A02b Game biết kích thước cửa sổ để dàn khung chơi" "$( { grep -q -E '^[1-9][0-9]*x[1-9][0-9]*$' <<<"$VIEW" || [ "$(count 'view [1-9][0-9]*x[1-9]')" -ge 1 ]; } && echo 1 || echo 0)" "lúc khởi động view=$VIEW $(last 'view [1-9]')"
 sleep 2; shot 01-start
 if [ $booted != 0 ]; then
   grep -a -E "AndroidRuntime|chromium|$PKG" "$OUT/logcat.txt" | tail -40
@@ -128,6 +133,16 @@ wait_log "boot v" 2 60
 B2="$(last 'boot v')"; BEST="$(sed -n 's/.* best=\([0-9]*\).*/\1/p' <<<"$B2")"
 ok "A12 Tắt hẳn rồi mở lại: kỷ lục vẫn còn (lưu trữ của WebView bền)" "$([ "$(count 'boot v')" -ge 2 ] && [ "${BEST:-0}" -ge 1 ] && echo 1 || echo 0)" "$B2"
 sleep 2; shot 07-relaunch
+
+# ---------- trang quyền riêng tư mở ngay trong app; nút Back của máy đưa về game chứ không thoát app ----------
+tap_text 'Bảng xếp hạng' >/dev/null; tap_text 'Quyền riêng tư' >/dev/null
+P="$(find_text '~Chính sách quyền riêng tư' 15)"
+sleep 1; shot 08-privacy
+adb shell input keyevent 4; sleep 2
+G="$(find_text 'Bắt đầu' 10 || find_text 'Đóng' 3)"
+TOP="$(top_activity)"
+ok "A12b Trang quyền riêng tư mở trong app; nút Back đưa về game (không thoát app)" "$([ -n "$P" ] && [ -n "$G" ] && grep -q "$PKG" <<<"$TOP" && echo 1 || echo 0)" \
+   "trang riêng tư tại ${P:-KHÔNG THẤY}, về game: ${G:-KHÔNG THẤY}"
 
 # ---------- lỗi ----------
 sleep 1

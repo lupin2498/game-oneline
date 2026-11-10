@@ -82,7 +82,7 @@ var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
 var W=480, H=760, CX=240, BASE_Y=644, SPOUT_Y=104;
 
 var wrap=document.getElementById('wrap'), ui=document.getElementById('ui');
-var fitW=-1, fitH=-1, fitD=-1;
+var fitW=-1, fitH=-1, fitD=-1, fitOK=false;
 function viewDpr(){ return Math.min(window.devicePixelRatio||1,2.5); }
 function fit(){
   var de=document.documentElement;
@@ -93,7 +93,10 @@ function fit(){
     vw-=(parseFloat(cs.paddingLeft)||0)+(parseFloat(cs.paddingRight)||0);
     vh-=(parseFloat(cs.paddingTop)||0)+(parseFloat(cs.paddingBottom)||0);
   }catch(e){}
-  if(!(vw>0 && vh>0)) return;
+  if(!(vw>0 && vh>0)){                       // trang chạy trước khi cửa sổ có kích thước: giấu khung, vòng lặp sẽ gọi lại
+    fitOK=false; wrap.style.visibility='hidden';
+    return;
+  }
   var w=Math.floor(Math.min(vw, vh*W/H)), h=w*H/W;
   wrap.style.width=w+'px'; wrap.style.height=h+'px'; wrap.style.maxWidth='none'; wrap.style.maxHeight='none';
   cv.width=Math.max(1,Math.round(w*dpr));
@@ -101,9 +104,17 @@ function fit(){
   ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
   var sc='scale('+(w/400)+')';               // HUD + bảng co theo khung
   ui.style.webkitTransform=sc; ui.style.transform=sc;
+  fitOK=true; wrap.style.visibility='';
 }
+function refit(){ if(!fitOK || window.innerWidth!==fitW || window.innerHeight!==fitH || viewDpr()!==fitD) fit(); }
 window.addEventListener('resize',fit);
 window.addEventListener('orientationchange',fit);
+window.addEventListener('load',refit);
+window.addEventListener('pageshow',refit);
+document.addEventListener('visibilitychange',refit);
+if(window.visualViewport && window.visualViewport.addEventListener) window.visualViewport.addEventListener('resize',refit);
+try{ if(window.ResizeObserver) new ResizeObserver(refit).observe(document.documentElement); }catch(e){}
+[0,60,250,1000,3000].forEach(function(ms){ setTimeout(refit,ms); });
 
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
 function rnd(a,b){return a+Math.random()*(b-a);}
@@ -474,7 +485,7 @@ var frameNo=0, frameErr=0;
 function loop(ts){
   if(!last) last=ts;
   var dt=clamp((ts-last)/1000,0,0.05); last=ts;
-  if((++frameNo%20)===0 && (window.innerWidth!==fitW || window.innerHeight!==fitH || viewDpr()!==fitD)) fit();
+  if(!fitOK || (++frameNo%20)===0) refit();   // chưa có khung: thử lại từng khung hình
   try{
     if(cup) step(dt);
     else time+=dt;

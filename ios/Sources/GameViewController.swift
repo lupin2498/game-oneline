@@ -99,6 +99,14 @@ final class GameViewController: UIViewController, WKScriptMessageHandler, WKNavi
         decisionHandler(.allow)
     }
 
+    /// Trang game không cuộn (mọi cử chỉ dành cho game); các trang khác trong app (quyền riêng tư) dài hơn màn hình
+    /// nên phải cuộn được bằng ngón tay — nếu không người chơi không tới được nút "Về game" ở cuối trang.
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        let isGame = webView.url?.lastPathComponent == "index.html"
+        webView.scrollView.isScrollEnabled = !isGame
+        if isGame { webView.scrollView.setContentOffset(.zero, animated: false) }
+    }
+
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if let url = navigationAction.request.url, ["http", "https"].contains((url.scheme ?? "").lowercased()) {

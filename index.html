@@ -169,7 +169,7 @@ function clamp(v,a,b){return v<a?a:(v>b?b:v);}
 function rnd(a,b){return a+Math.random()*(b-a);}
 
 /* ---------- co giãn khung chơi ---------- */
-var fitW=-1, fitH=-1, fitD=-1;
+var fitW=-1, fitH=-1, fitD=-1, fitOK=false, booted=0;
 function viewDpr(){ return Math.min(window.devicePixelRatio||1,2.5); }
 function fit(){
   var de=document.documentElement;
@@ -180,7 +180,10 @@ function fit(){
     vw-=(parseFloat(cs.paddingLeft)||0)+(parseFloat(cs.paddingRight)||0);
     vh-=(parseFloat(cs.paddingTop)||0)+(parseFloat(cs.paddingBottom)||0);
   }catch(e){}
-  if(!(vw>0 && vh>0)) return;                // WebView chưa có kích thước: vòng lặp sẽ gọi lại
+  if(!(vw>0 && vh>0)){                       // WebView chưa có kích thước (trang chạy trước khi app dàn xong):
+    fitOK=false; wrap.style.visibility='hidden';   // giấu khung để không lộ bố cục chưa co giãn; vòng lặp sẽ gọi lại
+    return;
+  }
   var w=Math.floor(Math.min(vw, vh*W/H)), h=w*H/W;
   wrap.style.width=w+'px'; wrap.style.height=h+'px'; wrap.style.maxWidth='none'; wrap.style.maxHeight='none';
   cv.width=Math.max(1,Math.round(w*dpr));
@@ -188,9 +191,20 @@ function fit(){
   ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
   var sc='scale('+(w/400)+')';               // HUD + bảng co theo khung
   ui.style.webkitTransform=sc; ui.style.transform=sc;
+  if(!fitOK && booted) log('view '+fitW+'x'+fitH+' t='+(Date.now()-booted));   // có kích thước muộn
+  fitOK=true; wrap.style.visibility='';
 }
+function refit(){ if(!fitOK || window.innerWidth!==fitW || window.innerHeight!==fitH || viewDpr()!==fitD) fit(); }
 window.addEventListener('resize',fit);
 window.addEventListener('orientationchange',fit);
+// WebView/app có thể chạy trang trước khi có kích thước và không bắn "resize" lúc nhận kích thước đầu tiên:
+// bắt thêm mọi tín hiệu có thể để chỉnh khung ngay khi biết kích thước thật
+window.addEventListener('load',refit);
+window.addEventListener('pageshow',refit);
+document.addEventListener('visibilitychange',refit);
+if(window.visualViewport && window.visualViewport.addEventListener) window.visualViewport.addEventListener('resize',refit);
+try{ if(window.ResizeObserver) new ResizeObserver(refit).observe(document.documentElement); }catch(e){}
+[0,60,250,1000,3000].forEach(function(ms){ setTimeout(refit,ms); });
 
 /* ---------- mê cung ---------- */
 var wps=[];
@@ -727,14 +741,15 @@ function loop(ts){
   if(!last) last=ts;
   var dt=clamp((ts-last)/1000,0,0.05); last=ts;
   // tự chỉnh lại khung nếu lỡ sự kiện resize (WebView vừa có kích thước, đổi màn hình, đổi tỉ lệ điểm ảnh)
-  if((++frameNo%20)===0 && (window.innerWidth!==fitW || window.innerHeight!==fitH || viewDpr()!==fitD)) fit();
+  if(!fitOK || (++frameNo%20)===0) refit();   // chưa có khung: thử lại từng khung hình
   try{ step(dt); draw(); }
   catch(e){ if(frameErr++<3 && window.console) console.error('[oneline] frame error', e); }
   requestAnimationFrame(loop);
 }
 /*__TEST_HOOK__*/
 fit(); reset(); state='idle';
-log('boot v'+VERSION+' online='+(NET?(netState().configured?'on':'off'):'none')+' pointer='+(window.PointerEvent?1:0)+' best='+best);
+booted=Date.now();
+log('boot v'+VERSION+' online='+(NET?(netState().configured?'on':'off'):'none')+' pointer='+(window.PointerEvent?1:0)+' best='+best+' view='+fitW+'x'+fitH);
 requestAnimationFrame(loop);
 })();
 if(location.protocol==='http:'||location.protocol==='https:'){

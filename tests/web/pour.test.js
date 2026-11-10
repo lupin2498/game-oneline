@@ -92,4 +92,17 @@ H.main('Rót Nước', async function (t, cleanup) {
     t.ok('P14 Bố cục ' + v[0] + 'x' + v[1] + ': đúng tỉ lệ, nút Bắt đầu nằm trong khung', Math.abs(m.r - 480 / 760) < 0.004 && m.inView && !m.clip && m.btnIn && !p2._errs.length, JSON.stringify(m));
     await p2.context().close();
   }
+
+  // Trang chạy khi cửa sổ chưa có kích thước (WebView): giấu khung, có kích thước là dàn ngay
+  const ref = await H.newPage(browser, srv.url + '/extras/pour/index.html', { viewport: { width: 320, height: 640 }, dpr: 1 });
+  const want = await H.frameInfo(ref); await ref.context().close();
+  const z = await H.newPage(browser, srv.url + '/extras/pour/index.html', { viewport: { width: 320, height: 640 }, dpr: 1, init: H.zeroViewport });
+  await z.waitForTimeout(400);
+  const z0 = await H.frameInfo(z);
+  await z.evaluate(function () { window.__zero = false; });
+  await z.waitForFunction(function () { return getComputedStyle(document.getElementById('wrap')).visibility === 'visible'; }, null, { timeout: 3000 }).catch(function () {});
+  const z1 = await H.frameInfo(z);
+  t.ok('P15 Cửa sổ chưa có kích thước lúc tải: giấu khung, có kích thước là dàn lại đúng', z0.vis === 'hidden' && z1.vis === 'visible' && z1.canvas === want.canvas && z1.inside && Math.abs(z1.bx - want.bx) < 0.005 && z1.ui === want.ui && !z._errs.length,
+    JSON.stringify(z0) + ' -> ' + JSON.stringify(z1));
+  await z.context().close();
 });
