@@ -130,17 +130,19 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-      - name: Tải sẵn ảnh hệ thống của máy ảo (thử lại khi mạng chập chờn)
-        # Bước chạy máy ảo bên dưới chỉ tải một lần; đường truyền đứt giữa chừng ("Premature EOF") là hỏng cả job
+      - name: Tải sẵn máy ảo và ảnh hệ thống (thử lại khi mạng chập chờn)
+        # Bước chạy máy ảo bên dưới chỉ tải một lần và không giới hạn thời gian: đường truyền đứt giữa chừng
+        # ("Premature EOF") là hỏng cả job, đường truyền treo là job đứng tới hết giờ. Ở đây mỗi lần tải tối đa 5 phút.
         run: |
           SM="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
           [ -x "$SM" ] || { echo "Không thấy sdkmanager: để bước sau tự cài"; exit 0; }
-          yes | "$SM" --licenses >/dev/null 2>&1 || true
-          for i in 1 2 3 4; do
-            if "$SM" --install "system-images;android-${{ matrix.api }};${{ matrix.target }};x86_64" --channel=0 >/dev/null; then
-              echo "Đã có ảnh hệ thống Android ${{ matrix.api }} (lần tải thứ $i)"; exit 0
+          yes | timeout -k 10 120 "$SM" --licenses >/dev/null 2>&1 || true
+          for i in 1 2 3; do
+            if timeout -k 10 300 "$SM" --install emulator platform-tools "platforms;android-${{ matrix.api }}" \
+                 "system-images;android-${{ matrix.api }};${{ matrix.target }};x86_64" --channel=0 >/dev/null; then
+              echo "Đã có máy ảo và ảnh hệ thống Android ${{ matrix.api }} (lần tải thứ $i)"; exit 0
             fi
-            echo "::warning::Tải ảnh hệ thống Android ${{ matrix.api }} hỏng (lần $i), thử lại"; sleep $((i * 10))
+            echo "::warning::Tải máy ảo / ảnh hệ thống Android ${{ matrix.api }} hỏng hoặc treo (lần $i), thử lại"; sleep $((i * 10))
           done
           exit 0
       - name: Chạy APK trên máy ảo
