@@ -5,7 +5,9 @@ fail=0
 ok(){ if [ "$2" = "1" ]; then echo "PASS  $1${3:+  — $3}"; else echo "FAIL  $1${3:+  — $3}"; fail=1; fi; }
 shot(){ adb exec-out screencap -p > "$OUT/$1.png" 2>/dev/null || true; }
 # logcat được ghi liên tục ra tệp (bộ đệm trên máy ảo có thể xoay vòng làm mất dòng cũ)
-lines(){ grep -a -F "[oneline]" "$OUT/logcat.txt" 2>/dev/null | sed 's/.*\[oneline\] /[oneline] /; s/", source:.*//' ; }
+lines(){ grep -a -F '"[oneline] ' "$OUT/logcat.txt" 2>/dev/null | sed 's/.*"\[oneline\] /[oneline] /; s/", source:.*//' ; }
+# App bị crash / treo (chỉ tính tiến trình của app: máy ảo đôi khi ghi FATAL EXCEPTION của chính công cụ uiautomator)
+app_crashes(){ grep -a -E "AndroidRuntime: Process: $PKG[, ]|ANR in $PKG( |\$|\))" "$OUT/logcat.txt" 2>/dev/null | head -3; }
 count(){ lines | grep -c -- "$1" || true; }
 last(){ lines | grep -- "$1" | tail -1; }
 # wait_log <mẫu> <số lần phải có> <giây>

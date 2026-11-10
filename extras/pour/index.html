@@ -113,7 +113,6 @@ window.addEventListener('load',refit);
 window.addEventListener('pageshow',refit);
 document.addEventListener('visibilitychange',refit);
 if(window.visualViewport && window.visualViewport.addEventListener) window.visualViewport.addEventListener('resize',refit);
-try{ if(window.ResizeObserver) new ResizeObserver(refit).observe(document.documentElement); }catch(e){}
 [0,60,250,1000,3000].forEach(function(ms){ setTimeout(refit,ms); });
 
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
@@ -481,11 +480,11 @@ function draw(){
   }
   ctx.restore();
 }
-var frameNo=0, frameErr=0;
+var frameErr=0;
 function loop(ts){
   if(!last) last=ts;
   var dt=clamp((ts-last)/1000,0,0.05); last=ts;
-  if(!fitOK || (++frameNo%20)===0) refit();   // chưa có khung: thử lại từng khung hình
+  refit();                                   // lỡ sự kiện resize / cửa sổ vừa có kích thước: dàn lại ngay
   try{
     if(cup) step(dt);
     else time+=dt;

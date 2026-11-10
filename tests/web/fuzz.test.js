@@ -65,6 +65,8 @@ H.main('Fuzz', async function (t, cleanup) {
           await release();
           const dims = [[412, 860], [360, 640], [768, 1024], [860, 412], [320, 568]][Math.floor(R() * 5)];
           await pg.setViewportSize({ width: dims[0], height: dims[1] }); await pg.waitForTimeout(40);
+          // game dàn lại khung trong khung hình kế tiếp: chờ đủ 2 khung hình (máy CI chậm có khi 40 ms chưa vẽ xong một khung)
+          await pg.evaluate(function () { return new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); }); });
           box = await pg.locator('#wrap').boundingBox();
         } else if (r < 0.91) {
           await pg.evaluate(function () { window.dispatchEvent(new Event('blur')); });

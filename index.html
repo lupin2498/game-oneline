@@ -197,13 +197,13 @@ function fit(){
 function refit(){ if(!fitOK || window.innerWidth!==fitW || window.innerHeight!==fitH || viewDpr()!==fitD) fit(); }
 window.addEventListener('resize',fit);
 window.addEventListener('orientationchange',fit);
-// WebView/app có thể chạy trang trước khi có kích thước và không bắn "resize" lúc nhận kích thước đầu tiên:
-// bắt thêm mọi tín hiệu có thể để chỉnh khung ngay khi biết kích thước thật
+// WebView/app có thể chạy trang trước khi có kích thước và không bắn "resize" lúc nhận kích thước đầu tiên (hoặc
+// bắn khi kích thước mới đổi một nửa): vòng lặp so lại kích thước ở MỖI khung hình, kèm vài tín hiệu khác phòng khi
+// vòng lặp chưa chạy
 window.addEventListener('load',refit);
 window.addEventListener('pageshow',refit);
 document.addEventListener('visibilitychange',refit);
 if(window.visualViewport && window.visualViewport.addEventListener) window.visualViewport.addEventListener('resize',refit);
-try{ if(window.ResizeObserver) new ResizeObserver(refit).observe(document.documentElement); }catch(e){}
 [0,60,250,1000,3000].forEach(function(ms){ setTimeout(refit,ms); });
 
 /* ---------- mê cung ---------- */
@@ -736,12 +736,12 @@ else renderAcct(netState());
 $('ver').textContent='v'+VERSION;
 
 /* ---------- vòng lặp ---------- */
-var frameNo=0, frameErr=0;
+var frameErr=0;
 function loop(ts){
   if(!last) last=ts;
   var dt=clamp((ts-last)/1000,0,0.05); last=ts;
   // tự chỉnh lại khung nếu lỡ sự kiện resize (WebView vừa có kích thước, đổi màn hình, đổi tỉ lệ điểm ảnh)
-  if(!fitOK || (++frameNo%20)===0) refit();   // chưa có khung: thử lại từng khung hình
+  refit();                                   // lỡ sự kiện resize / WebView vừa có kích thước / đổi tỉ lệ điểm ảnh: dàn lại ngay
   try{ step(dt); draw(); }
   catch(e){ if(frameErr++<3 && window.console) console.error('[oneline] frame error', e); }
   requestAnimationFrame(loop);

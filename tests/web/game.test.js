@@ -144,10 +144,10 @@ H.main('Logic game', async function (t, cleanup) {
   const heal = await pg.evaluate(async function () {
     var w = document.getElementById('wrap'), d = window.__dbg, good = w.style.width;
     w.style.width = '123px'; d.run('fitW=-1');
-    await window.__t.raf(45);
+    await window.__t.raf(3);
     return { good: good, now: w.style.width };
   });
-  t.ok('G34 Khung chơi tự chỉnh lại kích thước trong vòng lặp', heal.now === heal.good, heal.good + ' -> ' + heal.now);
+  t.ok('G34 Lỡ sự kiện resize: khung chơi tự chỉnh lại ngay trong vòng lặp (<= 3 khung hình)', heal.now === heal.good, heal.good + ' -> ' + heal.now);
 
   // ---- vòng lặp không chết khi một khung hình lỗi ----
   const alive = await pg.evaluate(async function () {

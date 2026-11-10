@@ -100,7 +100,7 @@ if [ "$BROWSER" = 1 ]; then
 fi
 
 # ---------- lỗi ----------
-CRASH="$(grep -a -E "FATAL EXCEPTION|ANR in $PKG" "$OUT/logcat.txt" | head -3)"
+CRASH="$(app_crashes)"
 JSERR="$(grep -a -F 'CONSOLE' "$OUT/logcat.txt" | grep -a -F 'android_asset' | grep -E "Uncaught|frame error|SyntaxError|is not defined|is not a function" | head -3)"
 ok "L08 Không crash, không ANR, không lỗi JavaScript" "$([ -z "$CRASH" ] && [ -z "$JSERR" ] && echo 1 || echo 0)" "$CRASH$JSERR"
 lines > "$OUT/oneline-log.txt"

@@ -135,18 +135,21 @@ ok "A12 Tắt hẳn rồi mở lại: kỷ lục vẫn còn (lưu trữ của We
 sleep 2; shot 07-relaunch
 
 # ---------- trang quyền riêng tư mở ngay trong app; nút Back của máy đưa về game chứ không thoát app ----------
+NB="$(count 'boot v')"
 tap_text 'Bảng xếp hạng' >/dev/null; tap_text 'Quyền riêng tư' >/dev/null
 P="$(find_text '~Chính sách quyền riêng tư' 15)"
 sleep 1; shot 08-privacy
-adb shell input keyevent 4; sleep 2
-G="$(find_text 'Bắt đầu' 10 || find_text 'Đóng' 3)"
+adb shell input keyevent 4
+# Về tới game = trang game nạp lại (thêm một dòng boot). Không dò nút qua cây trợ năng ở bước này: WebView 124
+# (máy ảo Android 15) không dựng lại cây sau khi lùi trang.
+wait_log "boot v" "$((NB + 1))" 20; sleep 2; shot 09-back-to-game
 TOP="$(top_activity)"
-ok "A12b Trang quyền riêng tư mở trong app; nút Back đưa về game (không thoát app)" "$([ -n "$P" ] && [ -n "$G" ] && grep -q "$PKG" <<<"$TOP" && echo 1 || echo 0)" \
-   "trang riêng tư tại ${P:-KHÔNG THẤY}, về game: ${G:-KHÔNG THẤY}"
+ok "A12b Trang quyền riêng tư mở trong app; nút Back đưa về game (không thoát app)" "$([ -n "$P" ] && [ "$(count 'boot v')" -gt "$NB" ] && grep -q "$PKG" <<<"$TOP" && echo 1 || echo 0)" \
+   "trang riêng tư tại ${P:-KHÔNG THẤY}; về game: $(last 'boot v')"
 
 # ---------- lỗi ----------
 sleep 1
-CRASH="$(grep -a -E "FATAL EXCEPTION|ANR in $PKG" "$OUT/logcat.txt" | head -3)"
+CRASH="$(app_crashes)"
 JSERR="$(grep -a -F 'CONSOLE' "$OUT/logcat.txt" | grep -E "Uncaught|frame error|SyntaxError|is not defined|is not a function" | head -3)"
 ok "A13 Không crash, không ANR" "$([ -z "$CRASH" ] && echo 1 || echo 0)" "$CRASH"
 ok "A14 Không có lỗi JavaScript trong WebView" "$([ -z "$JSERR" ] && echo 1 || echo 0)" "$JSERR"
