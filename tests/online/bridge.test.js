@@ -20,7 +20,10 @@ H.main('Cầu nối đăng nhập', async function (t, cleanup) {
       var o; Object.defineProperty(window, 'Online', { configurable: true, get: function () { return o; },
         set: function (v) { o = v; if (r) o.bridge = function () { return Promise.resolve(r); }; } });
     }, result);
-    await pg.goto(srv.url + '/login.html' + qs).catch(function () {}); await pg.waitForTimeout(400);
+    // Trang tự chuyển sang scheme riêng của app nên sự kiện "load" không bao giờ tới: chỉ chờ tới lúc trang đổi lời nhắn
+    await pg.goto(srv.url + '/login.html' + qs, { waitUntil: 'commit' }).catch(function () {});
+    await pg.waitForFunction(function () { var m = document.getElementById('msg'); return !!m && m.textContent !== 'Đang mở trang đăng nhập…'; }, null, { timeout: 15000 }).catch(function () {});
+    await pg.waitForTimeout(400);
     const out = { msg: await pg.locator('#msg').innerText().catch(function () { return ''; }), href: await pg.locator('#back').getAttribute('href').catch(function () { return null; }), errs: errs };
     await ctx.close(); return out;
   }

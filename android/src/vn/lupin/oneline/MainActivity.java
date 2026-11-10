@@ -74,7 +74,8 @@ public class MainActivity extends Activity {
                 if (url.startsWith(ASSET_BASE)) return false;             // trang của game
                 if (url.startsWith(NATIVE_LOGIN)) {
                     String target = Uri.parse(url).getQueryParameter("url");
-                    if (target != null && target.startsWith("https://")) openExternal(target);
+                    if (target == null || !target.startsWith("https://")) reportAuth("failed");
+                    else if (!openExternal(target)) reportAuth("no-browser");   // máy không có trình duyệt nào
                     return true;
                 }
                 if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("mailto:")) {
@@ -151,15 +152,28 @@ public class MainActivity extends Activity {
         return b.append('"').toString();
     }
 
-    private void openExternal(String url) {
+    /** Mở địa chỉ bằng ứng dụng ngoài (trình duyệt, thư...). Trả về false nếu máy không có ứng dụng nào mở được. */
+    private boolean openExternal(String url) {
         try {
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             i.addCategory(Intent.CATEGORY_BROWSABLE);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+            return true;
         } catch (Exception e) {
-            // không có ứng dụng nào mở được: bỏ qua
+            return false;
         }
+    }
+
+    /** Không mở được trang đăng nhập: báo ngay cho game để nút đăng nhập không kẹt ở trạng thái chờ. */
+    private void reportAuth(String error) {
+        pendingAuth = AUTH_SCHEME + "://auth?error=" + error;
+        if (web != null) web.post(new Runnable() {
+            @Override
+            public void run() {
+                flushAuth();
+            }
+        });
     }
 
     /** Ẩn thanh trạng thái + thanh điều hướng (vuốt từ mép để hiện tạm). */

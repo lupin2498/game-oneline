@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Hàm dùng chung cho các bài test trên máy ảo / điện thoại Android (smoke.sh, login.sh).
+# Trước khi nạp tệp này phải đặt: OUT (thư mục kết quả, đã tạo) và PKG (tên gói của app).
+fail=0
+ok(){ if [ "$2" = "1" ]; then echo "PASS  $1${3:+  — $3}"; else echo "FAIL  $1${3:+  — $3}"; fail=1; fi; }
+shot(){ adb exec-out screencap -p > "$OUT/$1.png" 2>/dev/null || true; }
+# logcat được ghi liên tục ra tệp (bộ đệm trên máy ảo có thể xoay vòng làm mất dòng cũ)
+lines(){ grep -a -F "[oneline]" "$OUT/logcat.txt" 2>/dev/null | sed 's/.*\[oneline\] /[oneline] /; s/", source:.*//' ; }
+count(){ lines | grep -c -- "$1" || true; }
+last(){ lines | grep -- "$1" | tail -1; }
+# wait_log <mẫu> <số lần phải có> <giây>
+wait_log(){ local i=0; while [ "$i" -lt "$(( $3 * 2 ))" ]; do [ "$(count "$1")" -ge "$2" ] && return 0; sleep 0.5; i=$((i+1)); done; return 1; }
+# Activity đang ở trên cùng (tên trường khác nhau giữa các bản Android, đều chứa "ResumedActivity")
+top_activity(){ adb shell dumpsys activity activities 2>/dev/null </dev/null | grep -E 'ResumedActivity' | head -2 | tr -d '\r'; }
+
+LIBDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Đọc cây trợ năng của màn hình đang hiện vào $OUT/ui.xml (xoá tệp cũ trước để không đọc nhầm kết quả lần trước)
+dump_ui(){
+  adb shell rm -f /sdcard/ui.xml >/dev/null 2>&1 </dev/null
+  adb shell uiautomator dump /sdcard/ui.xml 2>&1 </dev/null | tr -d '\r' >> "$OUT/uiautomator.log"
+  rm -f "$OUT/ui.xml"; adb pull /sdcard/ui.xml "$OUT/ui.xml" >/dev/null 2>&1 </dev/null || true
+}
+# Máy ảo vừa khởi động hay bật hộp thoại "... isn't responding" che mất app: bấm nút đóng của nó
+dismiss_system_dialog(){
+  local xy; xy="$(python3 "$LIBDIR/uidump.py" dialog "$OUT/ui.xml")"
+  [ -n "$xy" ] || return 1
+  echo "(đóng hộp thoại hệ thống: $(python3 "$LIBDIR/uidump.py" texts "$OUT/ui.xml"))" >&2
+  adb shell input tap $xy </dev/null; sleep 1
+}
+# Bấm nút theo chữ hiển thị, toạ độ lấy từ cây trợ năng của WebView. WebView chỉ dựng cây này sau lần đọc đầu
+# tiên (trên máy ảo chậm có thể mất hàng chục giây) nên phải thử lại cho tới khi thấy nút.
+#   tap_text <chữ trên nút> [số lần thử, mặc định 15]
+tap_text(){
+  local label="$1" tries="${2:-15}" xy="" i=0
+  while [ "$i" -lt "$tries" ]; do
+    dump_ui
+    xy="$(python3 "$LIBDIR/uidump.py" find "$OUT/ui.xml" "$label")"; [ -n "$xy" ] && break
+    dismiss_system_dialog || sleep 1.5
+    i=$((i+1))
+  done
+  if [ -z "$xy" ]; then
+    cp "$OUT/ui.xml" "$OUT/ui-khong-thay.xml" 2>/dev/null || true
+    echo "KHÔNG THẤY nút \"$label\" sau $tries lần đọc màn hình — $(python3 "$LIBDIR/uidump.py" texts "$OUT/ui.xml")"; return 1
+  fi
+  adb shell input tap $xy </dev/null; echo "chạm \"$label\" tại $xy (lần đọc thứ $((i+1)))"
+}

@@ -79,6 +79,10 @@ H.main('Online E2E', async function (t, cleanup) {
   t.ok('A04 Nhận kết quả từ trình duyệt -> đã đăng nhập', !!s.user && s.user.name === 'Nguyễn Văn An' && s.user.provider === 'google.com' && !s.busy && !s.error, JSON.stringify(s.user));
   t.ok('A05 Hiện tên + Đăng xuất, ẩn nút đăng nhập', await p1.locator('#who').isVisible() && (await p1.locator('#whoName').innerText()) === 'Nguyễn Văn An' && !(await p1.locator('#logins1').isVisible()));
   t.ok('A06 Mã state dùng một lần: đã xoá khỏi máy', (await p1.evaluate(function () { return localStorage.getItem('oneline.authState'); })) === null);
+  const auth1 = p1._logs.filter(function (l) { return /^\[oneline\] (auth|login) /.test(l); });
+  t.ok('A07 Log chẩn đoán đăng nhập: bấm nút -> đang chờ -> đã đăng nhập',
+    auth1.join('|') === '[oneline] auth user=0 busy=0 err=-|[oneline] login google native=Android|[oneline] auth user=0 busy=1 err=-|[oneline] auth user=1 busy=0 err=-', auth1.join(' | '));
+  t.ok('A08 Log không lộ token, tên hay mã tài khoản', !p1._logs.some(function (l) { return /e2e-an|Nguyễn|idToken|accessToken|@ex\.com/.test(l) || l.indexOf(s.user.uid) >= 0; }));
 
   // ---------- D. lưu điểm ----------
   let net = await finishRun(p1, 137);
@@ -118,6 +122,7 @@ H.main('Online E2E', async function (t, cleanup) {
   s = await st(p3);
   t.ok('B01 Kết quả đăng nhập mang state lạ -> từ chối', !s.user && s.error === 'state-mismatch', 'error=' + s.error);
   t.ok('B02 Báo lỗi dễ hiểu cho người chơi', /không khớp/.test(await p3.locator('#acctNote').innerText()));
+  t.ok('B04 Log chẩn đoán ghi mã lỗi', p3._logs.indexOf('[oneline] auth user=0 busy=0 err=state-mismatch') >= 0, p3._logs.filter(function (l) { return /auth /.test(l); }).join(' | '));
   await p3.evaluate(function () { window.OneLineNativeLogin('vn.lupin.oneline://auth?provider=google&idToken=x&state=' + 'a'.repeat(32)); });
   await p3.waitForTimeout(200);
   t.ok('B03 Kết quả đăng nhập tự dưng bay tới (không có phiên chờ) -> từ chối', !(await st(p3)).user && (await st(p3)).error === 'state-mismatch');
@@ -135,6 +140,12 @@ H.main('Online E2E', async function (t, cleanup) {
   await p3.evaluate(function () { window.OneLineNativeLogin('vn.lupin.oneline://auth?error=access_denied%3Cscript%3E&state=x'); });
   await p3.waitForTimeout(150);
   const errTxt = await p3.locator('#acctNote').innerText();
+  // app Android báo máy không có trình duyệt nào để mở trang đăng nhập
+  await nativeLogin(p3, 'google', '', { noReturn: true });
+  await p3.evaluate(function () { window.OneLineNativeLogin('vn.lupin.oneline://auth?error=no-browser'); });
+  await p3.waitForTimeout(150);
+  s = await st(p3);
+  t.ok('C06 Máy không có trình duyệt: báo rõ lý do, nút đăng nhập không kẹt', !s.busy && s.error === 'no-browser' && /không có trình duyệt/.test(await p3.locator('#acctNote').innerText()) && !(await p3.locator('#logins1 [data-login=google]').isDisabled()), s.error);
   t.ok('C05 Lỗi lạ từ nhà cung cấp hiện dạng chữ, không chạy mã', /access_denied<script>/.test(errTxt) && (await p3.locator('#acctNote script').count()) === 0, errTxt);
 
   // ---------- N. đăng nhập ngay tại màn thua ----------

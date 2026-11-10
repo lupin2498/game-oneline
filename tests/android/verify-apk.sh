@@ -34,7 +34,9 @@ miss=""; for f in AndroidManifest.xml classes.dex resources.arsc assets/index.ht
 ok "V9 Đủ file bắt buộc trong APK" "$([ -z "$miss" ] && echo 1 || echo 0)" "${miss:+thiếu:$miss}"
 junk="$(grep -E "(\.p12|\.jks|\.keystore|node_modules|\.git/|tests/|login\.html|\.map)$|^assets/(src|tools|android|ios)/" <<<"$L" || true)"
 ok "V10 Không lẫn khoá ký, mã nguồn test hay file thừa" "$([ -z "$junk" ] && echo 1 || echo 0)" "$junk"
-ok "V11 Trang trong APK giống hệt index.html của repo" "$(cmp -s <(unzip -p "$APK" assets/index.html) "$ROOT/index.html" && cmp -s <(unzip -p "$APK" assets/lib/online.js) "$ROOT/lib/online.js" && echo 1 || echo 0)"
+diff=""; for f in index.html lib/online.js firebase-config.js privacy.html; do
+  cmp -s <(unzip -p "$APK" "assets/$f") "$ROOT/$f" || diff="$diff $f"; done
+ok "V11 Trang, lớp online, cấu hình và trang riêng tư trong APK giống hệt bản trong repo" "$([ -z "$diff" ] && echo 1 || echo 0)" "${diff:+khác:$diff}"
 D="$(unzip -p "$APK" classes.dex | head -c 8 | od -An -c | tr -d ' \n')"
 ok "V12 classes.dex đúng định dạng" "$([ "$D" = 'dex\n035\0' ] && echo 1 || echo 0)" "$D"
 

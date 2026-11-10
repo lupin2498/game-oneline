@@ -15,6 +15,7 @@ final class GameViewController: UIViewController, WKScriptMessageHandler, WKNavi
     private static let background = UIColor(red: 0x04/255.0, green: 0x06/255.0, blue: 0x0c/255.0, alpha: 1)
     private var web: WKWebView!
     private var authSession: ASWebAuthenticationSession?
+    private var authSeq = 0                      // số thứ tự phiên đăng nhập đang chờ
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,17 +117,23 @@ final class GameViewController: UIViewController, WKScriptMessageHandler, WKNavi
     func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
         guard message.name == "oneline",
               let body = message.body as? [String: Any],
-              body["type"] as? String == "login",
-              let raw = body["url"] as? String,
-              let url = URL(string: raw), url.scheme == "https" else { return }
+              body["type"] as? String == "login" else { return }
+        guard let raw = body["url"] as? String,
+              let url = URL(string: raw), url.scheme == "https" else {
+            deliver("\(Self.callbackScheme)://auth?error=failed")   // báo ngay để nút đăng nhập không kẹt ở trạng thái chờ
+            return
+        }
         startLogin(url)
     }
 
     private func startLogin(_ url: URL) {
         authSession?.cancel()
+        authSeq += 1
+        let seq = authSeq
         let session = ASWebAuthenticationSession(url: url, callbackURLScheme: Self.callbackScheme) { [weak self] callback, error in
             DispatchQueue.main.async {
-                guard let self = self else { return }
+                // Phiên đã bị phiên mới thay thế: bỏ qua, kẻo kết quả "huỷ" của phiên cũ xoá mất phiên đang chờ
+                guard let self = self, seq == self.authSeq else { return }
                 if let callback = callback {
                     self.deliver(callback.absoluteString)
                 } else {

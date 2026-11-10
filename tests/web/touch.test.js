@@ -60,16 +60,17 @@ async function scenario(t, browser, url, label, init) {
   await touch('touchEnd', []); await pg.waitForTimeout(60);
   ok('MT6 Nhấc ngón duy nhất -> thua', (await snap()).st === 'over');
 
-  // Giữ yên 2,2 giây (dài hơn ngưỡng "giữ lâu" 500 ms của trình duyệt): lượt chơi không được tự kết thúc
+  // Giữ yên 2 giây (gấp 4 ngưỡng "giữ lâu" 500 ms của trình duyệt): lượt chơi không được tự kết thúc.
+  // Không giữ lâu hơn: người chơi đứng yên chỉ chắc chắn an toàn 2,5 giây đầu (đoạn thẳng khởi động của mê cung).
   await fresh();
   await pg.evaluate(function () { window.__ctx = 0; window.__sel = 0;
     window.addEventListener('contextmenu', function (e) { if (!e.defaultPrevented) window.__ctx++; });
     document.addEventListener('selectionchange', function () { if (String(getSelection())) window.__sel++; }); });
   await touch('touchStart', [P(240, 680, 1)]);
-  await pg.waitForTimeout(2200);
+  await pg.waitForTimeout(2000);
   s = await snap();
   const side = await pg.evaluate(function () { return { ctx: window.__ctx, sel: window.__sel }; });
-  ok('MT7 Giữ yên 2,2 giây: vẫn đang chơi, không bật menu / chọn chữ', s.st === 'run' && s.m >= 10 && side.ctx === 0 && side.sel === 0,
+  ok('MT7 Giữ yên 2 giây: vẫn đang chơi, không bật menu / chọn chữ', s.st === 'run' && s.m >= 8 && side.ctx === 0 && side.sel === 0,
     'state=' + s.st + ' ' + s.m + ' m, menu=' + side.ctx + ', chọn chữ=' + side.sel);
   await touch('touchEnd', []); await pg.waitForTimeout(60);
 

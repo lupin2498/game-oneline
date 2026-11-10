@@ -546,12 +546,13 @@ function draw(){
 
 /* ---------- online: đăng nhập Google/Facebook + bảng xếp hạng ---------- */
 var NET=window.Online||null;
-var runSeq=0, boardSeq=0, lastUid=null, lastAv='', delArmed=0, boardNotice='';
+var runSeq=0, boardSeq=0, lastUid=null, lastAv='', lastAuth='', delArmed=0, boardNotice='';
 var ERR={
   'not-configured':'Chưa cấu hình máy chủ (firebase-config.js).',
   'state-mismatch':'Phiên đăng nhập không khớp, hãy thử lại.',
   'bad-provider':'Cách đăng nhập không hợp lệ.',
   'failed':'Đăng nhập không thành công, hãy thử lại.',
+  'no-browser':'Máy không có trình duyệt để mở trang đăng nhập.',
   'auth/popup-blocked':'Trình duyệt chặn cửa sổ đăng nhập.',
   'auth/network-request-failed':'Mất kết nối mạng, thử lại sau.',
   'auth/account-exists-with-different-credential':'Email này đã dùng cách đăng nhập khác — hãy chọn cách đó.',
@@ -677,7 +678,11 @@ function closeBoard(){
   var bs=document.querySelectorAll('[data-login]');
   for(var i=0;i<bs.length;i++) (function(b){
     b.addEventListener('pointerdown',function(e){ e.stopPropagation(); });
-    b.addEventListener('click',function(e){ e.stopPropagation(); if(NET) NET.login(b.getAttribute('data-login')); });
+    b.addEventListener('click',function(e){
+      e.stopPropagation(); if(!NET) return;
+      log('login '+b.getAttribute('data-login')+' native='+(NET.native||'-'));
+      NET.login(b.getAttribute('data-login'));
+    });
   })(bs[i]);
 })();
 btn('bLogout',function(){ if(NET) NET.logout(); });
@@ -702,6 +707,9 @@ pOver.addEventListener('pointerdown',function(e){ e.stopPropagation(); });
 pBoard.addEventListener('pointerdown',function(e){ e.stopPropagation(); });
 if(NET) NET.onChange(function(s){
   renderAcct(s);
+  // mốc chẩn đoán đăng nhập (không ghi tên, mã tài khoản hay token)
+  var a='auth user='+(s.user?1:0)+' busy='+(s.busy?1:0)+' err='+(s.error?String(s.error).replace(/\s+/g,' '):'-');
+  if(s.configured && s.ready && a!==lastAuth){ lastAuth=a; log(a); }
   var uid=s.user?s.user.uid:null;
   if(uid!==lastUid){
     lastUid=uid;

@@ -9,15 +9,7 @@ APK="${1:?thiếu đường dẫn APK}"
 OUT="${2:-tests/.out/android}"
 PKG=vn.lupin.oneline
 mkdir -p "$OUT"
-fail=0
-ok(){ if [ "$2" = "1" ]; then echo "PASS  $1${3:+  — $3}"; else echo "FAIL  $1${3:+  — $3}"; fail=1; fi; }
-shot(){ adb exec-out screencap -p > "$OUT/$1.png" 2>/dev/null || true; }
-# logcat được ghi liên tục ra tệp (bộ đệm trên máy ảo có thể xoay vòng làm mất dòng cũ)
-lines(){ grep -a -F "[oneline]" "$OUT/logcat.txt" 2>/dev/null | sed 's/.*\[oneline\] /[oneline] /; s/", source:.*//' ; }
-count(){ lines | grep -c -- "$1" || true; }
-last(){ lines | grep -- "$1" | tail -1; }
-# wait_log <mẫu> <số lần phải có> <giây>
-wait_log(){ local i=0; while [ "$i" -lt "$(( $3 * 2 ))" ]; do [ "$(count "$1")" -ge "$2" ] && return 0; sleep 0.5; i=$((i+1)); done; return 1; }
+. "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
 API="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
 REL="$(adb shell getprop ro.build.version.release | tr -d '\r')"
@@ -46,7 +38,8 @@ if [ $booted != 0 ]; then
 fi
 
 # ---------- toạ độ: khung chơi 480x760 nằm giữa WebView ----------
-adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1; adb pull /sdcard/ui.xml "$OUT/ui-start.xml" >/dev/null 2>&1 || true
+dump_ui; if dismiss_system_dialog; then dump_ui; fi
+cp "$OUT/ui.xml" "$OUT/ui-start.xml" 2>/dev/null || true
 GEO="$(python3 - "$OUT/ui-start.xml" "$(adb shell wm size | tr -d '\r' | tail -1)" <<'PY'
 import re,sys
 size=re.search(r'(\d+)x(\d+)',sys.argv[2]); W,H=int(size.group(1)),int(size.group(2))
@@ -66,40 +59,21 @@ pt(){ python3 -c "import sys;gx,gy,X,Y,W,H=map(float,sys.argv[1:]);print(int(rou
 echo "WebView ${VW}x${VH}px, khung chơi ${GW%.*}x${GH%.*} tại (${GX%.*},${GY%.*})"
 ok "A03 WebView phủ kín màn hình (ẩn thanh trạng thái/điều hướng)" "$(python3 -c "import sys;print(1 if float(sys.argv[1])>=0.9*float(sys.argv[2]) else 0)" "$VH" "$(adb shell wm size | tr -d '\r' | tail -1 | sed 's/.*x//')")" "cao ${VH}px"
 
-# Bấm nút theo chữ hiển thị: lấy toạ độ từ cây trợ năng của WebView; không có thì dùng Tab/Enter
-tap_text(){
-  local label="$1" xy=""
-  for try in 1 2 3; do
-    adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1; adb pull /sdcard/ui.xml "$OUT/ui.xml" >/dev/null 2>&1 || true
-    xy="$(python3 - "$OUT/ui.xml" "$label" <<'PY'
-import re,sys
-try: xml=open(sys.argv[1],encoding='utf-8',errors='replace').read()
-except Exception: xml=''
-for m in re.finditer(r'<node[^>]*>',xml):
-    n=m.group(0)
-    t=re.search(r' text="([^"]*)"',n); d=re.search(r' content-desc="([^"]*)"',n); b=re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"',n)
-    if b and ((t and t.group(1)==sys.argv[2]) or (d and d.group(1)==sys.argv[2])):
-        x0,y0,x1,y1=map(int,b.groups()); print((x0+x1)//2,(y0+y1)//2); break
-PY
-)"
-    [ -n "$xy" ] && break; sleep 1
-  done
-  if [ -n "$xy" ]; then adb shell input tap $xy; echo "tap:$label@$xy"; else adb shell input keyevent 61; adb shell input keyevent 66; echo "phím:$label"; fi
-}
-
 # ---------- bắt đầu ----------
-HOW="$(tap_text 'Bắt đầu')"
+HOW="$(tap_text 'Bắt đầu' 60)"
 wait_log "state=ready" 1 15
 ok "A04 Bấm \"Bắt đầu\" (cảm ứng thật)" "$([ "$(count 'state=ready')" -ge 1 ] && echo 1 || echo 0)" "$HOW"
 sleep 1; shot 02-ready
 
-# ---------- giữ yên 3 giây trên nút tròn: lượt chơi chỉ được kết thúc khi nhấc tay ----------
+# ---------- giữ yên 2 giây trên nút tròn: lượt chơi chỉ được kết thúc khi nhấc tay ----------
+# (2 giây = gấp 4 ngưỡng "giữ lâu" của Android. Không giữ lâu hơn: đoạn thẳng khởi động của mê cung chỉ bảo đảm
+#  an toàn 2,5 giây đầu cho người chơi đứng yên, sau đó tuỳ mê cung mà chạm tường.)
 read -r JX JY <<<"$(pt 240 680)"
-adb shell input swipe "$JX" "$JY" "$JX" "$JY" 3000
+adb shell input swipe "$JX" "$JY" "$JX" "$JY" 2000
 wait_log "over reason=" 1 10
 L="$(last 'over reason=')"; T="$(sed -n 's/.* t=\([0-9]*\).*/\1/p' <<<"$L")"
-ok "A05 Giữ yên 3 giây trên nút tròn: không bị hệ thống cắt ngang (không menu giữ-lâu, không huỷ chạm)" \
-   "$(grep -q 'reason=lift' <<<"$L" && grep -q 'mode=stick' <<<"$L" && [ "${T:-0}" -ge 2500 ] && echo 1 || echo 0)" "$L"
+ok "A05 Giữ yên 2 giây trên nút tròn: không bị hệ thống cắt ngang (không menu giữ-lâu, không huỷ chạm)" \
+   "$(grep -q 'reason=lift' <<<"$L" && grep -q 'mode=stick' <<<"$L" && [ "${T:-0}" -ge 1700 ] && echo 1 || echo 0)" "$L"
 sleep 1; shot 03-over-lift
 
 # ---------- kéo nút tròn sang phải: nhân vật phải đi theo và chạm tường ----------
@@ -121,17 +95,17 @@ ok "A07 Giữ vòng sáng rồi kéo: chế độ kéo trực tiếp hoạt đ�
 
 # ---------- bảng xếp hạng trên máy ----------
 tap_text 'Bảng xếp hạng' >/dev/null; sleep 2; shot 05-board
-adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1; adb pull /sdcard/ui.xml "$OUT/ui-board.xml" >/dev/null 2>&1 || true
+dump_ui; cp "$OUT/ui.xml" "$OUT/ui-board.xml" 2>/dev/null || true
 ok "A08 Mở bảng xếp hạng: hiện kỷ lục trên máy" "$(grep -q 'Kỷ lục trên máy này' "$OUT/ui-board.xml" 2>/dev/null && echo 1 || echo 0)"
 tap_text 'Đóng' >/dev/null; sleep 1
 
 # ---------- ẩn app giữa lượt (phím Home): lượt phải kết thúc, app không treo ----------
 tap_text 'Chơi lại' >/dev/null; wait_log "state=ready" 4 15
 ( adb shell input swipe "$JX" "$JY" "$JX" "$JY" 6000 >/dev/null 2>&1 & )
-sleep 2; adb shell input keyevent 3
+sleep 1; adb shell input keyevent 3
 wait_log "over reason=" 4 12
 L="$(last 'over reason=')"; T="$(sed -n 's/.* t=\([0-9]*\).*/\1/p' <<<"$L")"
-ok "A09 Bấm Home giữa lượt: lượt kết thúc ngay (tính là nhấc tay)" "$([ "$(count 'over reason=')" -ge 4 ] && grep -q 'reason=lift' <<<"$L" && [ "${T:-9999}" -lt 5500 ] && echo 1 || echo 0)" "$L"
+ok "A09 Bấm Home giữa lượt: lượt kết thúc ngay (tính là nhấc tay)" "$([ "$(count 'over reason=')" -ge 4 ] && grep -q 'reason=lift' <<<"$L" && [ "${T:-9999}" -lt 4000 ] && echo 1 || echo 0)" "$L"
 sleep 5
 
 # ---------- quay lại app + deep link kết quả đăng nhập ----------

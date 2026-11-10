@@ -12,7 +12,7 @@ OUT="${OUT:-$ROOT/dist}"
 VER="$(sed -n 's/^ *MARKETING_VERSION: "\(.*\)"/\1/p' "$HERE/project.yml" | head -1)"
 say(){ printf "\033[36m==>\033[0m %s\n" "$*"; }
 
-bash "$HERE/prepare.sh"
+ONELINE_CONFIG_JS="" bash "$HERE/prepare.sh"
 ( cd "$HERE" && xcodegen generate --quiet )
 
 say "xcodebuild (Release, iphoneos, không ký)"
@@ -35,7 +35,9 @@ lipo -archs "$APP/OneLine" | grep -q arm64
 for f in www/index.html www/lib/online.js www/firebase-config.js www/privacy.html Assets.car; do
   [ -e "$APP/$f" ] || { echo "Thiếu $f trong app" >&2; exit 1; }
 done
-cmp -s "$APP/www/index.html" "$ROOT/index.html" || { echo "index.html trong app khác bản trong repo" >&2; exit 1; }
+for f in index.html firebase-config.js privacy.html lib/online.js; do
+  cmp -s "$APP/www/$f" "$ROOT/$f" || { echo "$f trong app khác bản trong repo" >&2; exit 1; }
+done
 
 rm -rf "$HERE/.build/Payload"; mkdir -p "$HERE/.build/Payload" "$OUT"
 cp -R "$APP" "$HERE/.build/Payload/"

@@ -3,8 +3,9 @@ name: CI
 # Test toàn bộ rồi build bộ cài:
 #   web      test logic/cảm ứng/bố cục/PWA trên Chromium + test đăng nhập, bảng xếp hạng trên Firebase Emulator
 #   apk      build APK (không cần Android SDK) + kiểm tra tĩnh
-#   android  cài và chơi thử APK bằng thao tác cảm ứng thật trên máy ảo Android nhiều phiên bản
-#   ios      biên dịch app, UI test giữ/kéo thật trên iOS Simulator, build IPA chưa ký
+#   android  cài và chơi thử APK bằng thao tác cảm ứng thật trên máy ảo Android nhiều phiên bản,
+#            thử cầu nối đăng nhập (app <-> trình duyệt hệ thống) bằng bản build dùng cấu hình giả
+#   ios      biên dịch app, UI test giữ/kéo thật + cầu nối đăng nhập trên iOS Simulator, build IPA chưa ký
 on:
   push:
     branches: [main, 'claude/**']
@@ -47,6 +48,7 @@ jobs:
         with:
           name: web-test-output
           path: tests/.out/*.png
+          include-hidden-files: true
           if-no-files-found: ignore
 
   apk:
@@ -69,10 +71,14 @@ jobs:
         run: bash tests/android/verify-apk.sh out/OneLine-*.apk
       - name: Kiểm tra tĩnh APK phát hành trong dist/
         run: bash tests/android/verify-apk.sh dist/OneLine-*.apk
+      - name: Build bản test đăng nhập (cấu hình Firebase giả, chỉ để chạy trên máy ảo)
+        run: ONELINE_CONFIG_JS=tests/fixtures/firebase-config.login-test.js DIST="$PWD/out/logintest" bash android/build.sh
       - uses: actions/upload-artifact@v4
         with:
           name: OneLine-apk
-          path: out/*.apk
+          path: |
+            out/*.apk
+            out/logintest/*.apk
           if-no-files-found: error
 
   android:
@@ -112,7 +118,7 @@ jobs:
         if: always()
         with:
           name: android-${{ matrix.api }}
-          path: tests/.out/android-*
+          path: out/android-*
           if-no-files-found: ignore
 
   ios:
@@ -125,7 +131,7 @@ jobs:
         run: xcodebuild -version
       - name: Cài XcodeGen
         run: brew install xcodegen
-      - name: UI test trên iOS Simulator (bấm / giữ / kéo thật)
+      - name: UI test trên iOS Simulator (bấm / giữ / kéo thật, cầu nối đăng nhập)
         run: bash tests/ios/run-ui-tests.sh out/ios
       - name: Build IPA chưa ký
         if: always()
@@ -137,7 +143,7 @@ jobs:
           path: |
             out/ios/*.ipa
             out/ios/shots
-            out/ios/xcodebuild-test.log
+            out/ios/*.log
           if-no-files-found: ignore
 
   # TẠM THỜI (chỉ trên nhánh claude/**): gom kết quả vào nhánh ci-out để xem ảnh chụp và lấy file IPA
@@ -160,7 +166,7 @@ jobs:
           sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
           find art -name '*.png' -exec mogrify -resize '420x>' {} + 2>/dev/null || true
           find art -name 'logcat.txt' -exec sh -c 'tail -c 300000 "$1" > "$1.tail" && mv "$1.tail" "$1"' _ {} \;
-          rm -rf art/ios/Test.xcresult
+          rm -rf art/ios/*.xcresult
           cd art
           printf '%s\n' "$RESULTS" > results.json
           echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt

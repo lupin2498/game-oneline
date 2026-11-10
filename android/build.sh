@@ -12,6 +12,8 @@
 # Có thể truyền qua biến môi trường (dùng cho CI):
 #   ONELINE_KEYSTORE_B64   nội dung file .p12 mã hoá base64
 #   ONELINE_KEYSTORE_PASS  mật khẩu (mặc định "onelinegame")
+# Chỉ dành cho test: ONELINE_CONFIG_JS=<tệp> đóng gói tệp đó thay cho firebase-config.js (kèm DIST=<thư mục khác>
+# để không ghi đè bộ cài phát hành); bản như vậy không qua được tests/android/verify-apk.sh.
 # ---------------------------------------------------------------------------
 set -euo pipefail
 
@@ -80,6 +82,11 @@ done
 rm -rf "$BUILD"; mkdir -p "$BUILD/assets" "$BUILD/classes" "$BUILD/tools" "$DIST"
 say "Chép web assets"
 cp "$ROOT/index.html" "$ROOT/firebase-config.js" "$ROOT/privacy.html" "$BUILD/assets/"
+if [ -n "${ONELINE_CONFIG_JS:-}" ]; then
+  [ "$(cd "$DIST" && pwd -P)" != "$(cd "$ROOT" && pwd -P)/dist" ] || { echo "ONELINE_CONFIG_JS chỉ dùng cho bản test: phải đặt DIST khác thư mục dist/" >&2; exit 1; }
+  say "BẢN TEST: dùng cấu hình $ONELINE_CONFIG_JS"
+  cp "$ONELINE_CONFIG_JS" "$BUILD/assets/firebase-config.js"
+fi
 mkdir -p "$BUILD/assets/icons"
 cp "$ROOT/icons/icon-192.png" "$ROOT/icons/apple-touch-icon.png" "$BUILD/assets/icons/"
 cp -r "$ROOT/lib" "$BUILD/assets/lib"
