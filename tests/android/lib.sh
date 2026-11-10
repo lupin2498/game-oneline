@@ -27,20 +27,26 @@ dismiss_system_dialog(){
   echo "(đóng hộp thoại hệ thống: $(python3 "$LIBDIR/uidump.py" texts "$OUT/ui.xml"))" >&2
   adb shell input tap $xy </dev/null; sleep 1
 }
-# Bấm nút theo chữ hiển thị, toạ độ lấy từ cây trợ năng của WebView. WebView chỉ dựng cây này sau lần đọc đầu
+# Tìm nút theo chữ hiển thị, toạ độ lấy từ cây trợ năng của WebView. WebView chỉ dựng cây này sau lần đọc đầu
 # tiên (trên máy ảo chậm có thể mất hàng chục giây) nên phải thử lại cho tới khi thấy nút.
-#   tap_text <chữ trên nút> [số lần thử, mặc định 15]
-tap_text(){
+#   find_text <chữ trên nút> [số lần thử, mặc định 15]  -> in "x y"; không thấy thì trả về 1
+find_text(){
   local label="$1" tries="${2:-15}" xy="" i=0
   while [ "$i" -lt "$tries" ]; do
     dump_ui
-    xy="$(python3 "$LIBDIR/uidump.py" find "$OUT/ui.xml" "$label")"; [ -n "$xy" ] && break
+    xy="$(python3 "$LIBDIR/uidump.py" find "$OUT/ui.xml" "$label")"
+    [ -n "$xy" ] && { echo "$xy"; return 0; }
     dismiss_system_dialog || sleep 1.5
     i=$((i+1))
   done
-  if [ -z "$xy" ]; then
-    cp "$OUT/ui.xml" "$OUT/ui-khong-thay.xml" 2>/dev/null || true
-    echo "KHÔNG THẤY nút \"$label\" sau $tries lần đọc màn hình — $(python3 "$LIBDIR/uidump.py" texts "$OUT/ui.xml")"; return 1
+  cp "$OUT/ui.xml" "$OUT/ui-khong-thay.xml" 2>/dev/null || true
+  return 1
+}
+#   tap_text <chữ trên nút> [số lần thử]  -> bấm nút đó (cảm ứng thật), in ra cách đã bấm
+tap_text(){
+  local xy
+  if ! xy="$(find_text "$@")"; then
+    echo "KHÔNG THẤY nút \"$1\" sau ${2:-15} lần đọc màn hình — $(python3 "$LIBDIR/uidump.py" texts "$OUT/ui.xml")"; return 1
   fi
-  adb shell input tap $xy </dev/null; echo "chạm \"$label\" tại $xy (lần đọc thứ $((i+1)))"
+  adb shell input tap $xy </dev/null; echo "chạm \"$1\" tại $xy"
 }

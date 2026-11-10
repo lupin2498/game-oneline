@@ -29,6 +29,17 @@ deeplink(){ adb shell "am start -W -a android.intent.action.VIEW -c android.inte
 adb shell am start -W -n "$PKG/.MainActivity" >/dev/null 2>&1
 wait_log "boot v" 1 120
 BOOT="$(last 'boot v')"
+if grep -q 'online=none' <<<"$BOOT"; then
+  # WebView gốc của máy quá cũ (vd. bản 52 trên máy ảo Android 7.0 chưa cập nhật): game tự bỏ lớp online.
+  # Việc cần kiểm là game vẫn chạy và không chìa nút đăng nhập ra.
+  XY="$(find_text 'Bắt đầu' 60)"
+  ok "L01 WebView của máy quá cũ cho lớp online: game vẫn chạy và ẩn nút đăng nhập" \
+     "$([ -n "$XY" ] && [ -z "$(python3 "$LIBDIR/uidump.py" find "$OUT/ui.xml" 'Google')" ] && echo 1 || echo 0)" "$BOOT · $(python3 "$LIBDIR/uidump.py" texts "$OUT/ui.xml")"
+  shot 11-no-online
+  echo "SKIP  L02-L08 (cần WebView hỗ trợ lớp online)"
+  [ "$fail" = 0 ] && echo "==> Đăng nhập (Android API $API): đạt (máy không hỗ trợ lớp online)" || echo "==> Đăng nhập (Android API $API): CÓ LỖI"
+  exit $fail
+fi
 ok "L01 App khởi động với cấu hình online, lớp đăng nhập sẵn sàng" "$(grep -q 'online=on' <<<"$BOOT" && wait_log 'auth user=0 busy=0 err=-' 1 30 && echo 1 || echo 0)" "$BOOT"
 [ "$fail" = 0 ] || { lines; echo "==> Đăng nhập (Android API $API): app không khởi động với cấu hình test"; exit 1; }
 
