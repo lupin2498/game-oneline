@@ -3,7 +3,9 @@
 set -uo pipefail
 API="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
 BASE="out/android-$API"
-# Máy ảo vừa khởi động hay bật hộp thoại "System UI isn't responding" che mất app: tắt loại hộp thoại này
+# Máy ảo mới tinh: bỏ lời nhắc "Viewing full screen" (hiện lần đầu một app vào chế độ toàn màn hình) và hộp thoại
+# "System UI isn't responding" — cả hai đều che mất app. Trên máy thật, smoke.sh tự bấm nút đóng nếu gặp.
+adb shell settings put secure immersive_mode_confirmations confirmed >/dev/null 2>&1 || true
 adb shell settings put global hide_error_dialogs 1 >/dev/null 2>&1 || true
 adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1 || true
 rc=0

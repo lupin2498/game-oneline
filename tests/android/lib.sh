@@ -20,7 +20,8 @@ dump_ui(){
   adb shell uiautomator dump /sdcard/ui.xml 2>&1 </dev/null | tr -d '\r' >> "$OUT/uiautomator.log"
   rm -f "$OUT/ui.xml"; adb pull /sdcard/ui.xml "$OUT/ui.xml" >/dev/null 2>&1 </dev/null || true
 }
-# Máy ảo vừa khởi động hay bật hộp thoại "... isn't responding" che mất app: bấm nút đóng của nó
+# Hộp thoại của hệ thống che mất app: lời nhắc "Viewing full screen" khi app lần đầu vào chế độ toàn màn hình
+# (Android 14+ giữ nó trên cùng tới khi bấm "Got it"), hay "... isn't responding" trên máy ảo vừa khởi động.
 dismiss_system_dialog(){
   local xy; xy="$(python3 "$LIBDIR/uidump.py" dialog "$OUT/ui.xml")"
   [ -n "$xy" ] || return 1

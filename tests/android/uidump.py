@@ -2,13 +2,19 @@
 """Đọc tệp XML của `uiautomator dump` (cây trợ năng của màn hình đang hiện).
 
   uidump.py find   <ui.xml> <chữ>   -> in "x y" là tâm của nút mang đúng chữ đó (không có thì không in gì)
-  uidump.py dialog <ui.xml>         -> nếu đang có hộp thoại lỗi của hệ thống ("... isn't responding",
-                                       "... keeps stopping"): in "x y" của nút đóng (Wait / Close app / OK)
+  uidump.py dialog <ui.xml>         -> nếu màn hình đang là một hộp thoại của hệ thống che mất app (lời nhắc
+                                       "Viewing full screen" lần đầu vào chế độ toàn màn hình, "... isn't
+                                       responding", "... keeps stopping"): in "x y" của nút đóng nó
   uidump.py texts  <ui.xml>         -> in vài dòng chữ đang hiện (để chẩn đoán khi không tìm thấy nút)
 """
 import html
 import re
 import sys
+
+
+SYSTEM = ('android', 'com.android.systemui')
+# nút đóng, theo thứ tự ưu tiên: lời nhắc toàn màn hình, hộp thoại "không phản hồi", hộp thoại lỗi
+DISMISS = ('got it', 'đã hiểu', 'wait', 'đợi', 'close app', 'đóng ứng dụng', 'ok')
 
 
 def nodes(path):
@@ -53,12 +59,12 @@ def main():
                 print(center(n))
                 return
     elif cmd == 'dialog':
-        shown = ' '.join(n['text'] for n in ns)
-        if not re.search(r"isn.t responding|keeps stopping|has stopped|không phản hồi|đã dừng", shown):
+        # chỉ xét cửa sổ của chính hệ thống; cửa sổ của app (hay trình duyệt) thì không đụng tới
+        if not ns or any(n['pkg'] not in SYSTEM for n in ns if n['pkg']):
             return
-        for want in ('Wait', 'Close app', 'OK', 'Đợi', 'Đóng ứng dụng'):
+        for want in DISMISS:
             for n in ns:
-                if n['text'] == want:
+                if n['text'].strip().lower() == want:
                     print(center(n))
                     return
     elif cmd == 'texts':
