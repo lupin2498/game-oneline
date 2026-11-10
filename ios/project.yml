@@ -32,6 +32,7 @@ targets:
       path: Info.plist
       properties:
         CFBundleDisplayName: Một Nét
+        CFBundleName: Một Nét          # tên hệ thống dùng trong hộp thoại xin mở phiên đăng nhập ("… Wants to Use … to Sign In")
         CFBundleShortVersionString: "1.5"
         CFBundleVersion: "6"
         ITSAppUsesNonExemptEncryption: false
