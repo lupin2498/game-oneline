@@ -1,0 +1,22 @@
+{
+  "web": {
+    "result": "success",
+    "outputs": {}
+  },
+  "web-cross": {
+    "result": "success",
+    "outputs": {}
+  },
+  "apk": {
+    "result": "success",
+    "outputs": {}
+  },
+  "android": {
+    "result": "success",
+    "outputs": {}
+  },
+  "ios": {
+    "result": "success",
+    "outputs": {}
+  }
+}

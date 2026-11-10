@@ -1,0 +1,98 @@
+--------- beginning of main
+11-10 14:03:36.218  1869  1869 D CarrierConfigLoader: mHandler: 9 phoneId: 0
+--------- beginning of system
+11-10 14:03:36.224  1617  1630 W VoiceInteractionManagerService: no available voice recognition services found for user 0
+11-10 14:03:36.224  1617  1630 W LocationProviderProxy-network: Odd, no component found for service com.android.location.service.v3.NetworkLocationProvider
+11-10 14:03:36.225  1617  1630 W GeocoderProxy: Odd, no component found for service com.android.location.service.GeocodeProvider
+11-10 14:03:36.225  1617  1630 W GeofenceProxy: Odd, no component found for service com.android.location.service.GeofenceProvider
+11-10 14:03:36.225  1617  1630 W ActivityRecognitionProxy: Odd, no component found for service com.android.location.service.ActivityRecognitionProvider
+11-10 14:03:36.340  4001  4001 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:03:36.341  4001  4001 D AndroidRuntime: CheckJNI is OFF
+11-10 14:03:36.360  4001  4001 W art     : Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:03:36.363  4001  4001 D ICU     : No timezone override file found: /data/misc/zoneinfo/current/icu/icu_tzdata.dat
+11-10 14:03:36.375  4001  4001 E memtrack: Couldn't load memtrack module (No such file or directory)
+11-10 14:03:36.376  4001  4001 E android.os.Debug: failed to load memtrack module: -2
+11-10 14:03:36.376  4001  4001 I Radio-JNI: register_android_hardware_Radio DONE
+11-10 14:03:36.382  4001  4001 D AndroidRuntime: Calling main entry com.android.commands.am.Am
+11-10 14:03:36.387  1617  1708 I ActivityManager: START u0 {flg=0x10000000 cmp=vn.lupin.oneline/.MainActivity} from uid 2000 on display 0
+11-10 14:03:36.400  4012  4012 W art     : Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:03:36.406  1617  1815 I ActivityManager: Start proc 4012:vn.lupin.oneline/u0a64 for activity vn.lupin.oneline/.MainActivity
+11-10 14:03:36.424  4012  4012 W System  : ClassLoader referenced unknown path: /data/app/vn.lupin.oneline-1/lib/x86_64
+11-10 14:03:36.427  1302  1304 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 819200
+11-10 14:03:36.436  4012  4012 W System  : ClassLoader referenced unknown path: /system/app/webview/lib/x86_64
+11-10 14:03:36.436  4012  4012 I WebViewFactory: Loading com.android.webview version 52.0.2743.100 (code 275610060)
+11-10 14:03:36.447  2161  2247 D EGL_emulation: eglMakeCurrent: 0x7f6d0e0493c0: ver 3 0 (tinfo 0x7f6d0e00cb00)
+11-10 14:03:36.461  4012  4012 I cr_LibraryLoader: Time to load native libraries: 11 ms (timestamps 2341-2352)
+11-10 14:03:36.461  4012  4012 I cr_LibraryLoader: Expected native library version number "52.0.2743.100", actual native library version number "52.0.2743.100"
+11-10 14:03:36.469  4012  4012 V WebViewChromiumFactoryProvider: Binding Chromium to main looper Looper (main, tid 1) {3f4d6a3}
+11-10 14:03:36.469  4012  4012 I cr_LibraryLoader: Expected native library version number "52.0.2743.100", actual native library version number "52.0.2743.100"
+11-10 14:03:36.469  4012  4012 I chromium: [INFO:library_loader_hooks.cc(143)] Chromium logging enabled: level = 0, default verbosity = 0
+11-10 14:03:36.474  4012  4012 I cr_BrowserStartup: Initializing chromium process, singleProcess=true
+11-10 14:03:36.483  4012  4012 D         : HostConnection::get() New Host Connection established 0x7f6d0b7fa100, tid 4012
+11-10 14:03:36.485  4012  4012 D EGL_emulation: eglCreateContext: 0x7f6d0b791da0: maj 3 min 0 rcv 3
+11-10 14:03:36.486  4012  4012 D EGL_emulation: eglMakeCurrent: 0x7f6d0b791da0: ver 3 0 (tinfo 0x7f6d15bb8a00)
+11-10 14:03:36.486  4012  4012 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008cdf
+11-10 14:03:36.486  4012  4012 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008824
+11-10 14:03:36.503  4012  4012 I cr_DRP  : No DRP key due to exception:java.lang.ClassNotFoundException: com.android.webview.chromium.Drp
+11-10 14:03:36.504  4012  4037 W cr_media: Requires BLUETOOTH permission
+11-10 14:03:36.523  4012  4012 W cr_AwContents: onDetachedFromWindow called when already detached. Ignoring
+11-10 14:03:36.530  1302  1306 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-10 14:03:36.562  4012  4043 I OpenGLRenderer: Initialized EGL, version 1.4
+11-10 14:03:36.562  4012  4043 D OpenGLRenderer: Swap behavior 1
+11-10 14:03:36.562  4012  4043 D         : HostConnection::get() New Host Connection established 0x7f6d0e0138c0, tid 4043
+11-10 14:03:36.564  4012  4043 D EGL_emulation: eglCreateContext: 0x7f6d0e04a040: maj 3 min 0 rcv 3
+11-10 14:03:36.566  4012  4043 D EGL_emulation: eglMakeCurrent: 0x7f6d0e04a040: ver 3 0 (tinfo 0x7f6d0e0c6e00)
+11-10 14:03:36.566  4012  4043 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008cdf
+11-10 14:03:36.566  4012  4043 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008824
+11-10 14:03:36.572  4012  4012 I cr_Ime  : ImeThread is not enabled.
+11-10 14:03:36.591  4012  4043 D EGL_emulation: eglMakeCurrent: 0x7f6d0e04a040: ver 3 0 (tinfo 0x7f6d0e0c6e00)
+11-10 14:03:36.617  4012  4049 E libEGL  : validate_display:99 error 3008 (EGL_BAD_DISPLAY)
+11-10 14:03:36.640  4012  4049 I VideoCapabilities: Unsupported profile 4 for video/mp4v-es
+11-10 14:03:36.644  4012  4049 D         : HostConnection::get() New Host Connection established 0x7f6d0e191b00, tid 4049
+11-10 14:03:36.665  4012  4049 D EGL_emulation: eglCreateContext: 0x7f6d0e04b440: maj 3 min 0 rcv 3
+11-10 14:03:36.666  4012  4049 D EGL_emulation: eglMakeCurrent: 0x7f6d0e04b440: ver 3 0 (tinfo 0x7f6d0e1d8120)
+11-10 14:03:36.722  4012  4049 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008cdf
+11-10 14:03:36.722  4012  4049 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008824
+11-10 14:03:36.781  1617  1638 I ActivityManager: Displayed vn.lupin.oneline/.MainActivity: +387ms
+11-10 14:03:36.782  4001  4001 D AndroidRuntime: Shutting down VM
+11-10 14:03:36.785  2161  2247 W OpenGLRenderer: Incorrectly called buildLayer on View: ShortcutAndWidgetContainer, destroying layer...
+11-10 14:03:36.799  1617  1956 I WindowManager: Destroying surface Surface(name=com.android.launcher3/com.android.launcher3.Launcher) called by com.android.server.wm.WindowStateAnimator.destroySurface:2014 com.android.server.wm.WindowStateAnimator.destroySurfaceLocked:881 com.android.server.wm.WindowState.destroyOrSaveSurface:2073 com.android.server.wm.AppWindowToken.destroySurfaces:363 com.android.server.wm.AppWindowToken.notifyAppStopped:389 com.android.server.wm.WindowManagerService.notifyAppStopped:4456 com.android.server.am.ActivityStack.activityStoppedLocked:1252 com.android.server.am.ActivityManagerService.activityStopped:6903 
+11-10 14:03:36.801  4012  4049 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008a34
+11-10 14:03:36.803  4012  4049 E eglCodecCommon: glUtilsParamSize: unknow param 0x00008073
+11-10 14:03:36.803  4012  4049 E eglCodecCommon: glUtilsParamSize: unknow param 0x000088ff
+11-10 14:03:36.809  1617  1638 I WindowManager: Destroying surface Surface(name=Starting vn.lupin.oneline) called by com.android.server.wm.WindowStateAnimator.destroySurface:2014 com.android.server.wm.WindowStateAnimator.destroySurfaceLocked:881 com.android.server.wm.WindowState.destroyOrSaveSurface:2073 com.android.server.wm.AppWindowToken.destroySurfaces:363 com.android.server.wm.WindowStateAnimator.finishExit:565 com.android.server.wm.WindowStateAnimator.stepAnimationLocked:491 com.android.server.wm.WindowAnimator.updateWindowsLocked:303 com.android.server.wm.WindowAnimator.animateLocked:704 
+11-10 14:03:36.836  4012  4012 W cr_BindingManager: Cannot call determinedVisibility() - never saw a connection for the pid: 4012
+11-10 14:03:36.848  4012  4012 I chromium: [INFO:CONSOLE(5)] "The key "viewport-fit" is not recognized and ignored.", source: file:///android_asset/index.html (5)
+11-10 14:03:36.923  4012  4049 E eglCodecCommon: glUtilsParamSize: unknow param 0x000088ff
+11-10 14:03:36.984  4012  4012 I chromium: [INFO:CONSOLE(171)] "[oneline] boot v1.6 online=none pointer=0 best=0 view=320x640", source: file:///android_asset/index.html (171)
+11-10 14:03:37.201  4012  4023 I art     : Background sticky concurrent mark sweep GC freed 8(248B) AllocSpace objects, 1(804KB) LOS objects, 0% free, 5MB/5MB, paused 6.103ms total 16.813ms
+11-10 14:03:37.504  4056  4056 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:03:37.506  4056  4056 D AndroidRuntime: CheckJNI is OFF
+11-10 14:03:37.542  4056  4056 W art     : Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:03:37.545  4056  4056 D ICU     : No timezone override file found: /data/local/tmp/misc/zoneinfo/current/icu/icu_tzdata.dat
+11-10 14:03:37.560  4056  4056 E memtrack: Couldn't load memtrack module (No such file or directory)
+11-10 14:03:37.560  4056  4056 E android.os.Debug: failed to load memtrack module: -2
+11-10 14:03:37.561  4056  4056 I Radio-JNI: register_android_hardware_Radio DONE
+11-10 14:03:37.571  4056  4056 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+11-10 14:03:37.901  4012  4023 I art     : Background sticky concurrent mark sweep GC freed 7(200B) AllocSpace objects, 1(804KB) LOS objects, 13% free, 5MB/5MB, paused 10.888ms total 19.214ms
+11-10 14:03:38.288  4012  4012 I chromium: [INFO:CONSOLE(171)] "[oneline] canvas ok 320x507", source: file:///android_asset/index.html (171)
+11-10 14:03:38.617  4056  4056 W AccessibilityNodeInfoDumper: Fetch time: 3ms
+11-10 14:03:38.620  1617  1815 W WindowManager: Attempted to remove non-existing token: android.os.Binder@61b38b0
+11-10 14:03:38.625  4056  4056 D AndroidRuntime: Shutting down VM
+11-10 14:03:39.796  4012  4023 I art     : Background partial concurrent mark sweep GC freed 31(960B) AllocSpace objects, 5(3MB) LOS objects, 40% free, 3MB/5MB, paused 5.257ms total 14.689ms
+11-10 14:03:40.253  4012  4023 I art     : Background partial concurrent mark sweep GC freed 21(672B) AllocSpace objects, 3(2MB) LOS objects, 39% free, 4MB/7MB, paused 6.172ms total 23.069ms
+11-10 14:03:40.527  4072  4072 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:03:40.528  4072  4072 D AndroidRuntime: CheckJNI is OFF
+11-10 14:03:40.560  4072  4072 W art     : Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:03:40.565  4072  4072 D ICU     : No timezone override file found: /data/local/tmp/misc/zoneinfo/current/icu/icu_tzdata.dat
+11-10 14:03:40.586  4072  4072 E memtrack: Couldn't load memtrack module (No such file or directory)
+11-10 14:03:40.586  4072  4072 E android.os.Debug: failed to load memtrack module: -2
+11-10 14:03:40.587  4072  4072 I Radio-JNI: register_android_hardware_Radio DONE
+11-10 14:03:40.594  4072  4072 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+11-10 14:03:41.116  2614  2625 W art     : Suspending all threads took: 16.326ms
+11-10 14:03:41.624  4072  4072 W AccessibilityNodeInfoDumper: Fetch time: 2ms
+11-10 14:03:41.626  1617  1628 W WindowManager: Attempted to remove non-existing token: android.os.Binder@3d47c4f
+11-10 14:03:41.631  4072  4072 D AndroidRuntime: Shutting down VM
+11-10 14:03:41.905  1302  1653 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-10 14:03:41.906  1302  1304 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 819200
+11-10 14:03:41.907  4087  4087 D         : HostConnection::get() New Host Connection established 0x76c75842d4e0, tid 4087

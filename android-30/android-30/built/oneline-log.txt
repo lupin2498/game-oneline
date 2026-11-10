@@ -1,0 +1,18 @@
+[oneline] boot v1.6 online=off pointer=1 best=0 view=320x640
+[oneline] canvas ok 320x507
+[oneline] state=ready
+[oneline] run mode=stick
+[oneline] over reason=lift m=12 best=12 mode=stick t=2017
+[oneline] state=ready
+[oneline] run mode=stick
+[oneline] over reason=wall m=3 best=12 mode=stick t=581
+[oneline] state=ready
+[oneline] run mode=drag
+[oneline] over reason=wall m=3 best=12 mode=drag t=572
+[oneline] state=ready
+[oneline] run mode=stick
+[oneline] over reason=lift m=6 best=12 mode=stick t=1144
+[oneline] boot v1.6 online=off pointer=1 best=12 view=320x640
+[oneline] canvas ok 320x507
+[oneline] boot v1.6 online=off pointer=1 best=12 view=320x640
+[oneline] canvas ok 320x507

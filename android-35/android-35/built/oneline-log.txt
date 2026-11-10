@@ -1,0 +1,21 @@
+[oneline] boot v1.6 online=off pointer=1 best=0 view=320x640
+[oneline] canvas ok 320x507
+[oneline] quality 0.75 try avg=69
+[oneline] state=ready
+[oneline] run mode=stick
+[oneline] over reason=lift m=2 best=2 mode=stick t=2188
+[oneline] quality 1 lock avg=55
+[oneline] state=ready
+[oneline] run mode=stick
+[oneline] over reason=wall m=2 best=2 mode=stick t=610
+[oneline] state=ready
+[oneline] run mode=drag
+[oneline] over reason=wall m=2 best=2 mode=drag t=567
+[oneline] state=ready
+[oneline] run mode=stick
+[oneline] over reason=lift m=4 best=4 mode=stick t=1262
+[oneline] boot v1.6 online=off pointer=1 best=4 view=320x640
+[oneline] canvas ok 320x507
+[oneline] quality 0.75 try avg=60
+[oneline] boot v1.6 online=off pointer=1 best=4 view=320x640
+[oneline] canvas ok 320x507

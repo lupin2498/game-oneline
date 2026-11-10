@@ -1,0 +1,1295 @@
+--------- beginning of main
+11-10 14:04:09.519  6528  6528 I ProvidersCache: Updating roots due to change on user 0at content://com.android.providers.media.documents/root
+11-10 14:04:09.531  6528  6563 I ProvidersCache: Provider returned no roots. Possibly naughty: com.google.android.apps.docs.storage
+11-10 14:04:10.452   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:10.453  7664  7664 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:10.486  7664  7664 D HostConnection: createUnique: call
+11-10 14:04:10.502  7664  7664 D HostConnection: HostConnection::get() New Host Connection established 0x72745b51f750, tid 7664
+11-10 14:04:10.529  7664  7664 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+--------- beginning of system
+11-10 14:04:10.573   502  1944 I ActivityManager: Killing 5254:com.google.android.apps.maps/u0a136 (adj 985): empty #17
+11-10 14:04:10.584   289   289 I Zygote  : Process 5254 exited due to signal 9 (Killed)
+11-10 14:04:10.626   502   544 I libprocessgroup: Successfully killed process cgroup uid 10136 pid 5254 in 52ms
+11-10 14:04:11.983   502   542 I ActivityManager: Force stopping vn.lupin.oneline appid=10168 user=-1: deletePackageX
+11-10 14:04:11.983   502   542 I ActivityManager: Killing 7447:vn.lupin.oneline/u0a168 (adj 0): stop vn.lupin.oneline due to deletePackageX
+11-10 14:04:11.984   502   542 W ActivityTaskManager: Force removing ActivityRecord{f460065 u0 vn.lupin.oneline/.MainActivity t12 f}}: app died, no saved state
+11-10 14:04:11.992   502   542 I ActivityManager: Killing 7479:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a168i3 (adj 0): isolated not needed
+11-10 14:04:12.003   308   382 W EmuHWC2 : No layers, exit, buffer 0x0
+11-10 14:04:12.009   911   911 I Zygote  : Process 7479 exited due to signal 9 (Killed)
+11-10 14:04:12.019   308   382 W EmuHWC2 : No layers, exit, buffer 0x0
+11-10 14:04:12.022   289   289 I Zygote  : Process 7447 exited due to signal 9 (Killed)
+--------- beginning of kernel
+11-10 14:04:12.222     0     0 I binder  : undelivered transaction 677378, process died.
+11-10 14:04:12.022   502   536 W ActivityManager: setHasOverlayUi called on unknown pid: 7447
+11-10 14:04:12.023   502  1151 D WindowManager: relayoutVisibleWindow: Window{fc52a04 u0 com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity EXITING} mAnimatingExit=true, mRemoveOnExit=false, mDestroying=false
+11-10 14:04:12.027   502   544 I libprocessgroup: Successfully killed process cgroup uid 10168 pid 7447 in 42ms
+11-10 14:04:12.027   502   544 I libprocessgroup: Successfully killed process cgroup uid 99003 pid 7479 in 0ms
+11-10 14:04:12.063   433   433 I keystore: clear_uid 10168
+11-10 14:04:12.064   502   558 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+11-10 14:04:12.064   502   558 D PackageManager: Clear ephemeral installer activity
+11-10 14:04:12.064   502   558 E PermissionMonitor: unknown permission type: -1for uid: 10168
+11-10 14:04:12.064   502   558 I system_server: Waiting for a blocking GC Explicit
+11-10 14:04:12.067  1850  2225 W ThreadPoolDumper: Queue length for executor EventBus is now 11. Perhaps some tasks are too long, or the pool is too small.
+11-10 14:04:12.074  1850  2132 W LocationOracle: No location history returned by ContextManager
+11-10 14:04:12.091   502   558 I system_server: WaitForGcToComplete blocked Explicit on HeapTrim for 26.562ms
+11-10 14:04:12.094  1850  2132 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/sharedminusonemodule/shared/SharedMinusOneData.pb.tmp
+11-10 14:04:12.094  1850  1850 I BgTaskExecutorImpl: Starting EXCLUSIVE background task TNG_MINUS_ONE_SYNC.
+11-10 14:04:12.099  1850  2225 I TngMinusOneSync: Syncing TNG:-1
+11-10 14:04:12.115  1196  2919 W GCoreFlp: No location to return for getLastLocation()
+11-10 14:04:12.153   502   558 I system_server: Explicit concurrent copying GC freed 119604(6716KB) AllocSpace objects, 7(332KB) LOS objects, 49% free, 13MB/27MB, paused 86us total 62.042ms
+11-10 14:04:12.155   502   558 I ActivityManager: Force stopping vn.lupin.oneline appid=10168 user=0: pkg removed
+11-10 14:04:12.159  3343  3343 I abb     : StartCommandInProcess(73657474696e67730067657400676c6f settings.get.glo [truncated])
+11-10 14:04:12.161   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.android.musicfx/.Compatibility$Receiver
+11-10 14:04:12.161   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.apps.maps/com.google.android.libraries.social.peoplekit.thirdparty.viewcontrollers.ThirdPartyReceiver
+11-10 14:04:12.161   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.apps.photos/com.google.android.libraries.social.peoplekit.thirdparty.viewcontrollers.ThirdPartyReceiver
+11-10 14:04:12.161   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
+11-10 14:04:12.161   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+11-10 14:04:12.161   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.googlequicksearchbox/com.google.android.apps.gsa.googlequicksearchbox.GelStubAppWatcher
+11-10 14:04:12.162   502   611 V StorageManagerService: Package vn.lupin.oneline does not have legacy storage
+11-10 14:04:12.164   704   704 V AvrcpMediaPlayerList: mPackageChangedBroadcastReceiver: action: android.intent.action.PACKAGE_REMOVED
+11-10 14:04:12.164   502   502 W Binder:502_17: type=1400 audit(0.0:275): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+11-10 14:04:12.165  1471  1471 I GsaVoiceInteractionSrv: O received Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) }
+11-10 14:04:12.169  3343  6505 I abb     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-10 14:04:12.178  1459  1459 I MediaProvider: Invalidating LocalCallingIdentity cache for package vn.lupin.oneline. Reason: package android.intent.action.PACKAGE_REMOVED
+11-10 14:04:12.183  3343  3343 I abb     : StartCommandInProcess(7061636b61676500696e7374616c6c00 package.install. [truncated])
+11-10 14:04:12.188   502   602 I InputReader: Reconfiguring input devices, changes=KEYBOARD_LAYOUTS | 
+11-10 14:04:12.189   502   533 I RoleManagerService: Granting default roles...
+11-10 14:04:12.189   502   502 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 1000; state: DISABLED
+11-10 14:04:12.189  1196  1196 I GeofencerStateMachine: removeGeofences: removeRequest=RemoveGeofencingRequest[REMOVE_ALL packageName=vn.lupin.oneline]
+11-10 14:04:12.194   502   502 W WifiService: Couldn't get PackageInfo for package:vn.lupin.oneline
+11-10 14:04:12.194   502   502 D WifiService: Remove settings for package:vn.lupin.oneline
+11-10 14:04:12.195   502   652 D WifiConfigManager: Remove all networks for app ApplicationInfo{b6bb4f9 vn.lupin.oneline}
+11-10 14:04:12.199   502   652 D WifiConfigStore: Writing to stores completed in 3 ms.
+11-10 14:04:12.199   502   652 I PasspointManager: No app ops listener found for vn.lupin.oneline
+11-10 14:04:12.213   289   289 D Zygote  : Forked child process 7685
+11-10 14:04:12.214   502   543 I ActivityManager: Start proc 7685:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+11-10 14:04:12.214   502   542 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:12.214   502   595 I RollbackManager: broadcast=ACTION_PACKAGE_FULLY_REMOVED pkg=vn.lupin.oneline
+11-10 14:04:12.214   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:12.220   502   502 I ConditionProviders: Disallowing condition provider vn.lupin.oneline
+11-10 14:04:12.221   502   502 W WifiService: Couldn't get PackageInfo for package:vn.lupin.oneline
+11-10 14:04:12.221   502   502 D WifiService: Remove settings for package:vn.lupin.oneline
+11-10 14:04:12.221   502   652 D WifiConfigManager: Remove all networks for app ApplicationInfo{a755b6f vn.lupin.oneline}
+11-10 14:04:12.223  1064  1064 D CarrierSvcBindHelper: No carrier app for: 0
+11-10 14:04:12.164   502   502 W Binder:502_17: type=1400 audit(0.0:276): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+11-10 14:04:12.225   502   652 D WifiConfigStore: Writing to stores completed in 3 ms.
+11-10 14:04:12.225   502   652 I PasspointManager: No app ops listener found for vn.lupin.oneline
+11-10 14:04:12.229   290   290 D Zygote  : Forked child process 7691
+11-10 14:04:12.229   502   543 I ActivityManager: Start proc 7691:com.android.chrome/u0a131 for broadcast {com.android.chrome/org.chromium.chrome.browser.browserservices.ClientAppBroadcastReceiver}
+11-10 14:04:12.230  6528  6563 I ProvidersCache: Provider returned no roots. Possibly naughty: com.google.android.apps.docs.storage
+11-10 14:04:12.235  7685  7685 W ndroid.keychai: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:12.239   402   416 I adbd    : jdwp connection from 7685
+11-10 14:04:12.245  7691  7691 W .android.chrom: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:12.246   502  1019 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10122; state: DISABLED
+11-10 14:04:12.246   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10122; state: ENABLED
+11-10 14:04:12.164   502   502 W Binder:502_17: type=1400 audit(0.0:277): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+11-10 14:04:12.248   981  1001 W System  : A resource failed to call release. 
+11-10 14:04:12.248   981  1001 I chatty  : uid=10153(com.google.android.apps.nexuslauncher) FinalizerDaemon identical 4 lines
+11-10 14:04:12.248   981  1001 W System  : A resource failed to call release. 
+11-10 14:04:12.258   402   416 I adbd    : jdwp connection from 7691
+11-10 14:04:12.260  7685  7685 I ndroid.keychai: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.196   502   502 W Binder:502_5: type=1400 audit(0.0:278): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+11-10 14:04:12.263  1823  1835 I gle.android.gm: Background concurrent copying GC freed 22978(1039KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 8561KB/16MB, paused 21us total 105.111ms
+11-10 14:04:12.265   289   289 D Zygote  : Forked child process 7725
+11-10 14:04:12.271  2165  2165 E CarrierServices: [2] ecr.a: Invalid signature found for com.android.contacts: E39B7BFBE0A67D78292F6CC62E06CA27A2EBF255
+11-10 14:04:12.272   502   543 I ActivityManager: Start proc 7725:com.google.android.gms.ui/u0a122 for service {com.google.android.gms/com.google.android.gms.chimera.UiIntentOperationService}
+11-10 14:04:12.275  7685  7685 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.276  7685  7685 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.279  2165  2165 E CarrierServices: [2] ecr.a: Invalid signature found for com.android.contacts: E39B7BFBE0A67D78292F6CC62E06CA27A2EBF255
+11-10 14:04:12.280  7725  7725 W .android.gms.u: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:12.282  7691  7691 I .android.chrom: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.282  7691  7691 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:12.287  1823  5805 I ContentMaintenance: Internal cache bytes used: 0; limit: 100000000; download size: 0
+11-10 14:04:12.289  1823  7733 W SQLiteLog: (28) double-quoted string literal: "vn.lupin.oneline"
+11-10 14:04:12.290  7691  7691 I .android.chrom: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.290  7691  7691 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:12.298  1196  7714 I Fitness : FitCleanupIntentOperation received Intent android.intent.action.PACKAGE_REMOVED [CONTEXT service_id=17 ]
+11-10 14:04:12.300   402   416 I adbd    : jdwp connection from 7725
+11-10 14:04:12.301   502   610 W RuleEvaluation: Integrity rule files are not available.
+11-10 14:04:12.306   502   558 I PackageManager: Integrity check passed for file:///data/app/vmdl735663266.tmp
+11-10 14:04:12.307   981   981 D Launcher.Model: package removed received vn.lupin.oneline
+11-10 14:04:12.307   981  1013 D PackageUpdatedTask: Removing app iconvn.lupin.oneline
+11-10 14:04:12.310   981  1013 D ModelWriter: removing items from db 
+11-10 14:04:12.310   981  1013 D ModelWriter: java.lang.Exception
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at com.android.launcher3.model.ModelWriter.deleteItemsFromDatabase(SourceFile:4)
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at com.android.launcher3.model.BaseModelUpdateTask.deleteAndBindComponentsRemoved(SourceFile:2)
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at com.android.launcher3.model.PackageUpdatedTask.execute(SourceFile:158)
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at com.android.launcher3.model.BaseModelUpdateTask.run(SourceFile:2)
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at android.os.Looper.loop(Looper.java:223)
+11-10 14:04:12.310   981  1013 D ModelWriter: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-10 14:04:12.310  7691  7691 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:12.310  7691  7691 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:12.311  7691  7691 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:12.311  7691  7691 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:12.311  7691  7691 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:12.314  1823  6445 I Icing   : doRemovePackageData vn.lupin.oneline [CONTEXT service_id=21 ]
+11-10 14:04:12.317  7725  7725 I .android.gms.u: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.319  7725  7725 I chatty  : uid=10122 com.google.android.gms.ui identical 1 line
+11-10 14:04:12.324  7725  7725 I .android.gms.u: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.324  7725  7725 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/priv-app/PrebuiltGmsCore/lib/x86_64:/product/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!/lib/x86_64:/product/lib64:/system/product/lib64
+11-10 14:04:12.326  1823  2555 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.gms componentName=AppsCorpus serviceId=36 [CONTEXT service_id=21 ]
+11-10 14:04:12.329  1823  5805 I RealtimeCacheCleanup: Beginning Realtime garbage collection.
+11-10 14:04:12.330  1823  5805 I RealtimeCacheCleanup: Finished Realtime garbage collection.
+11-10 14:04:12.330  7725  7725 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:12.335   502   502 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10136; state: DISABLED
+11-10 14:04:12.335   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10136; state: ENABLED
+11-10 14:04:12.331  7725  7725 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:12.347   289   289 D Zygote  : Forked child process 7773
+11-10 14:04:12.348   502   543 I ActivityManager: Start proc 7773:com.google.android.apps.maps/u0a136 for broadcast {com.google.android.apps.maps/com.google.android.libraries.social.peoplekit.thirdparty.viewcontrollers.ThirdPartyReceiver}
+11-10 14:04:12.349   502   558 D CompatibilityChangeReporter: Compat change id reported: 135549675; UID 10169; state: ENABLED
+11-10 14:04:12.351  1823  5805 W Icing   : No valid account for uploading user actions [CONTEXT service_id=21 ]
+11-10 14:04:12.354  7773  7773 W droid.apps.map: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:12.357   402   416 I adbd    : jdwp connection from 7773
+11-10 14:04:12.366   502   558 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+11-10 14:04:12.366   502   558 D PackageManager: Clear ephemeral installer activity
+11-10 14:04:12.371  7773  7773 I droid.apps.map: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.374  7773  7773 I droid.apps.map: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.374  7773  7773 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Maps/lib/x86_64:/product/app/Maps/Maps.apk!/lib/x86_64:/product/lib64:/system/product/lib64
+11-10 14:04:12.377  1823  5805 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0 [CONTEXT service_id=21 ]
+11-10 14:04:12.380  1823  2555 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.gms componentName=null serviceId=30 [CONTEXT service_id=21 ]
+11-10 14:04:12.381   502   558 I PackageDexOptimizer: Running dexopt (dexoptNeeded=1) on: /data/app/~~AIy2hA6HvBGS1tqwsQqTNA==/vn.lupin.oneline-W9ZNbI3j53wVcYMVvQoaRg==/base.apk pkg=vn.lupin.oneline isa=x86_64 dexoptFlags=boot_complete,profile_guided,public,enable_hidden_api_checks targetFilter=speed-profile oatDir=/data/app/~~AIy2hA6HvBGS1tqwsQqTNA==/vn.lupin.oneline-W9ZNbI3j53wVcYMVvQoaRg==/oat classLoaderContext=PCL[]{}
+11-10 14:04:12.381   431   517 V installd: DexInv: --- BEGIN '/data/app/~~AIy2hA6HvBGS1tqwsQqTNA==/vn.lupin.oneline-W9ZNbI3j53wVcYMVvQoaRg==/base.apk' ---
+11-10 14:04:12.382  1823  5805 W Icing   : No valid account for uploading user actions [CONTEXT service_id=21 ]
+11-10 14:04:12.384  7725  7725 W DynamiteModule: Local module descriptor class for providerinstaller not found.
+11-10 14:04:12.385  1823  5805 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0 [CONTEXT service_id=21 ]
+11-10 14:04:12.385  7773  7773 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.385  7773  7773 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.386  7725  7725 W ProviderHelper: Unknown dynamite feature providerinstaller
+11-10 14:04:12.388  7725  7725 I DynamiteModule: Considering local module providerinstaller:0 and remote module providerinstaller:0
+11-10 14:04:12.388  7725  7725 W ProviderInstaller: Failed to load providerinstaller module: No acceptable module found. Local version is 0 and remote version is 0.
+11-10 14:04:12.389  7725  7725 V NativeCrypto: Registering com/google/android/gms/org/conscrypt/NativeCrypto's 286 native methods...
+11-10 14:04:12.394  7725  7725 I ProviderInstaller: Installed default security provider GmsCore_OpenSSL
+11-10 14:04:12.397  7725  7725 I Safeboot: Checking safeboot...
+11-10 14:04:12.397  7725  7725 I Safeboot: Not entering safeboot; wrong process.
+11-10 14:04:12.407  7795  7795 W dex2oat32: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:12.408  7795  7795 I dex2oat32: /apex/com.android.art/bin/dex2oat32 --input-vdex-fd=-1 --output-vdex-fd=9 --updatable-bcp-packages-file=/system/etc/updatable-bcp-packages.txt --resolve-startup-const-strings=true --max-image-block-size=524288 --compiler-filter=speed-profile --classpath-dir=/data/app/~~AIy2hA6HvBGS1tqwsQqTNA==/vn.lupin.oneline-W9ZNbI3j53wVcYMVvQoaRg== --class-loader-context=PCL[]{} --generate-mini-debug-info --compact-dex-level=none --compilation-reason=install
+11-10 14:04:12.421  7725  7725 W bdhq    : Primes not initialized, returning default (no-op) Primes instance which will ignore all calls. Please call Primes.initialize(...) before using any Primes API.
+11-10 14:04:12.423  7795  7795 I dex2oat32: setting boot class path to /apex/com.android.art/javalib/core-oj.jar:/apex/com.android.art/javalib/core-libart.jar:/apex/com.android.art/javalib/core-icu4j.jar:/apex/com.android.art/javalib/okhttp.jar:/apex/com.android.art/javalib/bouncycastle.jar:/apex/com.android.art/javalib/apache-xml.jar:/system/framework/framework.jar:/system/framework/ext.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/ims-common.jar:/system/framework/framework-atb-backward-compatibility.jar
+11-10 14:04:12.425  7795  7795 W dex2oat32: Could not reserve sentinel fault page
+11-10 14:04:12.435  6528  6528 I ProvidersCache: Updating roots due to change on user 0at content://com.android.providers.media.documents/root
+11-10 14:04:12.445  6528  6563 I ProvidersCache: Provider returned no roots. Possibly naughty: com.google.android.apps.docs.storage
+11-10 14:04:12.458  7773  7807 D libEGL  : loaded /vendor/lib64/egl/libEGL_emulation.so
+11-10 14:04:12.458  7773  7807 D libEGL  : loaded /vendor/lib64/egl/libGLESv1_CM_emulation.so
+11-10 14:04:12.459  7773  7807 D libEGL  : loaded /vendor/lib64/egl/libGLESv2_emulation.so
+11-10 14:04:12.486  7795  7795 I dex2oat32: dex2oat took 81.021ms (24.201ms cpu) (threads: 2) arena alloc=792B (792B) java alloc=16KB (17056B) native alloc=614KB (628944B) free=1167KB (1195488B)
+11-10 14:04:12.488   431   517 V installd: DexInv: --- END '/data/app/~~AIy2hA6HvBGS1tqwsQqTNA==/vn.lupin.oneline-W9ZNbI3j53wVcYMVvQoaRg==/base.apk' (success) ---
+11-10 14:04:12.489   502   558 V BackupManagerService: [UserID:0] restoreAtInstall pkg=vn.lupin.oneline token=3 restoreSet=0
+11-10 14:04:12.489   502   558 V BackupManagerService: [UserID:0] Finishing install immediately
+11-10 14:04:12.492   431   517 E installd: Couldn't opendir /data/app/vmdl735663266.tmp: No such file or directory
+11-10 14:04:12.492   431   517 E installd: Failed to delete /data/app/vmdl735663266.tmp: No such file or directory
+11-10 14:04:12.696     0     0 W audit   : audit_lost=25 audit_rate_limit=5 audit_backlog_limit=64
+11-10 14:04:12.698     0     0 E audit   : rate limit exceeded
+11-10 14:04:12.497  3343  6505 I abb     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-10 14:04:12.513  1471  1471 I GsaVoiceInteractionSrv: O received Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) }
+11-10 14:04:12.514  1459  1459 I MediaProvider: Invalidating LocalCallingIdentity cache for package vn.lupin.oneline. Reason: package android.intent.action.PACKAGE_ADDED
+11-10 14:04:12.514   502   602 I InputReader: Reconfiguring input devices, changes=KEYBOARD_LAYOUTS | 
+11-10 14:04:12.516   704   704 V AvrcpMediaPlayerList: mPackageChangedBroadcastReceiver: action: android.intent.action.PACKAGE_ADDED
+11-10 14:04:12.516   704   704 D AvrcpMediaPlayerList: Name of package changed: vn.lupin.oneline
+11-10 14:04:12.521   502   502 I Telecom : DefaultDialerCache: Refreshing default dialer for user 0: now com.android.dialer: DDC.oR@ALc
+11-10 14:04:12.527   760  4012 I PermissionControllerServiceImpl: Updating user sensitive for uid 10169
+11-10 14:04:12.532  1064  1064 D CarrierSvcBindHelper: No carrier app for: 0
+11-10 14:04:12.535  1823  7749 I Auth    : [SupervisedAccountIntentOperation] onHandleIntent(): android.intent.action.PACKAGE_ADDED
+11-10 14:04:12.535  1823  7749 I Auth    : [SupervisedAccountIntentOperation] This operation is disabled
+11-10 14:04:12.536  1823  7738 I ChromeSync: [Sync,SyncIntentOperation] Handling the intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
+11-10 14:04:12.537   502   645 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.auth.key.retrieval.service.START pkg=com.google.android.gms } U=0: not found
+11-10 14:04:12.538  1196  7746 W GCM     : Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+11-10 14:04:12.538   502  1019 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@6d85d52
+11-10 14:04:12.538  1196  7746 W GCM     : Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+11-10 14:04:12.543  1823  2339 E GmsClient: unable to connect to service: com.google.android.gms.auth.key.retrieval.service.START on com.google.android.gms
+11-10 14:04:12.554   502   502 V BackupManagerConstants: getFullBackupIntervalMilliseconds(...) returns 86400000
+11-10 14:04:12.554   502   502 V BackupManagerConstants: getFullBackupRequiredNetworkType(...) returns 2
+11-10 14:04:12.554   502   502 V BackupManagerConstants: getFullBackupRequireCharging(...) returns true
+11-10 14:04:12.555  1823  7738 I ChromeSync: [Persistence,AffiliationManager] One of affiliation or grouping data for android://eDt3K2xp0Q7_fNUQzMij2TKc7D7tUZZvifAubC7OuwPTnRS9HTIube0mUEsudShQyyu-wi0e763LPK4As76dHw==@vn.lupin.oneline/ was not found. Marking affiliation data as stale...
+11-10 14:04:12.556  1064  1064 D CarrierConfigLoader: mHandler: 9 phoneId: 0
+11-10 14:04:12.557  1823  7747 I FontsPackageChangeOp: Package vn.lupin.oneline has no metadata
+11-10 14:04:12.580  6528  6563 I ProvidersCache: Provider returned no roots. Possibly naughty: com.google.android.apps.docs.storage
+11-10 14:04:12.588  7773  7804 I TetheringManager: registerTetheringEventCallback:com.google.android.apps.maps
+11-10 14:04:12.488   502   502 W Binder:502_5: type=1400 audit(0.0:279): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+11-10 14:04:12.595  7773  7807 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e55d650, tid 7807
+11-10 14:04:12.613  7773  7807 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:12.614   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:12.488   502   502 W Binder:502_5: type=1400 audit(0.0:280): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+11-10 14:04:12.817     0     0 D logd    : logdr: UID=2000 GID=2000 PID=7834 b tail=0 logMask=99 pid=0 start=0ns timeout=0ns
+11-10 14:04:12.625   502   574 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=vn.lupin.oneline/.MainActivity} from uid 2000
+11-10 14:04:12.625   502   536 D EventSequenceValidator: Transition from ACTIVITY_FINISHED to INTENT_STARTED
+11-10 14:04:12.628   502   536 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10169; state: DISABLED
+11-10 14:04:12.628   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10169; state: ENABLED
+11-10 14:04:12.633   289   289 D Zygote  : Forked child process 7846
+11-10 14:04:12.633   502   536 D EventSequenceValidator: Transition from INTENT_STARTED to ACTIVITY_LAUNCHED
+11-10 14:04:12.634   424   424 I perfetto: ing_service_impl.cc:758 Configured tracing session 11, #sources:1, duration:5000 ms, #buffers:1, total buffer size:4096 KB, total sessions:1, uid:1071 session name: ""
+11-10 14:04:12.634   423   423 I perfetto: probes_producer.cc:230  Ftrace setup (target_buf=11)
+11-10 14:04:12.636   502   543 I ActivityManager: Start proc 7846:vn.lupin.oneline/u0a169 for pre-top-activity {vn.lupin.oneline/vn.lupin.oneline.MainActivity}
+11-10 14:04:12.639  7773  7807 D EGL_emulation: eglCreateContext: 0x73ff2e57f8f0: maj 3 min 0 rcv 3
+11-10 14:04:12.641   502   512 I system_server: Background concurrent copying GC freed 149539(7223KB) AllocSpace objects, 50(2896KB) LOS objects, 49% free, 15MB/30MB, paused 27us total 148.670ms
+11-10 14:04:12.659  7773  7807 D EGL_emulation: eglMakeCurrent: 0x73ff2e57f8f0: ver 3 0 (tinfo 0x73fece5ac090) (first time)
+11-10 14:04:12.666  7846  7846 W n.lupin.onelin: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:12.675   423   423 I perfetto: ftrace_procfs.cc:176    enabled ftrace
+11-10 14:04:12.865     0     0 W perfetto: enabled ftrace
+11-10 14:04:12.685   402   416 I adbd    : jdwp connection from 7846
+11-10 14:04:12.695   726   928 D EglHelper: createEglContext start
+11-10 14:04:12.698   726   928 D EGL_emulation: eglCreateContext: 0x73ff2e58c260: maj 3 min 0 rcv 3
+11-10 14:04:12.698   726   928 D EglHelper: createEglContext done
+11-10 14:04:12.698   726   928 D EglHelper: createEglSurface start
+11-10 14:04:12.699  7846  7846 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.699  7846  7846 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.706   726   928 D EglHelper: createEglSurface done
+11-10 14:04:12.713  7846  7846 I WebViewFactory: Loading com.google.android.webview version 83.0.4103.106 (code 410410686)
+11-10 14:04:12.724  7846  7877 D libEGL  : loaded /vendor/lib64/egl/libEGL_emulation.so
+11-10 14:04:12.725  7846  7846 I n.lupin.onelin: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.725  7846  7846 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/WebViewGoogle/lib/x86_64:/product/app/WebViewGoogle/WebViewGoogle.apk!/lib/x86_64:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86_64:/product/lib64:/system/product/lib64
+11-10 14:04:12.726  7846  7877 D libEGL  : loaded /vendor/lib64/egl/libGLESv1_CM_emulation.so
+11-10 14:04:12.727  7846  7877 D libEGL  : loaded /vendor/lib64/egl/libGLESv2_emulation.so
+11-10 14:04:12.730  7846  7846 I n.lupin.onelin: The ClassLoaderContext is a special shared library.
+11-10 14:04:12.731  7846  7846 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/WebViewGoogle/lib/x86_64:/product/app/WebViewGoogle/WebViewGoogle.apk!/lib/x86_64:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86_64:/product/lib64:/system/product/lib64
+11-10 14:04:12.760  7846  7887 I cr_VariationsUtils: Requesting new seed from IVariationsSeedServer
+11-10 14:04:12.760   502  1946 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10169; state: ENABLED
+11-10 14:04:12.763  7846  7846 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:12.763  7846  7846 I cr_CachingUmaRecorder: Flushed 3 samples from 3 histograms.
+11-10 14:04:12.780  7773  7879 I DynamiteLoaderV2: [71] Measurementdynamite
+11-10 14:04:12.781  7773  7879 W droid.apps.map: Unsupported class loader
+11-10 14:04:12.787  7773  7879 W droid.apps.map: Unsupported class loader
+11-10 14:04:12.788   502  1945 E system_server: Invalid class loader spec: =UnsupportedClassLoaderContext=
+11-10 14:04:12.788   502  1945 E PackageDexUsage: Unsupported context?
+11-10 14:04:12.805   502  1946 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10169; state: DISABLED
+11-10 14:04:12.806   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10169; state: ENABLED
+11-10 14:04:12.807  7846  7846 E chromium: [ERROR:filesystem_posix.cc(62)] mkdir /data/user/0/vn.lupin.oneline/cache/WebView/Crashpad: No such file or directory (2)
+11-10 14:04:12.810  7846  7846 I TetheringManager: registerTetheringEventCallback:vn.lupin.oneline
+11-10 14:04:12.812   911   911 D Zygote  : Forked child process 7899
+11-10 14:04:12.813   502   543 I ActivityManager: Start proc 7899:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0i4 for  {vn.lupin.oneline/org.chromium.content.app.SandboxedProcessService0:0}
+11-10 14:04:12.819  7846  7907 W chromium: [WARNING:dns_config_service_posix.cc(341)] Failed to read DnsConfig.
+11-10 14:04:12.826  7899  7899 W ocessService0:: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:12.834   502  1946 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10169; state: ENABLED
+11-10 14:04:12.835   402   416 I adbd    : jdwp connection from 7899
+11-10 14:04:12.847  7899  7899 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.847  7899  7899 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-10 14:04:12.853  7899  7899 I cr_ChildProcessService: Creating new ChildProcessService pid=7899
+11-10 14:04:12.861  6571  6686 I cr_VariationsUtils: Throttling seed download job
+11-10 14:04:12.861  6571  6686 I cr_VariationsUtils: Writing new seed to app's data directory
+11-10 14:04:12.862  1196  1462 I GeofencerStateMachine: removeGeofences: removeRequest=RemoveGeofencingRequest[REMOVE_BY_IDS Ids=[atn_geofence_request_id], packageName=com.google.android.apps.maps]
+11-10 14:04:12.911  7846  7874 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e55e010, tid 7874
+11-10 14:04:12.916  7846  7874 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:12.918   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:12.925  7846  7874 D EGL_emulation: eglCreateContext: 0x73ff2e5b0ee0: maj 3 min 0 rcv 3
+11-10 14:04:12.926  7846  7874 D EGL_emulation: eglMakeCurrent: 0x73ff2e5b0ee0: ver 3 0 (tinfo 0x73fece5ca7e0) (first time)
+11-10 14:04:12.934   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:12.934  7846  7874 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:12.934  7846  7874 D HostConnection: createUnique: call
+11-10 14:04:12.935  7846  7874 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e55bc10, tid 7874
+11-10 14:04:12.946  7846  7874 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:12.948  7846  7846 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e55b3d0, tid 7846
+11-10 14:04:12.953  7846  7846 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:12.954  7846  7846 D EGL_emulation: eglCreateContext: 0x73ff2e5b1e00: maj 3 min 0 rcv 3
+11-10 14:04:12.954  7846  7846 D EGL_emulation: eglMakeCurrent: 0x73ff2e5b1e00: ver 3 0 (tinfo 0x73fece5d0d50) (first time)
+11-10 14:04:13.006  1459  3267 I MediaProvider: Begin Intent { act=android.intent.action.PACKAGE_FULLY_REMOVED dat=package:vn.lupin.oneline flg=0x5000010 cmp=com.google.android.providers.media.module/com.android.providers.media.MediaService (has extras) }
+11-10 14:04:13.007  1459  3267 I MediaProvider: End Intent { act=android.intent.action.PACKAGE_FULLY_REMOVED dat=package:vn.lupin.oneline flg=0x5000010 cmp=com.google.android.providers.media.module/com.android.providers.media.MediaService (has extras) }
+11-10 14:04:13.016   502   541 D ArtManagerInternalImpl: /data/misc/iorapd/vn.lupin.oneline/7/vn.lupin.oneline.MainActivity/compiled_traces/compiled_trace.pb doesn't exist
+11-10 14:04:13.016   502   541 I ActivityTaskManager: Displayed vn.lupin.oneline/.MainActivity: +389ms
+11-10 14:04:13.017   502   536 D EventSequenceValidator: Transition from ACTIVITY_LAUNCHED to ACTIVITY_FINISHED
+11-10 14:04:13.018  7832  7840 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-10 14:04:13.029  7846  7897 W cr_media: Requires BLUETOOTH permission
+11-10 14:04:13.033   502   833 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver
+11-10 14:04:13.034   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
+11-10 14:04:13.034   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+11-10 14:04:13.034   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+11-10 14:04:13.034   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.googlequicksearchbox/com.google.android.apps.gsa.googlequicksearchbox.GelStubAppWatcher
+11-10 14:04:13.034   502   542 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:vn.lupin.oneline flg=0x4000010 (has extras) } to com.google.android.ims/.receivers.RcsAutoStartReceiver
+11-10 14:04:13.040  7846  7931 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e55e910, tid 7931
+11-10 14:04:13.045   356   600 W ServiceManager: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10169 pid=7846
+11-10 14:04:13.045   356   600 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10169 => denied (528 us)
+11-10 14:04:13.049  7846  7931 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:13.051  1850  2283 I PBSessionCacheImpl: Deleted sessionId[8138180364835498] from persistence.
+11-10 14:04:13.054  7899  7928 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:13.054  7899  7928 I cr_CachingUmaRecorder: Flushed 1 samples from 1 histograms.
+11-10 14:04:13.060  1850  2225 W SearchServiceCore: Abort, client detached.
+11-10 14:04:13.064  7846  7931 I VideoCapabilities: Unsupported profile 4 for video/mp4v-es
+11-10 14:04:13.064  7846  7931 W cr_MediaCodecUtil: HW encoder for video/avc is not available on this device.
+11-10 14:04:13.066  1196  7260 W NetworkScheduler: The Firebase Job Dispatcher and GmsTaskScheduler are deprecated for apps targeting API 30 or newer. Application com.google.android.apps.maps has targetSdkVersion 30. Please migrate to the WorkManager or JobScheduler.
+11-10 14:04:13.066  1196  7260 W NetworkScheduler: Running in whitelist mode. Ignoring task: com.google.android.apps.maps/com.google.android.apps.gmm.shared.cache.glide.GlideDiskCacheExpirationService{u=0 tag="glide.cache.periodic" trigger=window{period=86400s,flex=900s,earliest=82079s,latest=86399s} requirements=[NET_CONNECTED] attributes=[PERSISTED,RECURRING] scheduled=0s last_run=N/A jid=N/A status=UNKNOWN retries=0 client_lib=MANCHEGO_GCM-202210000}
+11-10 14:04:13.067  7846  7931 D EGL_emulation: eglCreateContext: 0x73ff2e5c45a0: maj 3 min 0 rcv 3
+11-10 14:04:13.067  7846  7931 D EGL_emulation: eglMakeCurrent: 0x73ff2e5c45a0: ver 3 0 (tinfo 0x73fece5cfa60) (first time)
+11-10 14:04:13.170  7773  7890 I FA      : App measurement initialized, version: 26016
+11-10 14:04:13.170  7773  7890 I FA      : To enable debug logging run: adb shell setprop log.tag.FA VERBOSE
+11-10 14:04:13.170  7773  7890 I FA      : To enable faster debug mode event logging run:
+11-10 14:04:13.170  7773  7890 I FA      :   adb shell setprop debug.firebase.analytics.app com.google.android.apps.maps
+11-10 14:04:13.178  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] boot v1.6 online=on pointer=1 best=0 view=320x640", source: file:///android_asset/index.html (171)
+11-10 14:04:13.181   502   533 I RoleManagerService: Granting default roles...
+11-10 14:04:13.208  7899  7938 E chromium: [ERROR:tile_manager.cc(793)] WARNING: tile memory limits exceeded, some content may not draw
+11-10 14:04:13.208  7899  7938 E chromium: [ERROR:tile_manager.cc(793)] WARNING: tile memory limits exceeded, some content may not draw
+11-10 14:04:13.380  1823  5805 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms [CONTEXT service_id=21 ]
+11-10 14:04:13.456  1823  5805 I Icing   : Indexing done com.google.android.gms-apps [CONTEXT service_id=21 ]
+11-10 14:04:13.456  1823  5805 I Icing   : Indexing com.google.android.gms-internal.3p:MobileApplication from com.google.android.gms [CONTEXT service_id=21 ]
+11-10 14:04:13.461  1823  5805 I Icing   : Indexing done com.google.android.gms-internal.3p:MobileApplication [CONTEXT service_id=21 ]
+11-10 14:04:13.612  1823  5805 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms [CONTEXT service_id=21 ]
+11-10 14:04:13.613  1823  5805 I Icing   : Indexing done com.google.android.gms-apps [CONTEXT service_id=21 ]
+11-10 14:04:13.615  1823  5805 I Icing   : Indexing com.google.android.gms-internal.3p:MobileApplication from com.google.android.gms [CONTEXT service_id=21 ]
+11-10 14:04:13.616  1823  5805 I Icing   : Indexing done com.google.android.gms-internal.3p:MobileApplication [CONTEXT service_id=21 ]
+11-10 14:04:14.867   502  1019 D WifiNl80211Manager: Scan result ready event
+11-10 14:04:14.867   502  1019 D WifiNative: Scan result ready event
+11-10 14:04:14.986  7846  7874 I OpenGLRenderer: Davey! duration=1767ms; Flags=0, IntendedVsync=185560042341, Vsync=185560042341, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=185561420929, AnimationStart=185561421379, PerformTraversalsStart=185561671750, DrawStart=185561697548, SyncQueued=185562366402, SyncStart=185562484218, IssueDrawCommandsStart=185562519048, SwapBuffers=187296086340, FrameCompleted=187327572002, DequeueBufferDuration=36100, QueueBufferDuration=511874, GpuCompleted=0, 
+11-10 14:04:14.987  7846  7846 I Choreographer: Skipped 104 frames!  The application may be doing too much work on its main thread.
+11-10 14:04:15.012  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] auth user=0 busy=0 err=-", source: file:///android_asset/index.html (171)
+11-10 14:04:15.080  1459  3423 I MediaProvider: Deleted 1 items on external_primary due to com.android.shell
+11-10 14:04:15.145  7948  7948 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:04:15.159  7948  7948 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+11-10 14:04:15.159  7948  7948 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+11-10 14:04:15.159  7948  7948 I AndroidRuntime: Using default boot image
+11-10 14:04:15.159  7948  7948 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+11-10 14:04:15.159  7948  7948 I AndroidRuntime: Leaving lock profiling enabled
+11-10 14:04:15.160  7948  7948 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+11-10 14:04:15.162  7948  7948 I app_process: Core platform API reporting enabled, enforcing=false
+11-10 14:04:15.218  7948  7948 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-10 14:04:15.218  7948  7948 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-10 14:04:15.224  7948  7948 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:15.225  7948  7948 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:15.227  7948  7948 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:15.234  7948  7948 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-10 14:04:15.239  7948  7948 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+11-10 14:04:15.246  7948  7962 V UiAutomation: Init UiAutomation@9ca920e[id=24, flags=0]
+11-10 14:04:15.144  7948  7948 W app_process: type=1400 audit(0.0:282): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:15.156  7948  7948 I chatty  : uid=2000(shell) uiautomator identical 2 lines
+11-10 14:04:15.156  7948  7948 W app_process: type=1400 audit(0.0:285): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:15.632  6528  6528 I ProvidersCache: Updating roots due to change on user 0at content://com.android.providers.media.documents/root
+11-10 14:04:15.642  6528  6563 I ProvidersCache: Provider returned no roots. Possibly naughty: com.google.android.apps.docs.storage
+11-10 14:04:15.767  7846  7874 I OpenGLRenderer: Davey! duration=2495ms; Flags=0, IntendedVsync=185593376643, Vsync=187326709907, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=187328275141, AnimationStart=187328275665, PerformTraversalsStart=187329298486, DrawStart=187329335810, SyncQueued=187329468836, SyncStart=187349190490, IssueDrawCommandsStart=187349235696, SwapBuffers=188103679611, FrameCompleted=188108327771, DequeueBufferDuration=81938, QueueBufferDuration=626374, GpuCompleted=0, 
+11-10 14:04:15.767  7846  7846 I Choreographer: Skipped 44 frames!  The application may be doing too much work on its main thread.
+11-10 14:04:15.809  7846  7874 I OpenGLRenderer: Davey! duration=779ms; Flags=0, IntendedVsync=187360044062, Vsync=188093377366, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=188109085262, AnimationStart=188109086010, PerformTraversalsStart=188110257129, DrawStart=188114249759, SyncQueued=188114411211, SyncStart=188125564327, IssueDrawCommandsStart=188125584968, SwapBuffers=188149114055, FrameCompleted=188150230994, DequeueBufferDuration=62661, QueueBufferDuration=746909, GpuCompleted=0, 
+11-10 14:04:16.322  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] canvas ok 320x507", source: file:///android_asset/index.html (171)
+11-10 14:04:16.850  7948  7948 W AccessibilityNodeInfoDumper: Fetch time: 33ms
+11-10 14:04:16.851   502  1664 W WindowManager: removeWindowToken: Attempted to remove non-existing token: android.os.Binder@a0d3ed
+11-10 14:04:16.851  7948  7962 V UiAutomation: Init UiAutomation@9ca920e[id=-1, flags=0]
+11-10 14:04:16.865  7948  7948 D AndroidRuntime: Shutting down VM
+11-10 14:04:17.115  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:17.115  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:17.418  1823  7738 I Vision  : Requesting optional module download of ocr.
+11-10 14:04:17.419  1823  7738 I Vision  : Checking for download completion for 199760 -- ocr
+11-10 14:04:17.431  7773  7792 I droid.apps.map: Waiting for a blocking GC ProfileSaver
+11-10 14:04:17.449  7773  7792 I droid.apps.map: WaitForGcToComplete blocked ProfileSaver on ClassLinker for 17.371ms
+11-10 14:04:17.501  7967  7967 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:04:17.511  7967  7967 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+11-10 14:04:17.511  7967  7967 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+11-10 14:04:17.511  7967  7967 I AndroidRuntime: Using default boot image
+11-10 14:04:17.512  7967  7967 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+11-10 14:04:17.512  7967  7967 I AndroidRuntime: Leaving lock profiling enabled
+11-10 14:04:17.512  7967  7967 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+11-10 14:04:17.513  7967  7967 I app_process: Core platform API reporting enabled, enforcing=false
+11-10 14:04:17.500  7967  7967 W app_process: type=1400 audit(0.0:286): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:17.626  7967  7967 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-10 14:04:17.626  7967  7967 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-10 14:04:17.630  7967  7967 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:17.631  7967  7967 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:17.641  7967  7967 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-10 14:04:17.642   423   423 I perfetto: probes_producer.cc:329  Producer stop (id=11)
+11-10 14:04:17.645  7967  7967 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-10 14:04:17.647   424   424 E libc    : The property "ro.build.fingerprint" has a value with length 92 that is too large for __system_property_get()/__system_property_read(); use __system_property_read_callback() instead.
+11-10 14:04:17.647   423   423 I perfetto: ftrace_procfs.cc:183    disabled ftrace
+11-10 14:04:17.848     0     0 W perfetto: disabled ftrace
+11-10 14:04:17.648   424   424 I perfetto: ng_service_impl.cc:1948 Tracing session 11 ended, total sessions:0
+11-10 14:04:17.650   432  7842 I iorapd  : Perfetto TraceBuffer saved to file: /data/misc/iorapd/vn.lupin.oneline/7/vn.lupin.oneline.MainActivity/raw_traces/1794319457650558839.perfetto_trace.pb
+11-10 14:04:17.659  7967  7967 D AndroidRuntime: Shutting down VM
+11-10 14:04:17.663  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] login google native=Android", source: file:///android_asset/index.html (171)
+11-10 14:04:17.666  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] auth user=0 busy=1 err=-", source: file:///android_asset/index.html (171)
+11-10 14:04:17.678   502  1019 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW cat=[android.intent.category.BROWSABLE] dat=https://oneline-test.invalid/... flg=0x10000000 cmp=com.android.chrome/com.google.android.apps.chrome.IntentDispatcher} from uid 10169
+11-10 14:04:17.680   502   536 D EventSequenceValidator: Transition from ACTIVITY_FINISHED to INTENT_STARTED
+11-10 14:04:17.692   502   536 D EventSequenceValidator: Transition from INTENT_STARTED to ACTIVITY_LAUNCHED
+11-10 14:04:17.732   502   547 E libprocessgroup: AddTidToCgroup failed to write '7980'; fd=53: Invalid argument
+11-10 14:04:17.732   502   547 E libprocessgroup: Failed to add task into cgroup
+11-10 14:04:17.732   502   547 W libprocessgroup: ExecuteForTask failed for aggregate profile: Invalid argument
+11-10 14:04:17.796  7691  7691 I cr_InstantAppsHandler: Package manager handles intents on O+, not handling in Chrome
+11-10 14:04:17.798   502  1019 I ActivityTaskManager: START u0 {cmp=com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity (has extras)} from uid 10131
+11-10 14:04:17.807   502  1946 W ActivityTaskManager: Tried to set launchTime (0) < mLastActivityLaunchTime (190051)
+11-10 14:04:17.814  7691  7983 D libEGL  : loaded /vendor/lib/egl/libEGL_emulation.so
+11-10 14:04:17.815  7691  7983 D libEGL  : loaded /vendor/lib/egl/libGLESv1_CM_emulation.so
+11-10 14:04:17.817  7691  7983 D libEGL  : loaded /vendor/lib/egl/libGLESv2_emulation.so
+11-10 14:04:17.836  7691  7769 W DynamiteModule: Local module descriptor class for com.google.android.gms.googlecertificates not found.
+11-10 14:04:17.837  7691  7986 I cr_Linker: Using linker: org.chromium.base.library_loader.ModernLinker
+11-10 14:04:17.838  7691  7986 I cr_LibraryLoader: Loading monochrome
+11-10 14:04:17.846   726   928 D EglHelper: createEglContext start
+11-10 14:04:17.849   726   928 D EGL_emulation: eglCreateContext: 0x73ff2e58b3f0: maj 3 min 0 rcv 3
+11-10 14:04:17.849   726   928 D EglHelper: createEglContext done
+11-10 14:04:17.849   726   928 D EglHelper: createEglSurface start
+11-10 14:04:17.864   726   928 D EglHelper: createEglSurface done
+11-10 14:04:17.871   502  6012 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e565a50, tid 6012
+11-10 14:04:17.877   502  6012 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:17.880   502  6012 D EGL_emulation: eglCreateContext: 0x73ff2e6149e0: maj 3 min 0 rcv 3
+11-10 14:04:17.883  7691  7769 I DynamiteModule: Considering local module com.google.android.gms.googlecertificates:0 and remote module com.google.android.gms.googlecertificates:4
+11-10 14:04:17.883  7691  7769 I DynamiteModule: Selected remote version of com.google.android.gms.googlecertificates, version >= 4
+11-10 14:04:17.888  7691  7981 D HostConnection: HostConnection::get() New Host Connection established 0xec44e5c0, tid 7981
+11-10 14:04:17.892   502  6012 D EGL_emulation: eglMakeCurrent: 0x73ff2e6149e0: ver 3 0 (tinfo 0x73fece660630) (first time)
+11-10 14:04:17.893  7691  7981 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:17.969   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:17.970  7691  7986 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:17.971  7691  7986 I cr_CachingUmaRecorder: Flushed 14 samples from 14 histograms.
+11-10 14:04:18.081  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:18.081  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:18.086  7691  7981 D EGL_emulation: eglCreateContext: 0xec444610: maj 3 min 0 rcv 3
+11-10 14:04:18.091  7691  7981 D EGL_emulation: eglMakeCurrent: 0xec444610: ver 3 0 (tinfo 0xec8b2d50) (first time)
+11-10 14:04:18.092  7691  7769 I DynamiteLoaderV2: [70] Googlecertificates
+11-10 14:04:18.099   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:18.099  7691  7769 W .android.chrom: Unsupported class loader
+11-10 14:04:18.099  7691  7981 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:18.100  7691  7981 D HostConnection: createUnique: call
+11-10 14:04:18.100  7691  7981 D HostConnection: HostConnection::get() New Host Connection established 0xec4511f0, tid 7981
+11-10 14:04:18.115  7691  7981 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:18.126  7691  7769 W .android.chrom: Unsupported class loader
+11-10 14:04:18.126   502   833 E system_server: Invalid class loader spec: =UnsupportedClassLoaderContext=
+11-10 14:04:18.126   502   833 E PackageDexUsage: Unsupported context?
+11-10 14:04:18.212   356   378 W ServiceManager: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10131 pid=7691
+11-10 14:04:18.212   356   378 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10131 => denied (334 us)
+11-10 14:04:18.212   502   536 D EventSequenceValidator: Transition from ACTIVITY_LAUNCHED to ACTIVITY_FINISHED
+11-10 14:04:18.214   502   541 D ArtManagerInternalImpl: /data/misc/iorapd/com.android.chrome/410410686/org.chromium.chrome.browser.firstrun.FirstRunActivity/compiled_traces/compiled_trace.pb doesn't exist
+11-10 14:04:18.216   502   541 I ActivityTaskManager: Displayed com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity: +532ms
+11-10 14:04:18.220  7691  7691 W .android.chrom: Accessing hidden method Landroid/graphics/FontFamily;-><init>()V (greylist-max-q, reflection, denied)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: Unable to collect necessary methods for class java.lang.NoSuchMethodException
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: java.lang.NoSuchMethodException: android.graphics.FontFamily.<init> []
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at java.lang.Class.getConstructor0(Class.java:2332)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at java.lang.Class.getConstructor(Class.java:1728)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at s7.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at t7.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at q7.<clinit>(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at F4.h(chromium-TrichromeChromeGoogle.aab-stable-410410686:12)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at I3.f(chromium-TrichromeChromeGoogle.aab-stable-410410686:15)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at I3.d(chromium-TrichromeChromeGoogle.aab-stable-410410686:29)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at J3.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:5)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at p1.onCreateView(chromium-TrichromeChromeGoogle.aab-stable-410410686:52)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater$FactoryMerger.onCreateView(LayoutInflater.java:240)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.tryCreateView(LayoutInflater.java:1059)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:995)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:959)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1121)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1124)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1124)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.inflate(LayoutInflater.java:680)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.inflate(LayoutInflater.java:532)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at org.chromium.chrome.browser.firstrun.ToSAndUMAFirstRunFragment.n0(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at n9.I0(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at N9.j0(chromium-TrichromeChromeGoogle.aab-stable-410410686:94)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at N9.h0(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at N9.i0(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at e9.k(chromium-TrichromeChromeGoogle.aab-stable-410410686:36)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at N9.X(chromium-TrichromeChromeGoogle.aab-stable-410410686:50)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at N9.o0(chromium-TrichromeChromeGoogle.aab-stable-410410686:10)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at e9.c(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at S9.e(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at androidx.viewpager.widget.ViewPager.t(chromium-TrichromeChromeGoogle.aab-stable-410410686:94)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at androidx.viewpager.widget.ViewPager.y(chromium-TrichromeChromeGoogle.aab-stable-410410686:38)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at La1.c(chromium-TrichromeChromeGoogle.aab-stable-410410686:30)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at Qa1.a(chromium-TrichromeChromeGoogle.aab-stable-410410686:15)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at VH1.onResult(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at hD0.onResult(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at xw2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at Aw2.k(chromium-TrichromeChromeGoogle.aab-stable-410410686:5)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at Hn0.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.os.Looper.loop(Looper.java:223)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at android.app.ActivityThread.main(ActivityThread.java:7656)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at java.lang.reflect.Method.invoke(Native Method)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+11-10 14:04:18.226  7691  7691 E TypefaceCompatApi26Impl: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+11-10 14:04:18.229  1823  2871 I FontsContentProvider: Received query Google Sans, URI content://com.google.android.gms.fonts
+11-10 14:04:18.229  1823  2871 I FontsContentProvider: Query [Google Sans] resolved to {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false}
+11-10 14:04:18.230  1823  2871 I FontsContentProvider: Fetch {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null}
+11-10 14:04:18.235  7691  7995 W TypefaceCompatApi26Impl: Unable to collect necessary private methods. Fallback to legacy implementation.
+11-10 14:04:18.236  1823  1839 I FontsContentProvider: Pulling font file for id = 5, cache size = 4
+11-10 14:04:18.249  1823  1839 I FontsContentProvider: Received query Google Sans:500, URI content://com.google.android.gms.fonts
+11-10 14:04:18.249  1823  1839 I FontsContentProvider: Query [Google Sans:500] resolved to {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false}
+11-10 14:04:18.250  1823  1839 I FontsContentProvider: Fetch {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null}
+11-10 14:04:18.256  7691  7721 W System  : A resource failed to call close. 
+11-10 14:04:18.257  7691  7995 W TypefaceCompatApi26Impl: Unable to collect necessary private methods. Fallback to legacy implementation.
+11-10 14:04:18.257  1823  2871 I FontsContentProvider: Pulling font file for id = 6, cache size = 5
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: Exception thrown while unbinding
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: java.lang.IllegalArgumentException: Service not registered: lm@33dcb58
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at android.app.LoadedApk.forgetServiceDispatcher(LoadedApk.java:1757)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at android.app.ContextImpl.unbindService(ContextImpl.java:1874)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at android.content.ContextWrapper.unbindService(ContextWrapper.java:792)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at ce.b(:com.google.android.gms.dynamite_measurementdynamite@201817056@20.18.17 (040800-0):1)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at ce.a(:com.google.android.gms.dynamite_measurementdynamite@201817056@20.18.17 (040800-0):5)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at ln.A(:com.google.android.gms.dynamite_measurementdynamite@201817056@20.18.17 (040800-0):10)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at ky.a(:com.google.android.gms.dynamite_measurementdynamite@201817056@20.18.17 (040800-0):3)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at dy.run(:com.google.android.gms.dynamite_measurementdynamite@201817056@20.18.17 (040800-0):2)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:462)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+11-10 14:04:18.411  7773  7890 W ConnectionTracker: 	at iw.run(:com.google.android.gms.dynamite_measurementdynamite@201817056@20.18.17 (040800-0):15)
+11-10 14:04:18.790  7691  7721 W System  : A resource failed to call close. 
+11-10 14:04:19.014  7691  7760 I cr_VariationsSeedFetch: Fetched first run seed in 798 ms
+11-10 14:04:19.018   502  1664 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:19.018   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:19.023   290   290 D Zygote  : Forked child process 7999
+11-10 14:04:19.024   502   543 W ZygoteProcess: Got error connecting to zygote, retrying. msg= Connection refused
+11-10 14:04:19.075   502   543 I AppZygote: Starting application preload.
+11-10 14:04:19.075  7999  7999 I AppZygoteInit: Beginning application preload for com.android.chrome
+11-10 14:04:19.076  7999  7999 I d.chrome_zygot: The ClassLoaderContext is a special shared library.
+11-10 14:04:19.077  7999  7999 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:19.078  7999  7999 I d.chrome_zygot: The ClassLoaderContext is a special shared library.
+11-10 14:04:19.078  7999  7999 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:19.082   502   543 I AppZygote: Application preload done.
+11-10 14:04:19.082  7999  7999 I AppZygoteInit: Application preload done
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: Error while loading asset assets/stored-locales/en-US.pak: java.io.FileNotFoundException: assets/stored-locales/en-US.pak
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: java.io.FileNotFoundException: assets/stored-locales/en-US.pak
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at android.content.res.AssetManager.nativeOpenNonAssetFd(Native Method)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at android.content.res.AssetManager.openNonAssetFd(AssetManager.java:1031)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at android.content.res.AssetManager.openNonAssetFd(AssetManager.java:1012)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at org.chromium.ui.base.ResourceBundle.getLocalePakResourcePath(chromium-TrichromeChromeGoogle.aab-stable-410410686:10)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at J.N.M1Y_XVCN(Native Method)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at org.chromium.content.browser.BrowserStartupControllerImpl.b(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at Vx2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at Yx2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at go0.g(chromium-TrichromeChromeGoogle.aab-stable-410410686:11)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at eo0.run(Unknown Source:2)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at android.os.Looper.loop(Looper.java:223)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at android.app.ActivityThread.main(ActivityThread.java:7656)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at java.lang.reflect.Method.invoke(Native Method)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+11-10 14:04:19.087  7691  7691 E cr_ResourceBundle: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+11-10 14:04:19.092  7999  7999 D Zygote  : Forked child process 8009
+11-10 14:04:19.092   502   543 W ActivityManager: Slow operation: 74ms so far, now at startProcess: returned from zygote!
+11-10 14:04:19.092   502   543 W ActivityManager: Slow operation: 75ms so far, now at startProcess: done updating battery stats
+11-10 14:04:19.093   502   543 W ActivityManager: Slow operation: 75ms so far, now at startProcess: building log message
+11-10 14:04:19.093   502   543 I ActivityManager: Start proc 8009:com.android.chrome:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai0 for  {com.android.chrome/org.chromium.content.app.SandboxedProcessService0:0}
+11-10 14:04:19.093   502   543 W ActivityManager: Slow operation: 75ms so far, now at startProcess: starting to update pids map
+11-10 14:04:19.093   502   543 W ActivityManager: Slow operation: 75ms so far, now at startProcess: done updating pids map
+11-10 14:04:19.094  7691  7691 I TetheringManager: registerTetheringEventCallback:com.android.chrome
+11-10 14:04:19.097  8009  8009 W ocessService0:: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:19.102   502  1664 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10131; state: ENABLED
+11-10 14:04:19.103   402   416 I adbd    : jdwp connection from 8009
+11-10 14:04:19.113   502  1946 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:19.113   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:19.114  8009  8009 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:19.114  8009  8009 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:19.114  8009  8009 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:19.114  8009  8009 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:19.114  8009  8009 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:19.116  8009  8009 I cr_ChildProcessService: Creating new ChildProcessService pid=8009
+11-10 14:04:19.117   290   290 D Zygote  : Forked child process 8040
+11-10 14:04:19.117   502   543 I ActivityManager: Start proc 8040:com.android.chrome:privileged_process0/u0a131 for service {com.android.chrome/org.chromium.content.app.PrivilegedProcessService0}
+11-10 14:04:19.122  8040  8040 W ileged_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:19.136   402   416 I adbd    : jdwp connection from 8040
+11-10 14:04:19.147  7691  8050 W ConnectionStatusConfig: Dynamic lookup for intent failed for action: com.google.android.gms.auth.key.retrieval.service.START
+11-10 14:04:19.153   502  1664 D ConnectivityService: requestNetwork for uid/pid:10131/7691 NetworkRequest [ TRACK_DEFAULT id=43, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ]
+11-10 14:04:19.153   502   659 D ConnectivityService: NetReassign [43 : null → 101]
+11-10 14:04:19.152  7691  8050 W ConnectionStatusConfig: Dynamic lookup for intent failed for action: com.google.android.gms.auth.key.retrieval.service.START
+11-10 14:04:19.153   502   652 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=43, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:19.153   502   652 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=43, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:19.154  1064  1064 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=43, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:19.156   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:19.156   502   659 D ConnectivityService: NetReassign [no changes]
+11-10 14:04:19.156  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:19.156  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:19.157   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@b4446ee mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:19.158  7691  7691 W cr_KnoxSettingsProvider: Permission to read device policy denied.
+11-10 14:04:19.161   502  1946 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.auth.key.retrieval.service.START pkg=com.google.android.gms } U=0: not found
+11-10 14:04:19.168   502  1946 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@3217469
+11-10 14:04:19.168  7691  8050 E GmsClient: unable to connect to service: com.google.android.gms.auth.key.retrieval.service.START on com.google.android.gms
+11-10 14:04:19.171   502  1664 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10131; state: ENABLED
+11-10 14:04:19.176  8040  8040 I ileged_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:19.176  8040  8040 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:19.177  8040  8040 I ileged_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:19.177  8040  8040 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:19.178   502   645 D ConnectivityService: requestNetwork for uid/pid:10131/7691 NetworkRequest [ TRACK_DEFAULT id=45, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ]
+11-10 14:04:19.179   502   659 D ConnectivityService: NetReassign [45 : null → 101]
+11-10 14:04:19.179   502   659 D ConnectivityService: NetReassign [no changes]
+11-10 14:04:19.179  1064  1064 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=45, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:19.179   502   652 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=45, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:19.179   502   652 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=45, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:19.181  8040  8040 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:19.181  8040  8040 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:19.181  8040  8040 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:19.181  8040  8040 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:19.181  8040  8040 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:19.182   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:19.182  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:19.182  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:19.182   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@3c2e78f mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:19.185  8040  8040 I cr_ChildProcessService: Creating new ChildProcessService pid=8040
+11-10 14:04:19.200  8040  8057 I cr_Linker: Using linker: org.chromium.base.library_loader.ModernLinker
+11-10 14:04:19.201  8040  8061 I cr_LibraryLoader: Loading monochrome
+11-10 14:04:19.206  8040  8061 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:19.206  8040  8061 I cr_CachingUmaRecorder: Flushed 1 samples from 1 histograms.
+11-10 14:04:19.209  8040  8061 D libEGL  : loaded /vendor/lib/egl/libEGL_emulation.so
+11-10 14:04:19.210  8040  8061 D libEGL  : loaded /vendor/lib/egl/libGLESv1_CM_emulation.so
+11-10 14:04:19.212  8040  8061 D libEGL  : loaded /vendor/lib/egl/libGLESv2_emulation.so
+11-10 14:04:19.224  8040  8061 D HostConnection: HostConnection::get() New Host Connection established 0xec4574d0, tid 8061
+11-10 14:04:19.228  8040  8061 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:19.229   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:19.230  8040  8061 D EGL_emulation: eglCreateContext: 0xec457af0: maj 3 min 0 rcv 3
+11-10 14:04:19.231  8040  8061 D EGL_emulation: eglMakeCurrent: 0xec457af0: ver 3 0 (tinfo 0xec8b0230) (first time)
+11-10 14:04:19.251  8040  8061 I VideoCapabilities: Unsupported profile 4 for video/mp4v-es
+11-10 14:04:19.251  8040  8061 W cr_MediaCodecUtil: HW encoder for video/avc is not available on this device.
+11-10 14:04:20.225   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:20.225  8072  8072 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:20.229  8072  8072 D HostConnection: createUnique: call
+11-10 14:04:20.230  8072  8072 D HostConnection: HostConnection::get() New Host Connection established 0x7ad1cb30ce50, tid 8072
+11-10 14:04:20.243  8072  8072 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:20.465     0     0 W healthd : battery l=100 v=5000 t=25.0 h=2 st=2 c=900000 fc=300000 cc=10 chg=a
+11-10 14:04:20.293   502  1664 I ActivityManager: Force stopping com.android.chrome appid=10131 user=0: from pid 8079
+11-10 14:04:20.293   502  1664 I ActivityManager: Killing 8040:com.android.chrome:privileged_process0/u0a131 (adj 0): stop com.android.chrome due to from pid 8079
+11-10 14:04:20.295   502  1664 I ActivityManager: Killing 7691:com.android.chrome/u0a131 (adj 0): stop com.android.chrome due to from pid 8079
+11-10 14:04:20.295  7691  7998 W cr_ChildProcessConn: onServiceDisconnected (crash or killed by oom): pid=8040 bindings:W S state:3 counts:0,0,1,1,
+11-10 14:04:20.299   502  1664 W ActivityTaskManager: Force removing ActivityRecord{5cf0440 u0 com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity t15 f}}: app died, no saved state
+11-10 14:04:20.302   290   290 I Zygote  : Process 8040 exited due to signal 9 (Killed)
+11-10 14:04:20.309   502  1664 I ActivityManager: Killing 8009:com.android.chrome:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a131i-9000 (adj 0): isolated not needed
+11-10 14:04:20.315  1064  1064 D CarrierSvcBindHelper: No carrier app for: 0
+11-10 14:04:20.316  8079  8081 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-10 14:04:20.519     0     0 I binder  : undelivered transaction 693741, process died.
+11-10 14:04:20.317   502  1664 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=45, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@1751202)
+11-10 14:04:20.317   502  1664 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=46, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&FOREGROUND Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@9e17713)
+11-10 14:04:20.317   502  1664 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=43, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@2f9ad50)
+11-10 14:04:20.317   502  1664 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=44, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&FOREGROUND Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@2fd5b49)
+11-10 14:04:20.317   502   659 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=45, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] (release request)
+11-10 14:04:20.317   502   659 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=43, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] (release request)
+11-10 14:04:20.318   502   536 W ActivityManager: setHasOverlayUi called on unknown pid: 7691
+11-10 14:04:20.321   290   290 I Zygote  : Process 7691 exited due to signal 9 (Killed)
+11-10 14:04:20.324   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:20.325  7999  7999 I Zygote  : Process 8009 exited due to signal 9 (Killed)
+11-10 14:04:20.325   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@4245a1c mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:20.330   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:20.330   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@4971625 mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:20.331  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:20.331  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:20.331  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:20.331  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:20.339   502   544 I libprocessgroup: Successfully killed process cgroup uid 10131 pid 8040 in 44ms
+11-10 14:04:20.339   502   544 I libprocessgroup: Successfully killed process cgroup uid 10131 pid 7691 in 0ms
+11-10 14:04:20.339   502   544 I libprocessgroup: Successfully killed process cgroup uid 90000 pid 8009 in 0ms
+11-10 14:04:20.370   502   536 D EventSequenceValidator: Transition from ACTIVITY_FINISHED to INTENT_STARTED
+11-10 14:04:20.371   502  1180 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW cat=[android.intent.category.BROWSABLE] dat=vn.lupin.oneline://auth?provider=google&idToken=abc&state=00000000000000000000000000000000 flg=0x10000000 cmp=vn.lupin.oneline/.MainActivity} from uid 2000
+11-10 14:04:20.373   502   536 D EventSequenceValidator: Transition from INTENT_STARTED to INTENT_FAILED
+11-10 14:04:20.429  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] auth user=0 busy=0 err=state-mismatch", source: file:///android_asset/index.html (171)
+11-10 14:04:22.183   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:22.183  8096  8096 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:22.195  8096  8096 D HostConnection: createUnique: call
+11-10 14:04:22.197  8096  8096 D HostConnection: HostConnection::get() New Host Connection established 0x767553112990, tid 8096
+11-10 14:04:22.214  8096  8096 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:22.336  1459  1813 I MediaProvider: Deleted 1 items on external_primary due to com.android.shell
+11-10 14:04:22.472  8103  8103 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:04:22.478  8103  8103 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+11-10 14:04:22.479  8103  8103 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+11-10 14:04:22.479  8103  8103 I AndroidRuntime: Using default boot image
+11-10 14:04:22.479  8103  8103 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+11-10 14:04:22.479  8103  8103 I AndroidRuntime: Leaving lock profiling enabled
+11-10 14:04:22.479  8103  8103 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+11-10 14:04:22.480  8103  8103 I app_process: Core platform API reporting enabled, enforcing=false
+11-10 14:04:22.468  8103  8103 W app_process: type=1400 audit(0.0:290): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:22.626  8103  8103 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-10 14:04:22.627  8103  8103 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-10 14:04:22.630  8103  8103 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:22.633  8103  8103 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:22.634  8103  8103 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:22.683  8103  8103 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-10 14:04:22.692  8103  8103 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+11-10 14:04:22.718  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:22.718  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:22.734  8103  8117 V UiAutomation: Init UiAutomation@c04cd22[id=25, flags=0]
+11-10 14:04:23.301  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:23.301  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:23.730  8103  8103 W AccessibilityNodeInfoDumper: Fetch time: 5ms
+11-10 14:04:23.731   502  1664 W WindowManager: removeWindowToken: Attempted to remove non-existing token: android.os.Binder@e778974
+11-10 14:04:23.732  8103  8117 V UiAutomation: Init UiAutomation@c04cd22[id=-1, flags=0]
+11-10 14:04:23.745  8103  8103 D AndroidRuntime: Shutting down VM
+11-10 14:04:24.518  8122  8122 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:04:24.521  8122  8122 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+11-10 14:04:24.521  8122  8122 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+11-10 14:04:24.521  8122  8122 I AndroidRuntime: Using default boot image
+11-10 14:04:24.521  8122  8122 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+11-10 14:04:24.521  8122  8122 I AndroidRuntime: Leaving lock profiling enabled
+11-10 14:04:24.522  8122  8122 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+11-10 14:04:24.523  8122  8122 I app_process: Core platform API reporting enabled, enforcing=false
+11-10 14:04:24.516  8122  8122 W app_process: type=1400 audit(0.0:294): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:24.733  8122  8122 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-10 14:04:24.733  8122  8122 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-10 14:04:24.749  8122  8122 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:24.750  8122  8122 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:24.764  8122  8122 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-10 14:04:24.767  8122  8122 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-10 14:04:24.809  8122  8122 D AndroidRuntime: Shutting down VM
+11-10 14:04:24.843  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] login facebook native=Android", source: file:///android_asset/index.html (171)
+11-10 14:04:24.843  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] auth user=0 busy=1 err=-", source: file:///android_asset/index.html (171)
+11-10 14:04:24.845   502  1943 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW cat=[android.intent.category.BROWSABLE] dat=https://oneline-test.invalid/... flg=0x10000000 cmp=com.android.chrome/com.google.android.apps.chrome.IntentDispatcher} from uid 10169
+11-10 14:04:24.845   502   536 D EventSequenceValidator: Transition from INTENT_FAILED to INTENT_STARTED
+11-10 14:04:24.849   502   536 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:24.850   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:24.853   502   536 D EventSequenceValidator: Transition from INTENT_STARTED to ACTIVITY_LAUNCHED
+11-10 14:04:24.857   290   290 D Zygote  : Forked child process 8138
+11-10 14:04:24.857   502   543 I ActivityManager: Start proc 8138:com.android.chrome/u0a131 for pre-top-activity {com.android.chrome/com.google.android.apps.chrome.IntentDispatcher}
+11-10 14:04:24.876   424   424 I perfetto: ing_service_impl.cc:758 Configured tracing session 12, #sources:1, duration:5000 ms, #buffers:1, total buffer size:4096 KB, total sessions:1, uid:1071 session name: ""
+11-10 14:04:24.876   423   423 I perfetto: probes_producer.cc:230  Ftrace setup (target_buf=12)
+11-10 14:04:24.879  8138  8138 W .android.chrom: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:24.885   402   416 I adbd    : jdwp connection from 8138
+11-10 14:04:24.895  8138  8138 I .android.chrom: The ClassLoaderContext is a special shared library.
+11-10 14:04:24.896  8138  8138 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:24.897  8138  8138 I .android.chrom: The ClassLoaderContext is a special shared library.
+11-10 14:04:24.897  8138  8138 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:24.899  8138  8138 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:24.899  8138  8138 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:24.900  8138  8138 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:24.901   423   423 I perfetto: ftrace_procfs.cc:176    enabled ftrace
+11-10 14:04:24.901  8138  8138 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:25.103     0     0 W perfetto: enabled ftrace
+11-10 14:04:24.902  8138  8138 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:24.916  8138  8167 D libEGL  : loaded /vendor/lib/egl/libEGL_emulation.so
+11-10 14:04:24.917  8138  8167 D libEGL  : loaded /vendor/lib/egl/libGLESv1_CM_emulation.so
+11-10 14:04:24.922  8138  8167 D libEGL  : loaded /vendor/lib/egl/libGLESv2_emulation.so
+11-10 14:04:24.923  8138  8138 I cr_InstantAppsHandler: Package manager handles intents on O+, not handling in Chrome
+11-10 14:04:24.925   502  3834 I ActivityTaskManager: START u0 {cmp=com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity (has extras)} from uid 10131
+11-10 14:04:24.929   502  1943 W ActivityTaskManager: Tried to set launchTime (0) < mLastActivityLaunchTime (197231)
+11-10 14:04:24.964   502  6012 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e565a50, tid 6012
+11-10 14:04:24.968   502  6012 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:24.970  8138  8162 W DynamiteModule: Local module descriptor class for com.google.android.gms.googlecertificates not found.
+11-10 14:04:24.973   502  6012 D EGL_emulation: eglCreateContext: 0x73ff2e670450: maj 3 min 0 rcv 3
+11-10 14:04:24.974   502  6012 D EGL_emulation: eglMakeCurrent: 0x73ff2e670450: ver 3 0 (tinfo 0x73fece660630) (first time)
+11-10 14:04:24.980  8138  8162 I DynamiteModule: Considering local module com.google.android.gms.googlecertificates:0 and remote module com.google.android.gms.googlecertificates:4
+11-10 14:04:24.980  8138  8162 I DynamiteModule: Selected remote version of com.google.android.gms.googlecertificates, version >= 4
+11-10 14:04:24.999  8138  8172 I cr_Linker: Using linker: org.chromium.base.library_loader.ModernLinker
+11-10 14:04:24.999  8138  8172 I cr_LibraryLoader: Loading monochrome
+11-10 14:04:25.019  8138  8165 D HostConnection: HostConnection::get() New Host Connection established 0xec45fd50, tid 8165
+11-10 14:04:25.023  8138  8172 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:25.023  8138  8172 I cr_CachingUmaRecorder: Flushed 13 samples from 13 histograms.
+11-10 14:04:25.049  8138  8165 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:25.050   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:25.051  8138  8165 D EGL_emulation: eglCreateContext: 0xec45f880: maj 3 min 0 rcv 3
+11-10 14:04:25.053  8138  8165 D EGL_emulation: eglMakeCurrent: 0xec45f880: ver 3 0 (tinfo 0xec8b3f50) (first time)
+11-10 14:04:25.061   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:25.061  8138  8165 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:25.062  8138  8165 D HostConnection: createUnique: call
+11-10 14:04:25.062  8138  8165 D HostConnection: HostConnection::get() New Host Connection established 0xec45eb60, tid 8165
+11-10 14:04:25.065  8138  8162 I DynamiteLoaderV2: [70] Googlecertificates
+11-10 14:04:25.066  8138  8162 W .android.chrom: Unsupported class loader
+11-10 14:04:25.067  8138  8162 W .android.chrom: Unsupported class loader
+11-10 14:04:25.068   502  1943 E system_server: Invalid class loader spec: =UnsupportedClassLoaderContext=
+11-10 14:04:25.068   502  1943 E PackageDexUsage: Unsupported context?
+11-10 14:04:25.076  8138  8165 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:25.151  6528  6528 I ProvidersCache: Updating roots due to change on user 0at content://com.android.providers.media.documents/root
+11-10 14:04:25.154   502   536 D EventSequenceValidator: Transition from ACTIVITY_LAUNCHED to ACTIVITY_FINISHED
+11-10 14:04:25.155   502   541 D ArtManagerInternalImpl: /data/misc/iorapd/com.android.chrome/410410686/org.chromium.chrome.browser.firstrun.FirstRunActivity/compiled_traces/compiled_trace.pb doesn't exist
+11-10 14:04:25.156   502   541 I ActivityTaskManager: Displayed com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity: +308ms
+11-10 14:04:25.163  8138  8138 W .android.chrom: Accessing hidden method Landroid/graphics/FontFamily;-><init>()V (greylist-max-q, reflection, denied)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: Unable to collect necessary methods for class java.lang.NoSuchMethodException
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: java.lang.NoSuchMethodException: android.graphics.FontFamily.<init> []
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at java.lang.Class.getConstructor0(Class.java:2332)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at java.lang.Class.getConstructor(Class.java:1728)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at s7.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at t7.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at q7.<clinit>(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at F4.h(chromium-TrichromeChromeGoogle.aab-stable-410410686:12)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at I3.f(chromium-TrichromeChromeGoogle.aab-stable-410410686:15)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at I3.d(chromium-TrichromeChromeGoogle.aab-stable-410410686:29)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at J3.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:5)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at p1.onCreateView(chromium-TrichromeChromeGoogle.aab-stable-410410686:52)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater$FactoryMerger.onCreateView(LayoutInflater.java:240)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.tryCreateView(LayoutInflater.java:1059)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:995)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:959)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1121)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1124)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1124)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.inflate(LayoutInflater.java:680)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.inflate(LayoutInflater.java:532)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at org.chromium.chrome.browser.firstrun.ToSAndUMAFirstRunFragment.n0(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at n9.I0(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at N9.j0(chromium-TrichromeChromeGoogle.aab-stable-410410686:94)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at N9.h0(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at N9.i0(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at e9.k(chromium-TrichromeChromeGoogle.aab-stable-410410686:36)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at N9.X(chromium-TrichromeChromeGoogle.aab-stable-410410686:50)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at N9.o0(chromium-TrichromeChromeGoogle.aab-stable-410410686:10)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at e9.c(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at S9.e(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at androidx.viewpager.widget.ViewPager.t(chromium-TrichromeChromeGoogle.aab-stable-410410686:94)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at androidx.viewpager.widget.ViewPager.y(chromium-TrichromeChromeGoogle.aab-stable-410410686:38)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at La1.c(chromium-TrichromeChromeGoogle.aab-stable-410410686:30)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at Qa1.a(chromium-TrichromeChromeGoogle.aab-stable-410410686:15)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at VH1.onResult(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at hD0.onResult(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at xw2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at Aw2.k(chromium-TrichromeChromeGoogle.aab-stable-410410686:5)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at Hn0.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.os.Looper.loop(Looper.java:223)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at android.app.ActivityThread.main(ActivityThread.java:7656)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at java.lang.reflect.Method.invoke(Native Method)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+11-10 14:04:25.163  8138  8138 E TypefaceCompatApi26Impl: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+11-10 14:04:25.164  6528  6563 I ProvidersCache: Provider returned no roots. Possibly naughty: com.google.android.apps.docs.storage
+11-10 14:04:25.167  1823  1839 I FontsContentProvider: Received query Google Sans, URI content://com.google.android.gms.fonts
+11-10 14:04:25.167  1823  1839 I FontsContentProvider: Query [Google Sans] resolved to {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false}
+11-10 14:04:25.178  1823  1839 I FontsContentProvider: Fetch {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null}
+11-10 14:04:25.179  8138  8180 W TypefaceCompatApi26Impl: Unable to collect necessary private methods. Fallback to legacy implementation.
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: Error while loading asset assets/stored-locales/en-US.pak: java.io.FileNotFoundException: assets/stored-locales/en-US.pak
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: java.io.FileNotFoundException: assets/stored-locales/en-US.pak
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at android.content.res.AssetManager.nativeOpenNonAssetFd(Native Method)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at android.content.res.AssetManager.openNonAssetFd(AssetManager.java:1031)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at android.content.res.AssetManager.openNonAssetFd(AssetManager.java:1012)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at org.chromium.ui.base.ResourceBundle.getLocalePakResourcePath(chromium-TrichromeChromeGoogle.aab-stable-410410686:10)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at J.N.M1Y_XVCN(Native Method)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at org.chromium.content.browser.BrowserStartupControllerImpl.b(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at Vx2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at Yx2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at go0.g(chromium-TrichromeChromeGoogle.aab-stable-410410686:11)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at eo0.run(Unknown Source:2)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at android.os.Looper.loop(Looper.java:223)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at android.app.ActivityThread.main(ActivityThread.java:7656)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at java.lang.reflect.Method.invoke(Native Method)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+11-10 14:04:25.179  8138  8138 E cr_ResourceBundle: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+11-10 14:04:25.180  1823  2699 I FontsContentProvider: Pulling font file for id = 7, cache size = 6
+11-10 14:04:25.181   502  3168 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:25.181   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:25.185  1823  2699 I FontsContentProvider: Received query Google Sans:500, URI content://com.google.android.gms.fonts
+11-10 14:04:25.185  1823  2699 I FontsContentProvider: Query [Google Sans:500] resolved to {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false}
+11-10 14:04:25.186  7999  7999 D Zygote  : Forked child process 8182
+11-10 14:04:25.187   502   543 I ActivityManager: Start proc 8182:com.android.chrome:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai1 for  {com.android.chrome/org.chromium.content.app.SandboxedProcessService0:0}
+11-10 14:04:25.187  1823  2699 I FontsContentProvider: Fetch {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null}
+11-10 14:04:25.191  8138  8138 I TetheringManager: registerTetheringEventCallback:com.android.chrome
+11-10 14:04:25.193  8138  8180 W TypefaceCompatApi26Impl: Unable to collect necessary private methods. Fallback to legacy implementation.
+11-10 14:04:25.194  1823  2699 I FontsContentProvider: Pulling font file for id = 8, cache size = 7
+11-10 14:04:25.194  8182  8182 W ocessService0:: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:25.198   502  3834 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10131; state: ENABLED
+11-10 14:04:25.201   402   416 I adbd    : jdwp connection from 8182
+11-10 14:04:25.206   502  3834 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:25.206   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:25.215   290   290 D Zygote  : Forked child process 8212
+11-10 14:04:25.215   502   543 I ActivityManager: Start proc 8212:com.android.chrome:privileged_process0/u0a131 for service {com.android.chrome/org.chromium.content.app.PrivilegedProcessService0}
+11-10 14:04:25.216  8182  8182 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:25.216  8182  8182 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:25.216  8182  8182 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:25.216  8182  8182 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:25.216  8182  8182 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:25.223  8212  8212 W ileged_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:25.224  8182  8182 I cr_ChildProcessService: Creating new ChildProcessService pid=8182
+11-10 14:04:25.234   402   416 I adbd    : jdwp connection from 8212
+11-10 14:04:25.237   502  3834 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10131; state: ENABLED
+11-10 14:04:25.238  8138  8211 W ConnectionStatusConfig: Dynamic lookup for intent failed for action: com.google.android.gms.auth.key.retrieval.service.START
+11-10 14:04:25.244   502  4936 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.auth.key.retrieval.service.START pkg=com.google.android.gms } U=0: not found
+11-10 14:04:25.247   502  3834 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@82c0397
+11-10 14:04:25.243  8138  8211 W ConnectionStatusConfig: Dynamic lookup for intent failed for action: com.google.android.gms.auth.key.retrieval.service.START
+11-10 14:04:25.247  8138  8211 E GmsClient: unable to connect to service: com.google.android.gms.auth.key.retrieval.service.START on com.google.android.gms
+11-10 14:04:25.248   502  4936 D ConnectivityService: requestNetwork for uid/pid:10131/8138 NetworkRequest [ TRACK_DEFAULT id=47, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ]
+11-10 14:04:25.249   502   659 D ConnectivityService: NetReassign [47 : null → 101]
+11-10 14:04:25.249   502   652 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=47, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:25.249   502   652 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=47, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:25.249  1064  1064 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=47, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:25.251  8212  8212 I ileged_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:25.252  8138  8194 W cr_KnoxSettingsProvider: Permission to read device policy denied.
+11-10 14:04:25.252  8212  8212 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:25.253  8212  8212 I ileged_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:25.253  8212  8212 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:25.254   502   659 D ConnectivityService: NetReassign [no changes]
+11-10 14:04:25.255  8212  8212 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:25.255  8212  8212 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:25.255  8212  8212 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:25.256  8212  8212 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:25.256  8212  8212 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:25.257   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:25.259   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@2b1e3fa mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:25.259  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:25.259  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:25.260  8212  8212 I cr_ChildProcessService: Creating new ChildProcessService pid=8212
+11-10 14:04:25.268   502  3834 D ConnectivityService: requestNetwork for uid/pid:10131/8138 NetworkRequest [ TRACK_DEFAULT id=49, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ]
+11-10 14:04:25.268   502   659 D ConnectivityService: NetReassign [49 : null → 101]
+11-10 14:04:25.269   502   652 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=49, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:25.269   502   652 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=49, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:25.269  1064  1064 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=49, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:25.269   502   659 D ConnectivityService: NetReassign [no changes]
+11-10 14:04:25.272   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:25.272   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@6906dab mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:25.273  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:25.273  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:25.275  8212  8233 I cr_Linker: Using linker: org.chromium.base.library_loader.ModernLinker
+11-10 14:04:25.277  8212  8235 I cr_LibraryLoader: Loading monochrome
+11-10 14:04:25.283  8212  8235 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:25.283  8212  8235 I cr_CachingUmaRecorder: Flushed 1 samples from 1 histograms.
+11-10 14:04:25.291  8212  8235 D libEGL  : loaded /vendor/lib/egl/libEGL_emulation.so
+11-10 14:04:25.292  8212  8235 D libEGL  : loaded /vendor/lib/egl/libGLESv1_CM_emulation.so
+11-10 14:04:25.294  8212  8235 D libEGL  : loaded /vendor/lib/egl/libGLESv2_emulation.so
+11-10 14:04:25.313  8212  8235 D HostConnection: HostConnection::get() New Host Connection established 0xec459610, tid 8235
+11-10 14:04:25.331  8212  8235 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:25.340   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:25.375  8212  8235 D EGL_emulation: eglCreateContext: 0xec459e60: maj 3 min 0 rcv 3
+11-10 14:04:25.376  8212  8235 D EGL_emulation: eglMakeCurrent: 0xec459e60: ver 3 0 (tinfo 0xec8b0a30) (first time)
+11-10 14:04:25.465  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:25.465  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:25.476  8212  8235 I VideoCapabilities: Unsupported profile 4 for video/mp4v-es
+11-10 14:04:25.476  8212  8235 W cr_MediaCodecUtil: HW encoder for video/avc is not available on this device.
+11-10 14:04:26.887  8138  8156 W System  : A resource failed to call close. 
+11-10 14:04:27.266   502  3834 I ActivityManager: Force stopping com.android.chrome appid=10131 user=0: from pid 8246
+11-10 14:04:27.266   502  3834 I ActivityManager: Killing 8212:com.android.chrome:privileged_process0/u0a131 (adj 0): stop com.android.chrome due to from pid 8246
+11-10 14:04:27.268   502  3834 I ActivityManager: Killing 8138:com.android.chrome/u0a131 (adj 0): stop com.android.chrome due to from pid 8246
+11-10 14:04:27.269   502  3834 W ActivityTaskManager: Force removing ActivityRecord{e2c9822 u0 com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity t17 f}}: app died, no saved state
+11-10 14:04:26.887  8138  8156 W System  : A resource failed to call close. 
+11-10 14:04:27.276   290   290 I Zygote  : Process 8212 exited due to signal 9 (Killed)
+11-10 14:04:27.276   502  3834 I ActivityManager: Killing 8182:com.android.chrome:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a131i-8999 (adj 0): isolated not needed
+11-10 14:04:27.281  8246  8248 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-10 14:04:27.285  1064  1064 D CarrierSvcBindHelper: No carrier app for: 0
+11-10 14:04:27.493     0     0 I binder  : undelivered transaction 701519, process died.
+11-10 14:04:27.294  7999  7999 I Zygote  : Process 8182 exited due to signal 9 (Killed)
+11-10 14:04:27.503     0     0 I binder  : undelivered transaction 701515, process died.
+11-10 14:04:27.510     0     0 I binder  : undelivered transaction 701526, process died.
+11-10 14:04:27.307   502  1816 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=49, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@6a06a03)
+11-10 14:04:27.307   502  1816 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=48, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&FOREGROUND Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@3ec3d80)
+11-10 14:04:27.307   502  1816 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=47, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@7535fb9)
+11-10 14:04:27.307   502  1816 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=50, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&FOREGROUND Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@7c04ffe)
+11-10 14:04:27.309   502   659 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=49, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] (release request)
+11-10 14:04:27.310   502   659 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=47, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] (release request)
+11-10 14:04:27.311   502   544 I libprocessgroup: Successfully killed process cgroup uid 10131 pid 8212 in 43ms
+11-10 14:04:27.312   502   536 W ActivityManager: setHasOverlayUi called on unknown pid: 8138
+11-10 14:04:27.312   502   536 D EventSequenceValidator: Transition from ACTIVITY_FINISHED to INTENT_STARTED
+11-10 14:04:27.313   502   833 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW cat=[android.intent.category.BROWSABLE] dat=vn.lupin.oneline://auth?error=a+b%c"d'e<fé&state=x flg=0x10000000 cmp=vn.lupin.oneline/.MainActivity} from uid 2000
+11-10 14:04:27.319   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:27.325   502   536 D EventSequenceValidator: Transition from INTENT_STARTED to INTENT_FAILED
+11-10 14:04:27.325   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@a2afc08 mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:27.331   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:27.332   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@347efa1 mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:27.332  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:27.332  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:27.332  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:27.332  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:27.347   290   290 I Zygote  : Process 8138 exited due to signal 9 (Killed)
+11-10 14:04:27.355   502   544 I libprocessgroup: Successfully killed process cgroup uid 10131 pid 8138 in 43ms
+11-10 14:04:27.355   502   544 I libprocessgroup: Successfully killed process cgroup uid 90001 pid 8182 in 0ms
+11-10 14:04:27.359  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] auth user=0 busy=0 err=a+b%c"d'e<fé", source: file:///android_asset/index.html (171)
+11-10 14:04:27.423  1823  8257 I Vision  : Requesting optional module download of ocr.
+11-10 14:04:27.423  1823  8257 I Vision  : Checking for download completion for 209764 -- ocr
+11-10 14:04:27.948  1459  3423 I MediaProvider: Deleted 1 items on external_primary due to com.android.shell
+11-10 14:04:28.037  8263  8263 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:04:28.052  8263  8263 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+11-10 14:04:28.052  8263  8263 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+11-10 14:04:28.052  8263  8263 I AndroidRuntime: Using default boot image
+11-10 14:04:28.056  8263  8263 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+11-10 14:04:28.056  8263  8263 I AndroidRuntime: Leaving lock profiling enabled
+11-10 14:04:28.056  8263  8263 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+11-10 14:04:28.058  8263  8263 I app_process: Core platform API reporting enabled, enforcing=false
+11-10 14:04:28.134  8263  8263 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-10 14:04:28.134  8263  8263 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-10 14:04:28.145  8263  8263 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:28.032  8263  8263 W app_process: type=1400 audit(0.0:298): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:28.158  8263  8263 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:28.158  8263  8263 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:28.048  8263  8263 W app_process: type=1400 audit(0.0:299): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:28.188  8263  8263 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-10 14:04:28.191  8263  8263 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+11-10 14:04:28.052  8263  8263 W app_process: type=1400 audit(0.0:300): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:28.196  8263  8277 V UiAutomation: Init UiAutomation@c0c6963[id=26, flags=0]
+11-10 14:04:28.052  8263  8263 W app_process: type=1400 audit(0.0:301): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:28.249   289   289 I Zygote  : Process 6714 exited due to signal 9 (Killed)
+11-10 14:04:28.258   502   544 I libprocessgroup: Successfully killed process cgroup uid 10150 pid 6714 in 44ms
+11-10 14:04:29.214  8263  8263 W AccessibilityNodeInfoDumper: Fetch time: 8ms
+11-10 14:04:29.214   502  1816 W WindowManager: removeWindowToken: Attempted to remove non-existing token: android.os.Binder@84d6e5b
+11-10 14:04:29.218  8263  8277 V UiAutomation: Init UiAutomation@c0c6963[id=-1, flags=0]
+11-10 14:04:29.227  8263  8263 D AndroidRuntime: Shutting down VM
+11-10 14:04:29.878   423   423 I perfetto: probes_producer.cc:329  Producer stop (id=12)
+11-10 14:04:29.885   424   424 E libc    : The property "ro.build.fingerprint" has a value with length 92 that is too large for __system_property_get()/__system_property_read(); use __system_property_read_callback() instead.
+11-10 14:04:29.885   424   424 I perfetto: ng_service_impl.cc:1948 Tracing session 12 ended, total sessions:0
+11-10 14:04:30.081     0     0 W perfetto: disabled ftrace
+11-10 14:04:29.890   423   423 I perfetto: ftrace_procfs.cc:183    disabled ftrace
+11-10 14:04:29.946  8280  8280 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-10 14:04:29.956  8280  8280 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+11-10 14:04:29.956  8280  8280 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+11-10 14:04:29.956  8280  8280 I AndroidRuntime: Using default boot image
+11-10 14:04:29.956  8280  8280 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+11-10 14:04:29.956  8280  8280 I AndroidRuntime: Leaving lock profiling enabled
+11-10 14:04:29.957  8280  8280 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+11-10 14:04:29.944  8280  8280 W app_process: type=1400 audit(0.0:302): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:29.974  8280  8280 I app_process: Core platform API reporting enabled, enforcing=false
+11-10 14:04:30.065  8280  8280 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-10 14:04:30.065  8280  8280 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-10 14:04:30.077  8280  8280 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:30.078  8280  8280 I app_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:29.952  8280  8280 W app_process: type=1400 audit(0.0:303): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:30.119  8280  8280 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-10 14:04:30.127  8280  8280 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-10 14:04:29.952  8280  8280 W app_process: type=1400 audit(0.0:305): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=192 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+11-10 14:04:30.166  8280  8280 D AndroidRuntime: Shutting down VM
+11-10 14:04:30.194  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] login google native=Android", source: file:///android_asset/index.html (171)
+11-10 14:04:30.194  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] auth user=0 busy=1 err=-", source: file:///android_asset/index.html (171)
+11-10 14:04:30.196   502  1945 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW cat=[android.intent.category.BROWSABLE] dat=https://oneline-test.invalid/... flg=0x10000000 cmp=com.android.chrome/com.google.android.apps.chrome.IntentDispatcher} from uid 10169
+11-10 14:04:30.197   502   536 D EventSequenceValidator: Transition from INTENT_FAILED to INTENT_STARTED
+11-10 14:04:30.209   502   536 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:30.209   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:30.213   290   290 D Zygote  : Forked child process 8293
+11-10 14:04:30.214   502   536 D EventSequenceValidator: Transition from INTENT_STARTED to ACTIVITY_LAUNCHED
+11-10 14:04:30.214   502   543 I ActivityManager: Start proc 8293:com.android.chrome/u0a131 for pre-top-activity {com.android.chrome/com.google.android.apps.chrome.IntentDispatcher}
+11-10 14:04:30.243   424   424 I perfetto: ing_service_impl.cc:758 Configured tracing session 13, #sources:1, duration:5000 ms, #buffers:1, total buffer size:4096 KB, total sessions:1, uid:1071 session name: ""
+11-10 14:04:30.243   423   423 I perfetto: probes_producer.cc:230  Ftrace setup (target_buf=13)
+11-10 14:04:30.244  8293  8293 W .android.chrom: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:30.247   402   416 I adbd    : jdwp connection from 8293
+11-10 14:04:30.259  8293  8293 I .android.chrom: The ClassLoaderContext is a special shared library.
+11-10 14:04:30.260  8293  8293 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:30.260   423   423 I perfetto: ftrace_procfs.cc:176    enabled ftrace
+11-10 14:04:30.261  8293  8293 I .android.chrom: The ClassLoaderContext is a special shared library.
+11-10 14:04:30.261  8293  8293 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:30.462     0     0 W perfetto: enabled ftrace
+11-10 14:04:30.264  8293  8293 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:30.264  8293  8293 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:30.264  8293  8293 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:30.264  8293  8293 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:30.265  8293  8293 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:30.279  8293  8323 D libEGL  : loaded /vendor/lib/egl/libEGL_emulation.so
+11-10 14:04:30.280  8293  8323 D libEGL  : loaded /vendor/lib/egl/libGLESv1_CM_emulation.so
+11-10 14:04:30.283  8293  8323 D libEGL  : loaded /vendor/lib/egl/libGLESv2_emulation.so
+11-10 14:04:30.289  8293  8293 I cr_InstantAppsHandler: Package manager handles intents on O+, not handling in Chrome
+11-10 14:04:30.290   502  1945 I ActivityTaskManager: START u0 {cmp=com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity (has extras)} from uid 10131
+11-10 14:04:30.294   502  1945 W ActivityTaskManager: Tried to set launchTime (0) < mLastActivityLaunchTime (202592)
+11-10 14:04:30.305  8293  8318 W DynamiteModule: Local module descriptor class for com.google.android.gms.googlecertificates not found.
+11-10 14:04:30.310  8293  8318 I DynamiteModule: Considering local module com.google.android.gms.googlecertificates:0 and remote module com.google.android.gms.googlecertificates:4
+11-10 14:04:30.310  8293  8318 I DynamiteModule: Selected remote version of com.google.android.gms.googlecertificates, version >= 4
+11-10 14:04:30.314  8293  8326 I cr_Linker: Using linker: org.chromium.base.library_loader.ModernLinker
+11-10 14:04:30.314  8293  8326 I cr_LibraryLoader: Loading monochrome
+11-10 14:04:30.330   726   928 D EglHelper: createEglContext start
+11-10 14:04:30.332   726   928 D EGL_emulation: eglCreateContext: 0x73ff2e5d0360: maj 3 min 0 rcv 3
+11-10 14:04:30.332   726   928 D EglHelper: createEglContext done
+11-10 14:04:30.332   726   928 D EglHelper: createEglSurface start
+11-10 14:04:30.342   726   928 D EglHelper: createEglSurface done
+11-10 14:04:30.344  8293  8326 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:30.347  8293  8326 I cr_CachingUmaRecorder: Flushed 13 samples from 13 histograms.
+11-10 14:04:30.349   502  6012 D HostConnection: HostConnection::get() New Host Connection established 0x73ff3e567310, tid 6012
+11-10 14:04:30.351  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:30.351  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:30.361   502  6012 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:30.363   502  6012 D EGL_emulation: eglCreateContext: 0x73ff2e658c40: maj 3 min 0 rcv 3
+11-10 14:04:30.363   502  6012 D EGL_emulation: eglMakeCurrent: 0x73ff2e658c40: ver 3 0 (tinfo 0x73fece660630) (first time)
+11-10 14:04:30.376  8293  8321 D HostConnection: HostConnection::get() New Host Connection established 0xec45adb0, tid 8321
+11-10 14:04:30.484  8293  8321 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:30.493   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:30.494  8293  8321 D EGL_emulation: eglCreateContext: 0xec45ad40: maj 3 min 0 rcv 3
+11-10 14:04:30.496  8293  8321 D EGL_emulation: eglMakeCurrent: 0xec45ad40: ver 3 0 (tinfo 0xec8afed0) (first time)
+11-10 14:04:30.540   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:30.540  8293  8321 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:30.542  8293  8321 D HostConnection: createUnique: call
+11-10 14:04:30.542  8293  8321 D HostConnection: HostConnection::get() New Host Connection established 0xec45efc0, tid 8321
+11-10 14:04:30.552  8293  8321 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:30.557  8293  8318 I DynamiteLoaderV2: [70] Googlecertificates
+11-10 14:04:30.557  8293  8318 W .android.chrom: Unsupported class loader
+11-10 14:04:30.558  8293  8318 W .android.chrom: Unsupported class loader
+11-10 14:04:30.559   502  1930 E system_server: Invalid class loader spec: =UnsupportedClassLoaderContext=
+11-10 14:04:30.559   502  1930 E PackageDexUsage: Unsupported context?
+11-10 14:04:30.644   502   541 D ArtManagerInternalImpl: /data/misc/iorapd/com.android.chrome/410410686/org.chromium.chrome.browser.firstrun.FirstRunActivity/compiled_traces/compiled_trace.pb doesn't exist
+11-10 14:04:30.645   502   536 D EventSequenceValidator: Transition from ACTIVITY_LAUNCHED to ACTIVITY_FINISHED
+11-10 14:04:30.649  8293  8293 W .android.chrom: Accessing hidden method Landroid/graphics/FontFamily;-><init>()V (greylist-max-q, reflection, denied)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: Unable to collect necessary methods for class java.lang.NoSuchMethodException
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: java.lang.NoSuchMethodException: android.graphics.FontFamily.<init> []
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at java.lang.Class.getConstructor0(Class.java:2332)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at java.lang.Class.getConstructor(Class.java:1728)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at s7.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at t7.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at q7.<clinit>(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at F4.h(chromium-TrichromeChromeGoogle.aab-stable-410410686:12)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at I3.f(chromium-TrichromeChromeGoogle.aab-stable-410410686:15)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at I3.d(chromium-TrichromeChromeGoogle.aab-stable-410410686:29)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at J3.<init>(chromium-TrichromeChromeGoogle.aab-stable-410410686:5)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at p1.onCreateView(chromium-TrichromeChromeGoogle.aab-stable-410410686:52)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater$FactoryMerger.onCreateView(LayoutInflater.java:240)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.tryCreateView(LayoutInflater.java:1059)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:995)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:959)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1121)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1124)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1124)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:1082)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.inflate(LayoutInflater.java:680)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.view.LayoutInflater.inflate(LayoutInflater.java:532)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at org.chromium.chrome.browser.firstrun.ToSAndUMAFirstRunFragment.n0(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at n9.I0(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at N9.j0(chromium-TrichromeChromeGoogle.aab-stable-410410686:94)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at N9.h0(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at N9.i0(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at e9.k(chromium-TrichromeChromeGoogle.aab-stable-410410686:36)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at N9.X(chromium-TrichromeChromeGoogle.aab-stable-410410686:50)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at N9.o0(chromium-TrichromeChromeGoogle.aab-stable-410410686:10)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at e9.c(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at S9.e(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at androidx.viewpager.widget.ViewPager.t(chromium-TrichromeChromeGoogle.aab-stable-410410686:94)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at androidx.viewpager.widget.ViewPager.y(chromium-TrichromeChromeGoogle.aab-stable-410410686:38)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at La1.c(chromium-TrichromeChromeGoogle.aab-stable-410410686:30)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at Qa1.a(chromium-TrichromeChromeGoogle.aab-stable-410410686:15)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at VH1.onResult(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at hD0.onResult(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at xw2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:1)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at Aw2.k(chromium-TrichromeChromeGoogle.aab-stable-410410686:5)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at Hn0.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:3)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.os.Looper.loop(Looper.java:223)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at android.app.ActivityThread.main(ActivityThread.java:7656)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at java.lang.reflect.Method.invoke(Native Method)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+11-10 14:04:30.649  8293  8293 E TypefaceCompatApi26Impl: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+11-10 14:04:30.651   502   541 I ActivityTaskManager: Displayed com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity: +447ms
+11-10 14:04:30.655  1823  2871 I FontsContentProvider: Received query Google Sans, URI content://com.google.android.gms.fonts
+11-10 14:04:30.655  1823  2871 I FontsContentProvider: Query [Google Sans] resolved to {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false}
+11-10 14:04:30.655  1823  2871 I FontsContentProvider: Fetch {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null}
+11-10 14:04:30.659  8293  8335 W TypefaceCompatApi26Impl: Unable to collect necessary private methods. Fallback to legacy implementation.
+11-10 14:04:30.659  1823  1839 I FontsContentProvider: Pulling font file for id = 9, cache size = 6
+11-10 14:04:30.665  1823  2871 I FontsContentProvider: Received query Google Sans:500, URI content://com.google.android.gms.fonts
+11-10 14:04:30.665  1823  2871 I FontsContentProvider: Query [Google Sans:500] resolved to {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false}
+11-10 14:04:30.665  1823  2871 I FontsContentProvider: Fetch {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null}
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: Error while loading asset assets/stored-locales/en-US.pak: java.io.FileNotFoundException: assets/stored-locales/en-US.pak
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: java.io.FileNotFoundException: assets/stored-locales/en-US.pak
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at android.content.res.AssetManager.nativeOpenNonAssetFd(Native Method)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at android.content.res.AssetManager.openNonAssetFd(AssetManager.java:1031)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at android.content.res.AssetManager.openNonAssetFd(AssetManager.java:1012)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at org.chromium.ui.base.ResourceBundle.getLocalePakResourcePath(chromium-TrichromeChromeGoogle.aab-stable-410410686:10)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at J.N.M1Y_XVCN(Native Method)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at org.chromium.content.browser.BrowserStartupControllerImpl.b(chromium-TrichromeChromeGoogle.aab-stable-410410686:2)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at Vx2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:6)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at Yx2.run(chromium-TrichromeChromeGoogle.aab-stable-410410686:8)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at go0.g(chromium-TrichromeChromeGoogle.aab-stable-410410686:11)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at eo0.run(Unknown Source:2)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at android.os.Looper.loop(Looper.java:223)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at android.app.ActivityThread.main(ActivityThread.java:7656)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at java.lang.reflect.Method.invoke(Native Method)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+11-10 14:04:30.672  8293  8293 E cr_ResourceBundle: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+11-10 14:04:30.673   502   833 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:30.673   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:30.675  8293  8335 W TypefaceCompatApi26Impl: Unable to collect necessary private methods. Fallback to legacy implementation.
+11-10 14:04:30.675  1823  2871 I FontsContentProvider: Pulling font file for id = 10, cache size = 7
+11-10 14:04:30.677  7999  7999 D Zygote  : Forked child process 8337
+11-10 14:04:30.678   502   543 I ActivityManager: Start proc 8337:com.android.chrome:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai2 for  {com.android.chrome/org.chromium.content.app.SandboxedProcessService0:0}
+11-10 14:04:30.679  8293  8293 I TetheringManager: registerTetheringEventCallback:com.android.chrome
+11-10 14:04:30.680  8337  8337 W ocessService0:: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:30.685   402   416 I adbd    : jdwp connection from 8337
+11-10 14:04:30.689   502   833 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10131; state: ENABLED
+11-10 14:04:30.697   502   833 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10131; state: DISABLED
+11-10 14:04:30.697   502   543 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10131; state: ENABLED
+11-10 14:04:30.702   290   290 D Zygote  : Forked child process 8367
+11-10 14:04:30.703   502   543 I ActivityManager: Start proc 8367:com.android.chrome:privileged_process0/u0a131 for service {com.android.chrome/org.chromium.content.app.PrivilegedProcessService0}
+11-10 14:04:30.706  8367  8367 W ileged_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-10 14:04:30.709  8337  8337 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:30.709  8337  8337 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:30.709  8337  8337 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:30.709   502  1019 D CompatibilityChangeReporter: Compat change id reported: 136274596; UID 10131; state: ENABLED
+11-10 14:04:30.709   402   416 I adbd    : jdwp connection from 8367
+11-10 14:04:30.710  8337  8337 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:30.714  8337  8337 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:30.718  8337  8337 I cr_ChildProcessService: Creating new ChildProcessService pid=8337
+11-10 14:04:30.719   502   547 E libprocessgroup: AddTidToCgroup failed to write '8384'; fd=53: Invalid argument
+11-10 14:04:30.719   502   547 E libprocessgroup: Failed to add task into cgroup
+11-10 14:04:30.719   502   547 W libprocessgroup: ExecuteForTask failed for aggregate profile: Invalid argument
+11-10 14:04:30.723  8367  8367 I ileged_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:30.723  8367  8367 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:30.724  8367  8367 I ileged_process: The ClassLoaderContext is a special shared library.
+11-10 14:04:30.725  8367  8367 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/product/app/Chrome/lib/x86:/product/app/Chrome/Chrome.apk!/lib/x86:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/x86:/product/lib:/system/product/lib
+11-10 14:04:30.727  8367  8367 I LoadedApk: No resource references to update in package com.android.chrome.autofill_assistant
+11-10 14:04:30.727  8367  8367 I LoadedApk: No resource references to update in package com.android.chrome.chime
+11-10 14:04:30.727  8367  8367 I LoadedApk: No resource references to update in package com.android.chrome.test_dummy
+11-10 14:04:30.727   502   833 D ConnectivityService: requestNetwork for uid/pid:10131/8293 NetworkRequest [ TRACK_DEFAULT id=51, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ]
+11-10 14:04:30.727  8367  8367 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:30.727   502   659 D ConnectivityService: NetReassign [51 : null → 101]
+11-10 14:04:30.727   502   652 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=51, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:30.727   502   652 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=51, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:30.727  1064  1064 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=51, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:30.727  8367  8367 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-10 14:04:30.730   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:30.730  8367  8367 I cr_ChildProcessService: Creating new ChildProcessService pid=8367
+11-10 14:04:30.730  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:30.730  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:30.730   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@9d2e4dd mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:30.731  8293  8366 W ConnectionStatusConfig: Dynamic lookup for intent failed for action: com.google.android.gms.auth.key.retrieval.service.START
+11-10 14:04:30.732   502  1019 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.auth.key.retrieval.service.START pkg=com.google.android.gms } U=0: not found
+11-10 14:04:30.732   502  1019 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@9a9b7d9
+11-10 14:04:30.731  8293  8366 W ConnectionStatusConfig: Dynamic lookup for intent failed for action: com.google.android.gms.auth.key.retrieval.service.START
+11-10 14:04:30.732  8293  8366 E GmsClient: unable to connect to service: com.google.android.gms.auth.key.retrieval.service.START on com.google.android.gms
+11-10 14:04:30.733   502   659 D ConnectivityService: NetReassign [no changes]
+11-10 14:04:30.734  8293  8293 W cr_KnoxSettingsProvider: Permission to read device policy denied.
+11-10 14:04:30.743  8367  8384 I cr_Linker: Using linker: org.chromium.base.library_loader.ModernLinker
+11-10 14:04:30.745  8367  8389 I cr_LibraryLoader: Loading monochrome
+11-10 14:04:30.745   502  1019 D ConnectivityService: requestNetwork for uid/pid:10131/8293 NetworkRequest [ TRACK_DEFAULT id=53, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ]
+11-10 14:04:30.745   502   659 D ConnectivityService: NetReassign [53 : null → 101]
+11-10 14:04:30.745   502   652 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=53, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:30.745   502   652 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=53, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:30.745  1064  1064 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=53, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] with score 60 and providerId 3
+11-10 14:04:30.747   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:30.747   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@74f852 mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:30.748  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:30.748  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:30.749   502   659 D ConnectivityService: NetReassign [no changes]
+11-10 14:04:30.753  8367  8389 I cr_LibraryLoader: Loaded native library version number "83.0.4103.106"
+11-10 14:04:30.753  8367  8389 I cr_CachingUmaRecorder: Flushed 1 samples from 1 histograms.
+11-10 14:04:30.756  8367  8389 D libEGL  : loaded /vendor/lib/egl/libEGL_emulation.so
+11-10 14:04:30.756  8367  8389 D libEGL  : loaded /vendor/lib/egl/libGLESv1_CM_emulation.so
+11-10 14:04:30.758  8367  8389 D libEGL  : loaded /vendor/lib/egl/libGLESv2_emulation.so
+11-10 14:04:30.773  8367  8389 D HostConnection: HostConnection::get() New Host Connection established 0xec45a870, tid 8389
+11-10 14:04:30.813  8367  8389 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+11-10 14:04:30.823   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-10 14:04:30.825  8367  8389 D EGL_emulation: eglCreateContext: 0xec45ad40: maj 3 min 0 rcv 3
+11-10 14:04:30.826  8367  8389 D EGL_emulation: eglMakeCurrent: 0xec45ad40: ver 3 0 (tinfo 0xec8b0750) (first time)
+11-10 14:04:31.000  8367  8389 I VideoCapabilities: Unsupported profile 4 for video/mp4v-es
+11-10 14:04:31.001  8367  8389 W cr_MediaCodecUtil: HW encoder for video/avc is not available on this device.
+11-10 14:04:31.186  1823  8257 I GmscoreIpa: Starting mediastore instant index
+11-10 14:04:31.189   502  1019 D CompatibilityChangeReporter: Compat change id reported: 149924527; UID 10122; state: ENABLED
+11-10 14:04:31.189   502  1019 D CompatibilityChangeReporter: Compat change id reported: 132649864; UID 10122; state: DISABLED
+11-10 14:04:32.251  8293  8312 W System  : A resource failed to call close. 
+11-10 14:04:32.251  8293  8312 W System  : A resource failed to call close. 
+11-10 14:04:32.385  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:32.385  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:32.385  6528  6528 I ProvidersCache: Updating roots due to change on user 0at content://com.android.providers.media.documents/root
+11-10 14:04:32.392  6528  6563 I ProvidersCache: Provider returned no roots. Possibly naughty: com.google.android.apps.docs.storage
+11-10 14:04:32.602   502  1816 I ActivityManager: Force stopping com.android.chrome appid=10131 user=0: from pid 8400
+11-10 14:04:32.602   502  1816 I ActivityManager: Killing 8367:com.android.chrome:privileged_process0/u0a131 (adj 0): stop com.android.chrome due to from pid 8400
+11-10 14:04:32.607  8293  8336 W cr_ChildProcessConn: onServiceDisconnected (crash or killed by oom): pid=8367 bindings:W S state:3 counts:0,0,1,1,
+11-10 14:04:32.607   502  1816 I ActivityManager: Killing 8293:com.android.chrome/u0a131 (adj 0): stop com.android.chrome due to from pid 8400
+11-10 14:04:32.609   502  1816 W ActivityTaskManager: Force removing ActivityRecord{14626e9 u0 com.android.chrome/org.chromium.chrome.browser.firstrun.FirstRunActivity t19 f}}: app died, no saved state
+11-10 14:04:32.611   290   290 I Zygote  : Process 8367 exited due to signal 9 (Killed)
+11-10 14:04:32.618   502  1816 I ActivityManager: Killing 8337:com.android.chrome:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a131i-8998 (adj 0): isolated not needed
+11-10 14:04:32.826     0     0 I binder_alloc: 8293: binder_alloc_buf, no vma
+11-10 14:04:32.827     0     0 I binder  : 502:1945 transaction failed 29189/-3, size 8-0 line 3226
+11-10 14:04:32.829     0     0 I binder  : send failed reply for transaction 707876 to 8293:8336
+11-10 14:04:32.833     0     0 I binder  : undelivered TRANSACTION_COMPLETE
+11-10 14:04:32.835     0     0 I binder  : undelivered TRANSACTION_ERROR: 29189
+11-10 14:04:32.623   502  1945 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@40a03c0
+11-10 14:04:32.628  1064  1064 D CarrierSvcBindHelper: No carrier app for: 0
+11-10 14:04:32.630  7999  7999 I Zygote  : Process 8337 exited due to signal 9 (Killed)
+11-10 14:04:32.634   502  1946 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=53, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@15bb8f3)
+11-10 14:04:32.634   502   659 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=53, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] (release request)
+11-10 14:04:32.641  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:32.641  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:32.651   502   544 I libprocessgroup: Successfully killed process cgroup uid 10131 pid 8367 in 44ms
+11-10 14:04:32.654   502  1816 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=51, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@b274ec8)
+11-10 14:04:32.654   502   659 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=51, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ] (release request)
+11-10 14:04:32.657   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:32.659   290   290 I Zygote  : Process 8293 exited due to signal 9 (Killed)
+11-10 14:04:32.661  1064  1064 D Telephony: isEmergencyPreferredAccount: subId=1, activeData=1
+11-10 14:04:32.661  1064  1064 D Telephony: isEmergencyPreferredAccount: Device does not require preference.
+11-10 14:04:32.662   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@6e2e723 mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:32.666   502  1816 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=54, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&FOREGROUND Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@300b512)
+11-10 14:04:32.666   726   726 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+11-10 14:04:32.666   502  1816 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=52, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&FOREGROUND Uid: 10131 AdministratorUids: [] RequestorUid: 10131 RequestorPackageName: com.android.chrome] ], android.os.BinderProxy@c64c4e3)
+11-10 14:04:32.667   502   536 W ActivityManager: setHasOverlayUi called on unknown pid: 8293
+11-10 14:04:32.667   726   726 V KeyguardUpdateMonitor: SubInfo:{id=1 iccId=89014103211118510720 simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=3 iconTint=-16746133 number=+15555215554 dataRoaming=0 iconBitmap=android.graphics.Bitmap@91b4420 mcc=310 mnc=260 countryIso=us isEmbedded=false nativeAccessRules=null cardString=89014103211118510720 cardId=-1 isOpportunistic=false groupUUID=null isGroupDisabled=false profileClass=-1 ehplmns=null hplmns=null subscriptionType=0 groupOwner=null carrierConfigAccessRules=null areUiccApplicationsEnabled=true}
+11-10 14:04:32.870     0     0 I binder  : undelivered transaction 707887, process died.
+11-10 14:04:32.696   502   544 I libprocessgroup: Successfully killed process cgroup uid 10131 pid 8293 in 44ms
+11-10 14:04:32.696   502   544 I libprocessgroup: Successfully killed process cgroup uid 90002 pid 8337 in 0ms
+11-10 14:04:32.697   502   536 D EventSequenceValidator: Transition from ACTIVITY_FINISHED to INTENT_STARTED
+11-10 14:04:32.697   502  1946 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=vn.lupin.oneline/.MainActivity} from uid 2000
+11-10 14:04:32.698   502   536 D EventSequenceValidator: Transition from INTENT_STARTED to INTENT_FAILED
+11-10 14:04:32.699  8407  8409 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-10 14:04:35.141  7846  7846 I chromium: [INFO:CONSOLE(171)] "[oneline] auth user=0 busy=0 err=-", source: file:///android_asset/index.html (171)
+11-10 14:04:35.243   423   423 I perfetto: probes_producer.cc:329  Producer stop (id=13)
+11-10 14:04:35.246   423   423 I perfetto: ftrace_procfs.cc:183    disabled ftrace
+11-10 14:04:35.247   424   424 E libc    : The property "ro.build.fingerprint" has a value with length 92 that is too large for __system_property_get()/__system_property_read(); use __system_property_read_callback() instead.
+11-10 14:04:35.447     0     0 W perfetto: disabled ftrace
+11-10 14:04:35.250   424   424 I perfetto: ng_service_impl.cc:1948 Tracing session 13 ended, total sessions:0
+11-10 14:04:35.843  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():180 call()
+11-10 14:04:35.843  1354  1401 I PeriodicStatsRunner: PeriodicStatsRunner.call():184 No submit PeriodicStats since input started.
+11-10 14:04:36.374   162   162 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-10 14:04:36.375  8415  8415 I Gralloc4: mapper 4.x is not supported
+11-10 14:04:36.380  8415  8415 D HostConnection: createUnique: call
+11-10 14:04:36.384  8415  8415 D HostConnection: HostConnection::get() New Host Connection established 0x794cb01a96d0, tid 8415
+11-10 14:04:36.413  8415  8415 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 

@@ -1,0 +1,12 @@
+[oneline] boot v1.6 online=on pointer=1 best=0 view=320x640
+[oneline] auth user=0 busy=0 err=-
+[oneline] canvas ok 320x507
+[oneline] login google native=Android
+[oneline] auth user=0 busy=1 err=-
+[oneline] auth user=0 busy=0 err=state-mismatch
+[oneline] login facebook native=Android
+[oneline] auth user=0 busy=1 err=-
+[oneline] auth user=0 busy=0 err=a+b%c"d'e<fé
+[oneline] login google native=Android
+[oneline] auth user=0 busy=1 err=-
+[oneline] auth user=0 busy=0 err=-
