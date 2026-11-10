@@ -57,9 +57,11 @@ run_tests(){
     -derivedDataPath "$DERIVED" -resultBundlePath "$OUT/$name.xcresult" "$pick" \
     > "$log" 2>&1
   rc=$?
-  grep -E "Test Case .*(passed|failed|skipped)|error:|KHUNG CHƠI|ĐĂNG NHẬP|XCTAssert|\*\* TEST|Executed [0-9]+ tests" "$log" | sed 's/^/  /' | tail -60
-  # lượt phải thật sự chạy test: không có bài nào chạy, hoặc có bài bị bỏ qua, đều tính là lỗi
-  if [ $rc = 0 ] && grep -q "\*\* TEST SUCCEEDED \*\*" "$log" && grep -q -E "Executed [1-9][0-9]* tests?, with 0 failures" "$log" \
+  grep -E "Test Case .*(passed|failed|skipped)|error:|expected failure|KHUNG CHƠI|ĐĂNG NHẬP|XCTAssert|\*\* TEST|Executed [0-9]+ tests" "$log" | sed 's/^/  /' | tail -60
+  # lượt phải thật sự chạy test: không có bài nào chạy, có bài hỏng, hoặc có bài bị bỏ qua, đều tính là lỗi.
+  # ("expected failure" = Simulator không tắt kịp app cũ, xem launchFresh() trong UITests: không tính là bài hỏng)
+  if [ $rc = 0 ] && grep -q "\*\* TEST SUCCEEDED \*\*" "$log" && grep -q -E "Executed [1-9][0-9]* tests?" "$log" \
+     && ! grep -q -E "Executed [0-9]+ tests?,.* [1-9][0-9]* failures? \(" "$log" \
      && ! grep -q -E "Test Case .* skipped|with [1-9][0-9]* tests? skipped" "$log"; then return 0; fi
   echo "==> $name: CÓ LỖI (xem $log)"; tail -40 "$log"; return 1
 }

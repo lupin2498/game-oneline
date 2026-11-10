@@ -12,7 +12,7 @@ final class OneLineLoginUITests: XCTestCase {
     override func setUp() {
         continueAfterFailure = true
         app = XCUIApplication()
-        app.launch()
+        app.launchFresh()
     }
 
     private func shot(_ name: String) {

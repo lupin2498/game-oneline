@@ -65,12 +65,18 @@ H.main('Trường hợp biên', async function (t, cleanup) {
     }
     document.getElementById('bAgain').click();
     await window.__t.raf(3);
+    // đếm số lần vẽ trong 30 khung hình: đúng một vòng lặp thì mỗi khung hình vẽ đúng một lần, máy nhanh hay chậm cũng vậy
+    d.run('(function(){ var o=draw; window.__drawN=0; draw=function(){ window.__drawN++; return o.apply(this,arguments); }; })()');
+    await window.__t.raf(1); var n0 = window.__drawN; await window.__t.raf(30); var draws = window.__drawN - n0;
     var t0 = d.snap().time, r0 = performance.now(); await new Promise(function (r) { setTimeout(r, 1000); });
-    return { st: d.snap().st, gameSec: d.snap().time - t0, realSec: (performance.now() - r0) / 1000, heap: performance.memory ? performance.memory.usedJSHeapSize / 1048576 : 0,
+    return { st: d.snap().st, draws: draws, gameSec: d.snap().time - t0, realSec: (performance.now() - r0) / 1000, heap: performance.memory ? performance.memory.usedJSHeapSize / 1048576 : 0,
       over: !document.getElementById('pOver').classList.contains('hide'), runs: JSON.parse(localStorage.getItem('oneline.runs') || '[]').length };
   });
-  t.ok('E3 Chơi lại 300 lần: trạng thái sạch, chỉ một vòng lặp chạy', again.st === 'ready' && !again.over && Math.abs(again.gameSec - again.realSec) < 0.15 && again.heap < h0 + 12,
-    'thời gian game ' + again.gameSec.toFixed(2) + 's / thực ' + again.realSec.toFixed(2) + 's, heap ' + h0.toFixed(1) + ' -> ' + again.heap.toFixed(1) + ' MB');
+  // Thời gian game không được chạy NHANH hơn thời gian thực. Chậm hơn thì được: dưới 20 khung hình/giây game cố ý chạy
+  // chậm lại (mỗi khung hình tính tối đa 50 ms), mà máy CI chạy WebKit không có GPU đôi lúc tụt dưới mức đó.
+  t.ok('E3 Chơi lại 300 lần: trạng thái sạch, chỉ một vòng lặp chạy', again.st === 'ready' && !again.over && again.draws >= 28 && again.draws <= 32
+      && again.gameSec > 0.2 && again.gameSec < again.realSec + 0.15 && again.heap < h0 + 12,
+    again.draws + ' lần vẽ / 30 khung hình, thời gian game ' + again.gameSec.toFixed(2) + 's / thực ' + again.realSec.toFixed(2) + 's, heap ' + h0.toFixed(1) + ' -> ' + again.heap.toFixed(1) + ' MB');
 
   // 4. va chạm: chấm không được lún vào tường quá 1,5 px (+ sai số đo) mà vẫn sống
   const col = await pg.evaluate(function () {

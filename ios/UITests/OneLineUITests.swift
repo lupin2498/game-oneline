@@ -1,5 +1,24 @@
 import XCTest
 
+extension XCUIApplication {
+    /// Mở app từ đầu (bản đang chạy bị tắt trước). Simulator trên máy CI chậm đôi khi báo "Failed to terminate" lúc tắt
+    /// bản đang chạy dù ngay sau đó app vẫn mở lên bình thường. Việc bị hệ thống tắt nằm ngoài tầm của app, nên RIÊNG
+    /// lỗi này được ghi là "lỗi đã lường trước" rồi thử lại; mọi lỗi khác, hoặc app không lên sau 3 lần, vẫn là lỗi thật.
+    func launchFresh(file: StaticString = #filePath, line: UInt = #line) {
+        for attempt in 1...3 {
+            let opts = XCTExpectedFailure.Options()
+            opts.isStrict = false
+            opts.issueMatcher = { issue in issue.compactDescription.contains("Failed to terminate") }
+            XCTExpectFailure("Simulator không tắt kịp bản app đang chạy (lần \(attempt))", options: opts) {
+                self.launch()
+            }
+            if self.wait(for: .runningForeground, timeout: 30) { return }
+            sleep(3)
+        }
+        XCTFail("Không mở được app sau 3 lần thử", file: file, line: line)
+    }
+}
+
 /// UI test trên iOS Simulator: thao tác cảm ứng THẬT (bấm, giữ, kéo) lên game chạy trong WKWebView.
 /// Chạy:  xcodebuild test -project ios/OneLine.xcodeproj -scheme OneLine -destination 'platform=iOS Simulator,name=iPhone 16'
 /// Ảnh chụp từng bước được ghi vào thư mục $SHOT_DIR (truyền qua TEST_RUNNER_SHOT_DIR) và đính kèm kết quả test.
@@ -12,7 +31,7 @@ final class OneLineUITests: XCTestCase {
     override func setUp() {
         continueAfterFailure = true
         app = XCUIApplication()
-        app.launch()
+        app.launchFresh()
     }
 
     // MARK: - tiện ích
@@ -161,8 +180,9 @@ final class OneLineUITests: XCTestCase {
         let best = meters().max() ?? 0
         XCTAssertGreaterThan(best, 0, "lượt 1,5 giây phải đi được vài mét")
 
-        app.terminate()
-        app.launch()
+        // Tắt hẳn rồi mở lại. Nút "Bắt đầu" chỉ có trên màn hình mở đầu của một lần chạy mới (sau lượt chơi là nút
+        // "Chơi lại"), nên thấy nó nghĩa là app đã thật sự khởi động lại.
+        app.launchFresh()
         XCTAssertTrue(el("Bắt đầu").waitForExistence(timeout: 60))
         let after = meters().max() ?? 0
         XCTAssertGreaterThanOrEqual(after, best, "mở lại app phải còn kỷ lục (trước: \(best) m, sau: \(after) m)")
