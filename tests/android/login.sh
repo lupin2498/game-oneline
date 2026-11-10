@@ -23,6 +23,26 @@ trap 'kill $LOGPID 2>/dev/null || true' EXIT
 # số lần hệ thống được yêu cầu mở trang đăng nhập (dòng "START u0 {act=...VIEW ... dat=https://<host>/...}")
 starts(){ grep -a -c -E "START u0 \{act=android\.intent\.action\.VIEW[^}]*dat=https://$HOST[^}]*cmp=" "$OUT/logcat.txt" 2>/dev/null || true; }
 wait_starts(){ local i=0; while [ "$i" -lt "$(( $2 * 2 ))" ]; do [ "$(starts)" -ge "$1" ] && return 0; sleep 0.5; i=$((i+1)); done; return 1; }
+# Đưa game về phía trước nếu đang bị app khác che (màn chào lần đầu của Chrome có lúc tự bật lại sau vài giây)
+front(){
+  grep -q "$PKG" <<<"$(top_activity)" && return 0
+  adb shell am start -n "$PKG/.MainActivity" >/dev/null 2>&1 </dev/null; sleep 2
+}
+# Bấm nút đăng nhập rồi chờ game ghi nhận ("login <nhà cung cấp>"). Cú bấm có thể trượt vì việc ngoài game: trình duyệt
+# tự bật lên che mất game, hoặc thanh hệ thống đang ẩn lại làm khung hình xê dịch giữa lúc đọc toạ độ và lúc bấm.
+# Trượt thì đưa game về trước, đọc lại toạ độ rồi bấm lại (tối đa 4 lần); nút kẹt thật thì cả 4 lần đều không ăn.
+#   tap_login <chữ trên nút> <google|facebook>
+tap_login(){
+  local n i=0
+  n="$(count "login $2 native")"
+  while [ "$i" -lt 4 ]; do
+    front
+    tap_text "$1" 6 >/dev/null
+    wait_log "login $2 native" "$((n + 1))" 4 && return 0
+    i=$((i+1))
+  done
+  return 1
+}
 # trình duyệt trả kết quả về app qua đường dẫn sâu
 deeplink(){ adb shell "am start -W -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d '$1'" >/dev/null 2>&1 </dev/null; }
 
@@ -49,6 +69,7 @@ if grep -q 'KHÔNG THẤY' <<<"$HOW"; then   # không thấy nút đăng nhập 
   ok "L02 Bấm \"Google\"" 0 "$HOW"; shot 11-khong-thay-nut; lines
   echo "==> Đăng nhập (Android API $API): CÓ LỖI"; exit 1
 fi
+wait_log 'login google native' 1 4 || tap_login 'Google' google
 BROWSER=1
 if wait_starts 1 15; then
   ST="$(grep -a -E "START u0 \{act=android\.intent\.action\.VIEW[^}]*dat=https://$HOST[^}]*cmp=" "$OUT/logcat.txt" | tail -1 | sed 's/.*START u0 //')"
@@ -76,7 +97,7 @@ sleep 1; shot 12-state-mismatch
 
 # ---------- sau lỗi vẫn bấm đăng nhập lại được ----------
 if [ "$BROWSER" = 1 ]; then
-  tap_text 'Facebook' >/dev/null
+  tap_login 'Facebook' facebook
   wait_starts 2 15
   ok "L05 Sau khi bị từ chối, bấm \"Facebook\" vẫn mở được trang đăng nhập" "$([ "$(starts)" -ge 2 ] && [ "$(count 'login facebook native=Android')" -ge 1 ] && echo 1 || echo 0)" "$(last 'login ')"
   sleep 2; [ -n "${BPKG:-}" ] && [ "$BPKG" != android ] && adb shell am force-stop "$BPKG" >/dev/null 2>&1 </dev/null
@@ -90,7 +111,7 @@ ok "L06 Kết quả chứa ký tự đặc biệt tới game nguyên vẹn (khô
 # ---------- bỏ ngang ở trình duyệt rồi quay lại app: nút đăng nhập phải tự nhả ----------
 if [ "$BROWSER" = 1 ]; then
   N0="$(count 'auth user=0 busy=0 err=-')"
-  tap_text 'Google' >/dev/null
+  tap_login 'Google' google
   wait_starts 3 15; sleep 2
   [ -n "${BPKG:-}" ] && [ "$BPKG" != android ] && adb shell am force-stop "$BPKG" >/dev/null 2>&1 </dev/null
   adb shell am start -W -n "$PKG/.MainActivity" >/dev/null 2>&1 </dev/null

@@ -185,15 +185,24 @@ H.main('Logic game', async function (t, cleanup) {
   }
 
   t.ok('G37 Không có lỗi JS trong suốt bài test', pg._errs.length === 0, pg._errs.slice(0, 3).join(' | '));
+  t.ok('G38 Sau khi mở, game tự kiểm canvas và ghi mốc "canvas ok WxH"', pg._logs.some(function (l) { return /^\[oneline\] canvas ok \d+x\d+$/.test(l); }), pg._logs.filter(function (l) { return /canvas/.test(l); }).join(' | '));
 
   // ---- dự phòng cho trình duyệt không có Pointer Events ----
   const old = await H.newPage(browser, srv.url + '/index.html', { touch: true, init: function () { delete window.PointerEvent; } });
   const touch = function (type, pts) {
     return old.evaluate(function (a) {
       var cv = document.getElementById('cv'), r = cv.getBoundingClientRect(), k = r.width / 480;
-      var ts = a.pts.map(function (p) { return new Touch({ identifier: p[2], target: cv, clientX: r.left + p[0] * k, clientY: r.top + p[1] * k }); });
-      var target = a.type === 'touchstart' ? cv : window;
-      return target.dispatchEvent(new TouchEvent(a.type, { bubbles: true, cancelable: true, changedTouches: ts, touches: a.type === 'touchend' ? [] : ts }));
+      var target = a.type === 'touchstart' ? cv : window, ts, ev;
+      try {
+        ts = a.pts.map(function (p) { return new Touch({ identifier: p[2], target: cv, clientX: r.left + p[0] * k, clientY: r.top + p[1] * k }); });
+        ev = new TouchEvent(a.type, { bubbles: true, cancelable: true, changedTouches: ts, touches: a.type === 'touchend' ? [] : ts });
+      } catch (e) {
+        // WebKit bản máy bàn không cho tự tạo Touch/TouchEvent: bắn sự kiện thường mang đúng các trường game đọc
+        ts = a.pts.map(function (p) { return { identifier: p[2], target: cv, clientX: r.left + p[0] * k, clientY: r.top + p[1] * k }; });
+        ev = new Event(a.type, { bubbles: true, cancelable: true });
+        ev.changedTouches = ts; ev.touches = a.type === 'touchend' ? [] : ts;
+      }
+      return target.dispatchEvent(ev);
     }, { type: type, pts: pts });
   };
   const of = function (n) { return old.evaluate(function (k) { return new Promise(function (res) { var i = 0; (function f() { if (i++ >= k) return res(); requestAnimationFrame(f); })(); }); }, n || 2); };
@@ -204,10 +213,11 @@ H.main('Logic game', async function (t, cleanup) {
   t.ok('T02 Touch: giữ nút tròn -> run', o1.st === 'run' && o1.mode === 'stick');
   await touch('touchmove', [[262, 680, 5]]); await of(2);
   let o2 = await H.snap(old);
-  t.ok('T03 Touch: rê +22 -> nhân vật dời đúng 22', Math.abs((o2.dotX - o1.dotX) - 22) < 0.01, (o2.dotX - o1.dotX).toFixed(3));
+  // Firefox làm tròn toạ độ của Touch về số nguyên px (Chromium/WebKit giữ số lẻ) nên cho phép lệch ~1 px game
+  t.ok('T03 Touch: rê +22 -> nhân vật dời đúng 22', Math.abs((o2.dotX - o1.dotX) - 22) < (H.BROWSER === 'firefox' ? 1.3 : 0.01), (o2.dotX - o1.dotX).toFixed(3));
   await touch('touchstart', [[100, 300, 6]]); await touch('touchmove', [[160, 300, 6]]); await touch('touchend', [[160, 300, 6]]); await of(2);
   let o3 = await H.snap(old);
-  t.ok('T04 Touch: ngón thứ hai chạm/rê/nhấc không ảnh hưởng', o3.st === 'run' && Math.abs(o3.dotX - o2.dotX) < 0.01);
+  t.ok('T04 Touch: ngón thứ hai chạm/rê/nhấc không ảnh hưởng', o3.st === 'run' && Math.abs(o3.dotX - o2.dotX) < 0.01, (o3.dotX - o2.dotX).toFixed(3));
   await touch('touchend', [[262, 680, 5]]); await of(2);
   t.ok('T05 Touch: nhấc ngón đang vẽ -> thua', (await H.snap(old)).code === 'lift');
   await old.click('#bAgain'); await of(2);

@@ -15,6 +15,8 @@ wait_log(){ local i=0; while [ "$i" -lt "$(( $3 * 2 ))" ]; do [ "$(count "$1")" 
 # Ảnh chụp có lộ bố cục chưa co giãn không (nội dung bị cắt ở mép phải màn hình)? In số điểm sáng sát mép phải; "?" = không đọc được ảnh
 edge_px(){ python3 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/pngcheck.py" rightedge "$OUT/$1.png" 2>/dev/null || echo '?'; }
 edge_ok(){ [ "$1" = '?' ] || [ "$1" -lt 4 ]; }
+# Số điểm sáng ở dải giữa màn hình của một ảnh chụp (0 = sân chơi không hiện gì); "?" = không đọc được ảnh
+bright_px(){ python3 "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/pngcheck.py" bright "$OUT/$1.png" 2>/dev/null || echo '?'; }
 # Activity đang ở trên cùng (tên trường khác nhau giữa các bản Android, đều chứa "ResumedActivity")
 top_activity(){ adb shell dumpsys activity activities 2>/dev/null </dev/null | grep -E 'ResumedActivity' | head -2 | tr -d '\r'; }
 

@@ -16,7 +16,7 @@ H.main('Đăng nhập popup (web)', async function (t, cleanup) {
     const pop = await Promise.all([pg.context().waitForEvent('page', { timeout: 20000 }), pg.click(buttonSel)]).then(function (a) { return a[0]; });
     await pop.waitForSelector('#add-account-button', { timeout: 20000 });
     if (cancel) { await pop.close(); return; }
-    await pop.click('#add-account-button');
+    await H.emulatorAddAccount(pop);
     await pop.click('#autogen-button');
     await pop.fill('#display-name-input', name);
     await pop.click('#sign-in');

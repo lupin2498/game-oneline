@@ -151,6 +151,14 @@ TOP="$(top_activity)"
 ok "A12b Trang quyền riêng tư mở trong app; nút Back đưa về game (không thoát app)" "$([ -n "$P" ] && [ "$(count 'boot v')" -gt "$NB" ] && grep -q "$PKG" <<<"$TOP" && echo 1 || echo 0)" \
    "trang riêng tư tại ${P:-KHÔNG THẤY}; về game: $(last 'boot v')"
 
+# ---------- sân chơi có hiện không ----------
+# Game tự đọc lại canvas sau 30 khung hình ("canvas ok|blank"); ảnh chụp lúc sẵn sàng chơi cho biết màn hình có hiện.
+wait_log "canvas " 1 40
+CV="$(last 'canvas ')"; BR="$(bright_px 02-ready)"
+ok "A12d Canvas nhận nét vẽ của game" "$(grep -q 'canvas ok' <<<"$CV" && echo 1 || echo 0)" "$CV"
+if [ "$BR" = '?' ] || [ "$BR" -ge 300 ]; then echo "INFO  Ảnh chụp lúc sẵn sàng chơi: $BR điểm sáng ở sân chơi"
+else echo "WARN  Ảnh chụp lúc sẵn sàng chơi KHÔNG thấy mê cung ($BR điểm sáng) dù game báo: $CV"; fi
+
 # ---------- lỗi ----------
 sleep 1
 CRASH="$(app_crashes)"

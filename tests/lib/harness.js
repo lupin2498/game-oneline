@@ -183,7 +183,19 @@ function frameInfo(page) {
   });
 }
 
-module.exports = { BROWSER, ROOT, OUT, serve, fileCopy, launch, newPage, suite, main, snap, run, instrument, emulatorConfig, zeroViewport, frameInfo };
+// Trang chọn tài khoản của Firebase Auth Emulator: mở form "Add new account". Bấm nút ngay khi nó vừa hiện có thể
+// trúng lúc script của trang chưa gắn xong sự kiện (bấm không ăn), nên bấm lại cho tới khi form hiện ra.
+async function emulatorAddAccount(page) {
+  await page.waitForSelector('#add-account-button', { timeout: 20000 });
+  for (let i = 0; i < 20; i++) {
+    if (await page.locator('#autogen-button').isVisible().catch(function () { return false; })) return;
+    await page.click('#add-account-button', { timeout: 1500 }).catch(function () {});
+    await page.waitForTimeout(400);
+  }
+  throw new Error('Auth Emulator: không mở được form thêm tài khoản');
+}
+
+module.exports = { BROWSER, emulatorAddAccount, ROOT, OUT, serve, fileCopy, launch, newPage, suite, main, snap, run, instrument, emulatorConfig, zeroViewport, frameInfo };
 
 // Xoá sạch dữ liệu Firebase Emulator (tài khoản + bảng điểm) trước mỗi file test online
 async function resetEmulators() {

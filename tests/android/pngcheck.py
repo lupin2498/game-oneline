@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Kiểm tra ảnh chụp màn hình (PNG 8 bit RGB/RGBA, không cần thư viện ngoài).
 
+  pngcheck.py bright <ảnh.png>     -> in số điểm ảnh sáng (không phải nền tối) trong dải giữa màn hình (22%-88% chiều
+      cao): mê cung, vòng sáng, nút tròn hay bảng chữ đều cho hàng nghìn điểm; canvas không hiện gì thì 0.
   pngcheck.py rightedge <ảnh.png>  -> in số điểm ảnh SÁNG ở 2 cột sát mép phải (từ 10% tới 90% chiều cao).
       Bố cục chưa co theo màn hình bị cắt ở mép phải nên có điểm sáng tại đây (chữ, nút, thanh HUD): đo trên máy ảo
       thật được 12-22 điểm; bố cục đúng — hoặc khung còn đang giấu — thì mép phải chỉ có nền tối: 0 điểm.
@@ -59,6 +61,15 @@ def load(path):
 def main():
     cmd, path = sys.argv[1], sys.argv[2]
     w, h, bpp, rows = load(path)
+    if cmd == 'bright':
+        n = 0
+        for y in range(int(h * 0.22), int(h * 0.88)):
+            row = rows[y]
+            for x in range(w):
+                r, g, b = row[x * bpp:x * bpp + 3]
+                if 0.299 * r + 0.587 * g + 0.114 * b > 70:
+                    n += 1
+        print(n)
     if cmd == 'rightedge':
         n = 0
         for y in range(int(h * 0.10), int(h * 0.90)):

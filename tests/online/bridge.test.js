@@ -56,8 +56,7 @@ H.main('Cầu nối đăng nhập', async function (t, cleanup) {
   const bp = await ctx.newPage();
   await bp.goto(srv.url + '/login.html?provider=google&state=' + ST + RET);
   await bp.waitForURL(/emulator\/auth\/handler/, { timeout: 20000 });
-  await bp.waitForSelector('#add-account-button', { timeout: 15000 });
-  await bp.click('#add-account-button');
+  await H.emulatorAddAccount(bp);
   await bp.click('#autogen-button');
   await bp.fill('#display-name-input', 'Người Dùng Cầu Nối');
   let target = null;

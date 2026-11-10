@@ -767,7 +767,14 @@ else renderAcct(netState());
 $('ver').textContent='v'+VERSION;
 
 /* ---------- vòng lặp ---------- */
-var frameErr=0;
+var frameErr=0, probeN=0;
+// Một lần sau khi mở: đọc lại một điểm ảnh luôn nằm trong mảng tường trái (tô đặc) xem canvas có nhận nét vẽ không.
+// Ghi "canvas ok|blank" để chẩn đoán báo cáo "màn hình đen" trên máy thật.
+function probe(){
+  var a=-1;
+  try{ a=ctx.getImageData(Math.max(0,Math.round(2*cv.width/W)), Math.round(cv.height/2), 1, 1).data[3]; }catch(e){}
+  log('canvas '+(a>0?'ok':a===0?'blank':'?')+' '+cv.width+'x'+cv.height);
+}
 function loop(ts){
   if(!last) last=ts;
   var raw=ts-last, dt=clamp(raw/1000,0,0.05); last=ts;
@@ -778,6 +785,7 @@ function loop(ts){
   refit();                                   // lỡ sự kiện resize / WebView vừa có kích thước / đổi tỉ lệ điểm ảnh / đổi độ nét: dàn lại ngay
   try{ step(dt); draw(); }
   catch(e){ if(frameErr++<3 && window.console) console.error('[oneline] frame error', e); }
+  if(probeN>=0 && fitOK && ++probeN>=30){ probeN=-1; probe(); }
   requestAnimationFrame(loop);
 }
 /*__TEST_HOOK__*/
