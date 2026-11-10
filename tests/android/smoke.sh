@@ -60,9 +60,13 @@ echo "WebView ${VW}x${VH}px, khung chơi ${GW%.*}x${GH%.*} tại (${GX%.*},${GY%
 ok "A03 WebView phủ kín màn hình (ẩn thanh trạng thái/điều hướng)" "$(python3 -c "import sys;print(1 if float(sys.argv[1])>=0.9*float(sys.argv[2]) else 0)" "$VH" "$(adb shell wm size | tr -d '\r' | tail -1 | sed 's/.*x//')")" "cao ${VH}px"
 
 # ---------- bắt đầu ----------
-HOW="$(tap_text 'Bắt đầu' 60)"
+HOW="$(tap_text 'Bắt đầu' 40)"
 wait_log "state=ready" 1 15
 ok "A04 Bấm \"Bắt đầu\" (cảm ứng thật)" "$([ "$(count 'state=ready')" -ge 1 ] && echo 1 || echo 0)" "$HOW"
+if [ "$fail" != 0 ]; then   # không vào được game thì các bước sau vô nghĩa: dừng sớm, để lại ảnh chụp và cây giao diện
+  shot 02-khong-bat-dau; lines
+  echo "==> Android API $API: không bấm được nút Bắt đầu (xem $OUT/02-khong-bat-dau.png, ui-khong-thay.xml)"; exit 1
+fi
 sleep 1; shot 02-ready
 
 # ---------- giữ yên 2 giây trên nút tròn: lượt chơi chỉ được kết thúc khi nhấc tay ----------

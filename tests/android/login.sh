@@ -32,7 +32,7 @@ BOOT="$(last 'boot v')"
 if grep -q 'online=none' <<<"$BOOT"; then
   # WebView gốc của máy quá cũ (vd. bản 52 trên máy ảo Android 7.0 chưa cập nhật): game tự bỏ lớp online.
   # Việc cần kiểm là game vẫn chạy và không chìa nút đăng nhập ra.
-  XY="$(find_text 'Bắt đầu' 60)"
+  XY="$(find_text 'Bắt đầu' 40)"
   ok "L01 WebView của máy quá cũ cho lớp online: game vẫn chạy và ẩn nút đăng nhập" \
      "$([ -n "$XY" ] && [ -z "$(python3 "$LIBDIR/uidump.py" find "$OUT/ui.xml" 'Google')" ] && echo 1 || echo 0)" "$BOOT · $(python3 "$LIBDIR/uidump.py" texts "$OUT/ui.xml")"
   shot 11-no-online
@@ -44,7 +44,11 @@ ok "L01 App khởi động với cấu hình online, lớp đăng nhập sẵn s
 [ "$fail" = 0 ] || { lines; echo "==> Đăng nhập (Android API $API): app không khởi động với cấu hình test"; exit 1; }
 
 # ---------- bấm "Google": app phải nhờ hệ thống mở trang đăng nhập bằng trình duyệt ----------
-HOW="$(tap_text 'Google' 60)"
+HOW="$(tap_text 'Google' 40)"
+if grep -q 'KHÔNG THẤY' <<<"$HOW"; then   # không thấy nút đăng nhập thì các bước sau vô nghĩa: dừng sớm
+  ok "L02 Bấm \"Google\"" 0 "$HOW"; shot 11-khong-thay-nut; lines
+  echo "==> Đăng nhập (Android API $API): CÓ LỖI"; exit 1
+fi
 BROWSER=1
 if wait_starts 1 15; then
   ST="$(grep -a -E "START u0 \{act=android\.intent\.action\.VIEW[^}]*dat=https://$HOST[^}]*cmp=" "$OUT/logcat.txt" | tail -1 | sed 's/.*START u0 //')"
