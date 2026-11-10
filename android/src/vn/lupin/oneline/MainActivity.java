@@ -20,12 +20,15 @@ import android.webkit.WebViewClient;
  * Đăng nhập Google/Facebook: Google và Facebook chặn đăng nhập trong WebView, nên game điều hướng tới
  * oneline-native://login?url=... -> app mở trang đăng nhập bằng trình duyệt hệ thống; trình duyệt trả kết quả về
  * vn.lupin.oneline://auth?... -> app chuyển nguyên chuỗi đó cho window.OneLineNativeLogin trong game.
+ *
+ * Mã được biên dịch với android.jar API 16 (xem build.sh) nên API mới hơn gọi qua hằng số thô / reflection.
  */
 public class MainActivity extends Activity {
 
-    /** SYSTEM_UI_FLAG_* gộp sẵn: các hằng số này chỉ có từ API 19 nên dùng giá trị thô. */
+    /** SYSTEM_UI_FLAG_* gộp sẵn: HIDE_NAVIGATION | FULLSCREEN | LAYOUT_* | IMMERSIVE_STICKY (API 19). */
     private static final int IMMERSIVE =
             0x00000002 | 0x00000004 | 0x00000100 | 0x00000200 | 0x00000400 | 0x00001000;
+    private static final String ASSET_BASE = "file:///android_asset/";
     private static final String NATIVE_LOGIN = "oneline-native://login";
     private static final String AUTH_SCHEME = "vn.lupin.oneline";
 
@@ -45,28 +48,39 @@ public class MainActivity extends Activity {
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
-        s.setAllowFileAccess(true);
         s.setDatabaseEnabled(true);
+        s.setAllowFileAccess(false);          // file:///android_asset vẫn đọc được; chặn mọi file khác trên máy
         s.setLoadWithOverviewMode(false);
         s.setUseWideViewPort(false);
         s.setSupportZoom(false);
         s.setBuiltInZoomControls(false);
+        s.setTextZoom(100);                   // không phóng chữ theo cỡ chữ hệ thống (làm vỡ bố cục)
         s.setUserAgentString(s.getUserAgentString() + " OneLineApp/Android");
+
+        // Trò chơi dựa vào việc GIỮ ngón tay: nuốt sự kiện giữ-lâu để không bật chọn chữ / rung
+        web.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        web.setLongClickable(false);
+        web.setHapticFeedbackEnabled(false);
 
         web.setWebChromeClient(new WebChromeClient());
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith(ASSET_BASE)) return false;             // trang của game
                 if (url.startsWith(NATIVE_LOGIN)) {
                     String target = Uri.parse(url).getQueryParameter("url");
-                    if (target != null && target.startsWith("https://")) openBrowser(target);
+                    if (target != null && target.startsWith("https://")) openExternal(target);
                     return true;
                 }
-                if (url.startsWith("http://") || url.startsWith("https://")) {   // link ngoài: mở trình duyệt
-                    openBrowser(url);
-                    return true;
+                if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("mailto:")) {
+                    openExternal(url);                                    // link ngoài: mở bằng trình duyệt
                 }
-                return false;
+                return true;                                              // mọi thứ khác: không tải trong app
             }
 
             @Override
@@ -82,7 +96,7 @@ public class MainActivity extends Activity {
 
         setContentView(web);
         handleIntent(getIntent());
-        web.loadUrl("file:///android_asset/index.html");
+        web.loadUrl(ASSET_BASE + "index.html");
         hideBars();
     }
 
@@ -96,7 +110,7 @@ public class MainActivity extends Activity {
     private void handleIntent(Intent intent) {
         if (intent == null) return;
         Uri data = intent.getData();
-        if (data != null && AUTH_SCHEME.equals(data.getScheme())) {
+        if (data != null && AUTH_SCHEME.equals(data.getScheme()) && "auth".equals(data.getHost())) {
             pendingAuth = data.toString();
             flushAuth();
         }
@@ -105,17 +119,21 @@ public class MainActivity extends Activity {
     /** Giao kết quả đăng nhập cho game khi trang đã tải xong. */
     private void flushAuth() {
         if (pendingAuth == null || !pageReady || web == null) return;
-        String js = "javascript:window.OneLineNativeLogin&&window.OneLineNativeLogin("
-                + jsString(pendingAuth) + ")";
+        String uri = pendingAuth;
         pendingAuth = null;
-        web.loadUrl(js);
+        js("window.OneLineNativeLogin&&window.OneLineNativeLogin(" + jsString(uri) + ")");
+    }
+
+    /** Chạy một câu lệnh JS trong trang; void(...) để giá trị trả về không thay nội dung trang. */
+    private void js(String code) {
+        if (web != null && pageReady) web.loadUrl("javascript:void(" + code + ")");
     }
 
     /**
-     * Chuỗi JS an toàn để nhúng vào URL javascript:. Thoát cả '%' (thành \u0025) vì WebView giải mã
+     * Chuỗi JS an toàn để nhúng vào URL javascript:. Thoát cả '%' (thành %) vì WebView giải mã
      * %xx trong URL javascript:, làm hỏng token (dấu '+' sẽ bị đọc thành khoảng trắng).
      */
-    private static String jsString(String s) {
+    static String jsString(String s) {
         StringBuilder b = new StringBuilder("\"");
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -133,19 +151,32 @@ public class MainActivity extends Activity {
         return b.append('"').toString();
     }
 
-    private void openBrowser(String url) {
+    private void openExternal(String url) {
         try {
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             i.addCategory(Intent.CATEGORY_BROWSABLE);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
         } catch (Exception e) {
-            // không có trình duyệt nào: bỏ qua
+            // không có ứng dụng nào mở được: bỏ qua
         }
     }
 
+    /** Ẩn thanh trạng thái + thanh điều hướng (vuốt từ mép để hiện tạm). */
     private void hideBars() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(IMMERSIVE);
+        getWindow().getDecorView().setSystemUiVisibility(IMMERSIVE);
+        if (Build.VERSION.SDK_INT >= 30) {
+            try {   // WindowInsetsController (API 30+): cách chính thức trên Android mới, kể cả khi bị ép tràn viền
+                Object ctl = Window.class.getMethod("getInsetsController").invoke(getWindow());
+                if (ctl != null) {
+                    Class<?> wic = Class.forName("android.view.WindowInsetsController");
+                    int bars = (Integer) Class.forName("android.view.WindowInsets$Type").getMethod("systemBars").invoke(null);
+                    wic.getMethod("setSystemBarsBehavior", int.class).invoke(ctl, 2);   // SHOW_TRANSIENT_BARS_BY_SWIPE
+                    wic.getMethod("hide", int.class).invoke(ctl, bars);
+                }
+            } catch (Throwable t) {
+                // đã có cờ kiểu cũ ở trên
+            }
         }
     }
 
@@ -166,11 +197,13 @@ public class MainActivity extends Activity {
         super.onResume();
         if (web != null) web.onResume();
         hideBars();
+        js("window.OneLineNativeResume&&window.OneLineNativeResume()");   // nhả trạng thái "đang đăng nhập" nếu bỏ ngang
     }
 
     @Override
     protected void onDestroy() {
         if (web != null) {
+            web.stopLoading();
             web.destroy();
             web = null;
         }

@@ -1,0 +1,169 @@
+name: CI
+
+# Test toàn bộ rồi build bộ cài:
+#   web      test logic/cảm ứng/bố cục/PWA trên Chromium + test đăng nhập, bảng xếp hạng trên Firebase Emulator
+#   apk      build APK (không cần Android SDK) + kiểm tra tĩnh
+#   android  cài và chơi thử APK bằng thao tác cảm ứng thật trên máy ảo Android nhiều phiên bản
+#   ios      biên dịch app, UI test giữ/kéo thật trên iOS Simulator, build IPA chưa ký
+on:
+  push:
+    branches: [main, 'claude/**']
+    paths-ignore: ['README.md']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    name: Test web + online
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: lib/online.js phải khớp src/online.js
+        run: bash tools/build-online.sh && git diff --exit-code -- lib/online.js
+      - name: Test web (Chromium)
+        run: npm run test:web
+      - name: Test online (Firebase Emulator)
+        run: npm run test:online
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-test-output
+          path: tests/.out/*.png
+          if-no-files-found: ignore
+
+  apk:
+    name: Build APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build APK từ mã nguồn (không cần Android SDK)
+        env:
+          # Tuỳ chọn: thêm 2 secret này để APK do CI build luôn ký cùng một khoá (cài đè được)
+          ONELINE_KEYSTORE_B64: ${{ secrets.ONELINE_KEYSTORE_B64 }}
+          ONELINE_KEYSTORE_PASS: ${{ secrets.ONELINE_KEYSTORE_PASS }}
+        run: DIST="$PWD/out" bash android/build.sh
+      - name: Kiểm tra tĩnh APK vừa build
+        run: bash tests/android/verify-apk.sh out/OneLine-*.apk
+      - name: Kiểm tra tĩnh APK phát hành trong dist/
+        run: bash tests/android/verify-apk.sh dist/OneLine-*.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OneLine-apk
+          path: out/*.apk
+          if-no-files-found: error
+
+  android:
+    name: Android API ${{ matrix.api }}
+    needs: apk
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { api: 24, target: default }       # Android 7.0: phiên bản thấp nhất được hỗ trợ, WebView rất cũ
+          - { api: 30, target: google_apis }   # Android 11: bắt đầu bắt buộc căn chỉnh resources.arsc
+          - { api: 35, target: google_apis }   # Android 15: đúng targetSdk, ép tràn viền
+          - { api: 36, target: google_apis }   # Android 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: OneLine-apk
+          path: out
+      - name: Bật KVM cho máy ảo
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Chạy APK trên máy ảo
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          disable-animations: true
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash tests/android/ci.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-${{ matrix.api }}
+          path: tests/.out/android-*
+          if-no-files-found: ignore
+
+  ios:
+    name: iOS (simulator + IPA)
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Phiên bản Xcode
+        run: xcodebuild -version
+      - name: Cài XcodeGen
+        run: brew install xcodegen
+      - name: UI test trên iOS Simulator (bấm / giữ / kéo thật)
+        run: bash tests/ios/run-ui-tests.sh out/ios
+      - name: Build IPA chưa ký
+        if: always()
+        run: OUT="$PWD/out/ios" bash ios/build-ipa.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios
+          path: |
+            out/ios/*.ipa
+            out/ios/shots
+            out/ios/xcodebuild-test.log
+          if-no-files-found: ignore
+
+  # TẠM THỜI (chỉ trên nhánh claude/**): gom kết quả vào nhánh ci-out để xem ảnh chụp và lấy file IPA
+  publish:
+    name: Gom kết quả
+    if: always() && startsWith(github.ref, 'refs/heads/claude/')
+    needs: [web, apk, android, ios]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: art
+      - name: Thu nhỏ ảnh, đẩy lên nhánh ci-out
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
+          find art -name '*.png' -exec mogrify -resize '420x>' {} + 2>/dev/null || true
+          find art -name 'logcat.txt' -exec sh -c 'tail -c 300000 "$1" > "$1.tail" && mv "$1.tail" "$1"' _ {} \;
+          rm -rf art/ios/Test.xcresult
+          cd art
+          printf '%s\n' "$RESULTS" > results.json
+          echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt
+          git init -q && git checkout -q -b ci-out
+          git add -A && git -c user.name="ci" -c user.email="ci@users.noreply.github.com" commit -q -m "CI output ${{ github.run_id }}"
+          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}" ci-out

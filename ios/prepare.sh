@@ -3,9 +3,10 @@
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$HERE/.." && pwd)"
-rm -rf "$HERE/www"; mkdir -p "$HERE/www"
-cp "$ROOT/index.html" "$ROOT/manifest.webmanifest" "$ROOT/sw.js" "$ROOT/firebase-config.js" \
-   "$ROOT/privacy.html" "$HERE/www/"
-cp -r "$ROOT/icons" "$HERE/www/icons"
+rm -rf "$HERE/www"; mkdir -p "$HERE/www/icons"
+cp "$ROOT/index.html" "$ROOT/firebase-config.js" "$ROOT/privacy.html" "$HERE/www/"
+cp "$ROOT/icons/icon-192.png" "$ROOT/icons/apple-touch-icon.png" "$HERE/www/icons/"
 cp -r "$ROOT/lib" "$HERE/www/lib"
+# manifest chỉ dùng cho bản web; file trống để trang không báo lỗi thiếu file trong app
+printf '{}' > "$HERE/www/manifest.webmanifest"
 echo "==> ios/www đã sẵn sàng"

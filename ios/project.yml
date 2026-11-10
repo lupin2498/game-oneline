@@ -4,12 +4,11 @@ options:
   deploymentTarget:
     iOS: "13.0"
   createIntermediateGroups: true
-  xcodeVersion: "15.0"
 
 settings:
   base:
-    MARKETING_VERSION: "1.4"
-    CURRENT_PROJECT_VERSION: "5"
+    MARKETING_VERSION: "1.5"
+    CURRENT_PROJECT_VERSION: "6"
     SWIFT_VERSION: "5.0"
 
 targets:
@@ -33,10 +32,11 @@ targets:
       path: Info.plist
       properties:
         CFBundleDisplayName: Một Nét
-        CFBundleShortVersionString: "1.4"
-        CFBundleVersion: "5"
+        CFBundleShortVersionString: "1.5"
+        CFBundleVersion: "6"
+        ITSAppUsesNonExemptEncryption: false
         UILaunchScreen:
-          UIColorName: ""
+          UIColorName: LaunchBackground
         UIStatusBarHidden: true
         UIViewControllerBasedStatusBarAppearance: true
         UIRequiresFullScreen: true
@@ -45,3 +45,32 @@ targets:
         UISupportedInterfaceOrientations~ipad:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationPortraitUpsideDown
+
+  # UI test chạy trên iOS Simulator: bấm, GIỮ và KÉO thật trong WKWebView (xcodebuild test)
+  OneLineUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: UITests
+    dependencies:
+      - target: OneLine
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: vn.lupin.oneline.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: OneLine
+
+schemes:
+  OneLine:
+    build:
+      targets:
+        OneLine: all
+        OneLineUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - OneLineUITests
+    archive:
+      config: Release

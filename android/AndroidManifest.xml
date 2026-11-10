@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vn.lupin.oneline"
-    android:versionCode="5"
-    android:versionName="1.4">
+    android:versionCode="6"
+    android:versionName="1.5">
 
-    <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="29" />
+    <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="35" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
 

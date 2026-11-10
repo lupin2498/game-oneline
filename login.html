@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
 <title>Đăng nhập — Một Nét</title>
 <style>
   html,body{margin:0;height:100%;background:#04060c;color:#e9f2ff;
@@ -34,7 +36,10 @@
   function finish(params, text) {
     params.state = state;
     var qs = Object.keys(params).map(function (k) { return k + '=' + encodeURIComponent(params[k]); }).join('&');
-    var url = /Android/i.test(navigator.userAgent)
+    // Chrome/Samsung/Edge trên Android: intent:// chỉ đích danh gói của game nên app khác không chặn được token.
+    // Trình duyệt Android khác (Firefox...) và iOS: dùng thẳng scheme riêng của app.
+    var ua = navigator.userAgent;
+    var url = /Android/i.test(ua) && /Chrome\//.test(ua)
       ? 'intent://auth?' + qs + '#Intent;scheme=vn.lupin.oneline;package=vn.lupin.oneline;end'
       : ret + '?' + qs;
     back.href = url; back.style.display = 'inline-block';
@@ -48,7 +53,7 @@
   if (provider !== 'google' && provider !== 'facebook') return stop('Nhà cung cấp không hợp lệ.');
   if (!window.Online || !Online.configured) return stop('Máy chủ chưa được cấu hình (firebase-config.js).');
 
-  Online.bridge(provider, state, ret).then(function (r) {
+  Online.bridge(provider, state).then(function (r) {
     if (!r) return;                                  // đang chuyển sang Google/Facebook
     if (r.error) return finish({ error: r.error }, 'Đã huỷ đăng nhập.');
     finish(r, 'Đăng nhập xong. Đang quay lại game…');

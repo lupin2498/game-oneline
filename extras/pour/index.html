@@ -4,32 +4,46 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Rót Nước</title>
+<meta name="theme-color" content="#05070d">
+<meta name="color-scheme" content="dark">
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  /* Trò chơi dựa vào việc GIỮ ngón tay: tắt chọn chữ, menu giữ-lâu và cử chỉ cuộn/zoom của trình duyệt */
   html,body{height:100%;background:#05070d;overflow:hidden;color:#eaf3ff;
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
-  body{display:flex;align-items:center;justify-content:center}
-  #wrap{position:relative;width:min(100vw, calc(100dvh * 480 / 760));aspect-ratio:480/760;
-    touch-action:none;user-select:none;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-  canvas{display:block;width:100%;height:100%}
-  .hud{position:absolute;left:0;right:0;top:0;display:flex;gap:8px;padding:12px 14px;pointer-events:none}
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none;
+    -ms-touch-action:none;touch-action:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{display:flex;align-items:center;justify-content:center;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  /* Kích thước dưới đây chỉ dùng trước khi JS chạy; fit() đặt lại bằng px */
+  #wrap{position:relative;flex:none;width:100vw;height:158.334vw;max-width:63.158vh;max-height:100vh;
+    -ms-touch-action:none;touch-action:none;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  canvas{display:block;width:100%;height:100%;-ms-touch-action:none;touch-action:none}
+  #ui{position:absolute;left:0;top:0;width:400px;height:633.34px;-webkit-transform-origin:0 0;transform-origin:0 0;pointer-events:none}
+  #ui .panel{pointer-events:auto}
+  .hud{position:absolute;left:0;right:0;top:0;display:flex;padding:12px 14px;pointer-events:none}
+  .hud > * + *{margin-left:8px}
   .chip{background:rgba(12,22,38,.72);border:1px solid rgba(140,190,255,.18);border-radius:12px;padding:6px 10px}
   .chip span{display:block;opacity:.55;font-size:9px;text-transform:uppercase;letter-spacing:1.2px}
   .chip b{display:block;font-size:17px;font-weight:700}
-  .bar{flex:1;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0}
+  .bar{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0}
+  .bar > * + *{margin-top:5px}
   .bar i{font-style:normal;font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:1.2px;text-align:right}
   .track{height:7px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
   .track em{display:block;height:100%;width:100%;border-radius:99px;
     background:linear-gradient(90deg,#ffd166,#ff7b7b);transition:width .25s}
-  .panel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:14px;text-align:center;padding:28px;background:rgba(5,9,16,.8)}
+  .panel{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:28px;background:rgba(5,9,16,.8)}
+  .panel > * + *{margin-top:14px}
   .panel.hide{display:none}
+  .panel p:empty{display:none}
   .panel h1{font-size:34px;letter-spacing:2px}
   .panel h2{font-size:27px;color:#ff9f9f}
   .panel p{font-size:14px;opacity:.8;line-height:1.6;max-width:310px}
   .big{font-size:54px;font-weight:800;color:#ffd166;line-height:1}
   .tag{font-size:12px;opacity:.55}
-  button{border:0;border-radius:99px;padding:13px 32px;font-size:16px;font-weight:700;color:#06121f;cursor:pointer;
+  button{border:0;border-radius:99px;padding:13px 32px;font-family:inherit;font-size:16px;font-weight:700;color:#06121f;cursor:pointer;
+    -webkit-appearance:none;appearance:none;touch-action:manipulation;
     background:linear-gradient(180deg,#9ce7ff,#4fb8f0);box-shadow:0 8px 24px rgba(79,184,240,.35)}
   button:active{transform:translateY(1px)}
 </style>
@@ -37,6 +51,7 @@
 <body>
 <div id="wrap">
   <canvas id="cv"></canvas>
+  <div id="ui">
   <div class="hud">
     <div class="chip"><span>Màn</span><b id="hLv">1</b></div>
     <div class="chip"><span>Điểm</span><b id="hSc">0</b></div>
@@ -58,6 +73,7 @@
     <p class="tag" id="oBest"></p>
     <button id="bAgain">Chơi lại</button>
   </div>
+  </div>
 </div>
 <script>
 (function(){
@@ -65,13 +81,29 @@
 var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
 var W=480, H=760, CX=240, BASE_Y=644, SPOUT_Y=104;
 
+var wrap=document.getElementById('wrap'), ui=document.getElementById('ui');
+var fitW=-1, fitH=-1, fitD=-1;
+function viewDpr(){ return Math.min(window.devicePixelRatio||1,2.5); }
 function fit(){
-  var dpr=Math.min(window.devicePixelRatio||1,2.5), r=cv.getBoundingClientRect();
-  cv.width=Math.max(1,Math.round(r.width*dpr));
-  cv.height=Math.max(1,Math.round(r.height*dpr));
+  var de=document.documentElement;
+  var vw=window.innerWidth||de.clientWidth||0, vh=window.innerHeight||de.clientHeight||0, dpr=viewDpr();
+  fitW=window.innerWidth; fitH=window.innerHeight; fitD=dpr;
+  try{                                       // trừ vùng tai thỏ / thanh home (padding env() của body)
+    var cs=window.getComputedStyle(document.body);
+    vw-=(parseFloat(cs.paddingLeft)||0)+(parseFloat(cs.paddingRight)||0);
+    vh-=(parseFloat(cs.paddingTop)||0)+(parseFloat(cs.paddingBottom)||0);
+  }catch(e){}
+  if(!(vw>0 && vh>0)) return;
+  var w=Math.floor(Math.min(vw, vh*W/H)), h=w*H/W;
+  wrap.style.width=w+'px'; wrap.style.height=h+'px'; wrap.style.maxWidth='none'; wrap.style.maxHeight='none';
+  cv.width=Math.max(1,Math.round(w*dpr));
+  cv.height=Math.max(1,Math.round(h*dpr));
   ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
+  var sc='scale('+(w/400)+')';               // HUD + bảng co theo khung
+  ui.style.webkitTransform=sc; ui.style.transform=sc;
 }
 window.addEventListener('resize',fit);
+window.addEventListener('orientationchange',fit);
 
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
 function rnd(a,b){return a+Math.random()*(b-a);}
@@ -164,7 +196,7 @@ var elLv=document.getElementById('hLv'), elSc=document.getElementById('hSc'),
     oTitle=document.getElementById('oTitle'), oSub=document.getElementById('oSub'),
     oScore=document.getElementById('oScore'), oBest=document.getElementById('oBest');
 
-try{ best=parseInt(localStorage.getItem('pour.best')||'0',10)||0; }catch(e){ best=0; }
+try{ best=Math.min(1e9, Math.max(0, parseInt(localStorage.getItem('pour.best')||'0',10)||0)); }catch(e){ best=0; }
 elBest.textContent=best;
 
 function hud(){
@@ -185,17 +217,20 @@ function startGame(){
   newRound();
 }
 function lose(title,sub){
-  state='over'; shake=1;
+  state='over'; shake=1; activeId=null;
   if(score>best){ best=score; try{localStorage.setItem('pour.best',String(best));}catch(e){} }
   oTitle.textContent=title; oSub.textContent=sub;
   oScore.textContent=score; oBest.textContent='Màn '+level+' · Tốt nhất: '+best;
   pOver.classList.remove('hide'); hud();
 }
-function press(){
-  if(state==='ready'){ state='pour'; vol=0; yw=cup.yBot; }
+var activeId=null;                    // ngón tay / phím đang rót; ngón khác chạm hay nhấc đều bị bỏ qua
+function press(id){
+  if(state==='ready'){ state='pour'; vol=0; yw=cup.yBot; activeId=id; }
 }
-function release(){
+function release(id){
   if(state!=='pour') return;
+  if(id!==undefined && id!==activeId) return;
+  activeId=null;
   var diff=yw-yTarget; // >0: dưới vạch (thiếu), <0: trên vạch (tràn vạch)
   if(Math.abs(diff)<=tol){
     var acc=1-Math.abs(diff)/tol;
@@ -213,16 +248,35 @@ function release(){
 }
 
 /* ---------- input ---------- */
-var wrap=document.getElementById('wrap');
-wrap.addEventListener('pointerdown',function(e){ e.preventDefault(); press(); });
-window.addEventListener('pointerup',function(){ release(); });
-window.addEventListener('pointercancel',function(){ release(); });
+if(window.PointerEvent){
+  wrap.addEventListener('pointerdown',function(e){
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    e.preventDefault(); press(e.pointerId);
+  });
+  window.addEventListener('pointerup',function(e){ release(e.pointerId); });
+  window.addEventListener('pointercancel',function(e){ release(e.pointerId); });
+} else {
+  // Trình duyệt / WebView cũ chưa có Pointer Events: dùng touch + chuột
+  var eachTouch=function(e,fn){ for(var i=0;i<e.changedTouches.length;i++) fn(e.changedTouches[i].identifier); };
+  cv.addEventListener('touchstart',function(e){ eachTouch(e,press); },{passive:false});
+  window.addEventListener('touchend',function(e){ eachTouch(e,release); });
+  window.addEventListener('touchcancel',function(e){ eachTouch(e,release); });
+  cv.addEventListener('mousedown',function(e){ if(e.button===0){ e.preventDefault(); press('mouse'); } });
+  window.addEventListener('mouseup',function(){ release('mouse'); });
+}
+// iOS: chặn kính lúp / chọn chữ / zoom chạm đôi khi giữ ngón tay
+cv.addEventListener('touchstart',function(e){ if(e.cancelable) e.preventDefault(); },{passive:false});
+wrap.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+wrap.addEventListener('selectstart',function(e){ e.preventDefault(); });
 window.addEventListener('keydown',function(e){
-  if(e.code==='Space'||e.code==='ArrowDown'){ e.preventDefault(); if(!e.repeat) press(); }
+  if(e.code==='Space'||e.code==='ArrowDown'){ e.preventDefault(); if(!e.repeat) press('key'); }
 });
 window.addEventListener('keyup',function(e){
-  if(e.code==='Space'||e.code==='ArrowDown'){ e.preventDefault(); release(); }
+  if(e.code==='Space'||e.code==='ArrowDown'){ e.preventDefault(); release('key'); }
 });
+// Mất focus / ẩn app khi đang rót: coi như thả tay (không để nước tự chảy tới tràn)
+window.addEventListener('blur',function(){ release(); });
+document.addEventListener('visibilitychange',function(){ if(document.hidden) release(); });
 document.getElementById('bStart').addEventListener('pointerdown',function(e){e.stopPropagation();});
 document.getElementById('bStart').addEventListener('click',function(e){e.stopPropagation();startGame();});
 document.getElementById('bAgain').addEventListener('pointerdown',function(e){e.stopPropagation();});
@@ -416,14 +470,19 @@ function draw(){
   }
   ctx.restore();
 }
+var frameNo=0, frameErr=0;
 function loop(ts){
   if(!last) last=ts;
-  var dt=Math.min(0.05,(ts-last)/1000); last=ts;
-  if(cup) step(dt);
-  else time+=dt;
-  draw();
+  var dt=clamp((ts-last)/1000,0,0.05); last=ts;
+  if((++frameNo%20)===0 && (window.innerWidth!==fitW || window.innerHeight!==fitH || viewDpr()!==fitD)) fit();
+  try{
+    if(cup) step(dt);
+    else time+=dt;
+    draw();
+  }catch(e){ if(frameErr++<3 && window.console) console.error('[pour] frame error', e); }
   requestAnimationFrame(loop);
 }
+/*__TEST_HOOK__*/
 fit(); hud();
 requestAnimationFrame(loop);
 })();

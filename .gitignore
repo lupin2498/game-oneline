@@ -1,8 +1,14 @@
+*-debug.log
 .DS_Store
 android/.build/
 android/.keystore/
 android/.tools/
+ios/.build-sim/
+ios/.build/
+ios/Info.plist
 ios/OneLine.xcodeproj/
 ios/www/
 node_modules/
-package-lock.json
+out/
+tests/.out/
+ui-debug.log

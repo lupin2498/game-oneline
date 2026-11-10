@@ -1,14 +1,17 @@
 {
   "name": "one-line-game",
   "private": true,
-  "description": "Đường Kẻ Một Nét — build lớp online (Firebase) cho game",
+  "description": "Đường Kẻ Một Nét — build lớp online (Firebase) và bộ test tự động",
   "scripts": {
     "build:online": "bash tools/build-online.sh",
-    "emulators": "firebase emulators:start --only auth,firestore,hosting --project demo-oneline"
+    "test": "node tests/run.js",
+    "test:web": "node tests/run.js web",
+    "test:online": "npx -y firebase-tools@15.32.1 emulators:exec --only auth,firestore --project demo-oneline \"node tests/run.js online\"",
+    "emulators": "npx -y firebase-tools@15.32.1 emulators:start --only auth,firestore,hosting --project demo-oneline"
   },
   "devDependencies": {
     "esbuild": "0.28.2",
     "firebase": "12.19.0",
-    "firebase-tools": "15.32.1"
+    "playwright": "1.63.0"
   }
 }

@@ -8,16 +8,17 @@ import AuthenticationServices
 /// `webkit.messageHandlers.oneline.postMessage({type:"login", url})` -> app mở trang đăng nhập bằng
 /// ASWebAuthenticationSession; kết quả `vn.lupin.oneline://auth?...` được giao lại cho
 /// `window.OneLineNativeLogin` trong game.
-final class GameViewController: UIViewController, WKScriptMessageHandler,
+final class GameViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate,
                                 ASWebAuthenticationPresentationContextProviding {
 
     private static let callbackScheme = "vn.lupin.oneline"
+    private static let background = UIColor(red: 0x04/255.0, green: 0x06/255.0, blue: 0x0c/255.0, alpha: 1)
     private var web: WKWebView!
     private var authSession: ASWebAuthenticationSession?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0x04/255.0, green: 0x06/255.0, blue: 0x0c/255.0, alpha: 1)
+        view.backgroundColor = Self.background
 
         let cfg = WKWebViewConfiguration()
         cfg.allowsInlineMediaPlayback = true
@@ -26,15 +27,26 @@ final class GameViewController: UIViewController, WKScriptMessageHandler,
         if #available(iOS 14.0, *) {
             cfg.defaultWebpagePreferences.allowsContentJavaScript = true
         }
+        if #available(iOS 14.5, *) {
+            // Trò chơi dựa vào việc GIỮ ngón tay: tắt hẳn chọn chữ / kính lúp của hệ thống
+            cfg.preferences.isTextInteractionEnabled = false
+        }
 
         web = WKWebView(frame: .zero, configuration: cfg)
+        web.navigationDelegate = self
+        web.uiDelegate = self
         web.isOpaque = false
-        web.backgroundColor = .clear
+        web.backgroundColor = Self.background
+        web.scrollView.backgroundColor = Self.background
         web.scrollView.isScrollEnabled = false
         web.scrollView.bounces = false
         web.scrollView.contentInsetAdjustmentBehavior = .never
+        web.allowsLinkPreview = false                    // giữ lâu trên link không bật xem trước
+        web.allowsBackForwardNavigationGestures = false
         web.translatesAutoresizingMaskIntoConstraints = false
+        #if DEBUG
         if #available(iOS 16.4, *) { web.isInspectable = true }
+        #endif
         view.addSubview(web)
 
         NSLayoutConstraint.activate([
@@ -43,7 +55,10 @@ final class GameViewController: UIViewController, WKScriptMessageHandler,
             web.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             web.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        loadGame()
+    }
 
+    private func loadGame() {
         if let url = Bundle.main.url(forResource: "index", withExtension: "html", subdirectory: "www") {
             web.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
         } else {
@@ -53,12 +68,47 @@ final class GameViewController: UIViewController, WKScriptMessageHandler,
             label.textAlignment = .center
             label.numberOfLines = 0
             label.frame = view.bounds
+            label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             view.addSubview(label)
         }
     }
 
     deinit {
         web?.configuration.userContentController.removeScriptMessageHandler(forName: "oneline")
+    }
+
+    // MARK: - Điều hướng: trang của game mở trong app, link ngoài mở bằng Safari
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let url = navigationAction.request.url else { decisionHandler(.cancel); return }
+        let scheme = (url.scheme ?? "").lowercased()
+        if url.isFileURL || scheme == "about" || scheme == "blob" || scheme == "data" {
+            decisionHandler(.allow)
+            return
+        }
+        let mainFrame = navigationAction.targetFrame?.isMainFrame ?? true
+        if mainFrame {
+            if scheme == "http" || scheme == "https" || scheme == "mailto" {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+            decisionHandler(.cancel)      // không bao giờ tải trang ngoài vào khung game (không có nút quay lại)
+            return
+        }
+        decisionHandler(.allow)
+    }
+
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
+                 for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if let url = navigationAction.request.url, ["http", "https"].contains((url.scheme ?? "").lowercased()) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)   // target=_blank / window.open
+        }
+        return nil
+    }
+
+    /// iOS thu hồi tiến trình web khi thiếu bộ nhớ lúc app chạy nền: nạp lại để không còn màn hình trống.
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        loadGame()
     }
 
     // MARK: - Đăng nhập qua trình duyệt an toàn của hệ thống
@@ -89,6 +139,7 @@ final class GameViewController: UIViewController, WKScriptMessageHandler,
         session.presentationContextProvider = self
         authSession = session
         if !session.start() {
+            authSession = nil
             deliver("\(Self.callbackScheme)://auth?error=failed")
         }
     }
