@@ -100,7 +100,10 @@ Dùng **Firebase** (Authentication + Firestore + Hosting, gói miễn phí là �
    npx -y firebase-tools deploy --only hosting,firestore
    ```
    Game chạy ở `https://<project>.web.app`; trang `login.html` ở đó là cầu nối đăng nhập cho app.
-6. Build lại app để nhúng cấu hình mới: `bash android/build.sh` (Android), `bash ios/build-ipa.sh` (iOS).
+6. Build lại app để nhúng cấu hình mới: `bash android/build.sh` (Android), `bash ios/build-ipa.sh` (iOS, cần máy Mac).
+   Không có máy Mac: đẩy thay đổi lên GitHub, CI sẽ build cả hai — vào tab **Actions** → lượt chạy mới nhất →
+   **Artifacts**: `ios` (file IPA chưa ký) và `OneLine-apk` (APK; muốn APK này cài đè được lên bản cũ thì thêm
+   secret khoá ký như mục *Khoá ký*).
 
 ### Cách hoạt động
 
@@ -132,6 +135,7 @@ npm install && npx playwright install chromium
 npm test                 # web: logic game, cảm ứng thật (đa chạm, giữ lâu), bố cục, biên, fuzz, PWA, Rót Nước
 npm run test:online      # Firebase Emulator: luật Firestore, đăng nhập, bảng xếp hạng, xoá dữ liệu (cần Java 21)
 node tests/web/soak.js 10        # độ bền: bot chơi liên tục 10 phút, theo dõi bộ nhớ
+python3 tests/ios/verify-ipa.py dist/OneLine-1.5-unsigned.ipa   # kiểm tra tĩnh IPA (chạy được trên mọi hệ điều hành)
 bash tests/android/smoke.sh dist/OneLine-1.5.apk   # trên máy ảo / điện thoại Android đang nối adb
 bash tests/ios/run-ui-tests.sh                     # trên macOS: UI test trong iOS Simulator
 ```

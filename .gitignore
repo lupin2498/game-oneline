@@ -12,3 +12,5 @@ node_modules/
 out/
 tests/.out/
 ui-debug.log
+__pycache__/
+*.pyc

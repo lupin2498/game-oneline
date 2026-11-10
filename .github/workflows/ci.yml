@@ -71,6 +71,11 @@ jobs:
         run: bash tests/android/verify-apk.sh out/OneLine-*.apk
       - name: Kiểm tra tĩnh APK phát hành trong dist/
         run: bash tests/android/verify-apk.sh dist/OneLine-*.apk
+      - name: Kiểm tra tĩnh IPA phát hành trong dist/
+        # IPA chỉ build được trên macOS (job ios): nội dung web trong IPA cũ hơn repo thì chỉ cảnh báo, sai cấu trúc mới báo lỗi
+        run: |
+          rc=0; python3 tests/ios/verify-ipa.py dist/OneLine-*-unsigned.ipa || rc=$?
+          if [ "$rc" = 3 ]; then echo "::warning::IPA trong dist/ cũ hơn mã nguồn: lấy bản mới từ artifact 'ios' của lượt CI này"; elif [ "$rc" != 0 ]; then exit "$rc"; fi
       - name: Build bản test đăng nhập (cấu hình Firebase giả, chỉ để chạy trên máy ảo)
         run: ONELINE_CONFIG_JS=tests/fixtures/firebase-config.login-test.js DIST="$PWD/out/logintest" bash android/build.sh
       - uses: actions/upload-artifact@v4
@@ -136,6 +141,8 @@ jobs:
       - name: Build IPA chưa ký
         if: always()
         run: OUT="$PWD/out/ios" bash ios/build-ipa.sh
+      - name: Kiểm tra tĩnh IPA vừa build
+        run: python3 tests/ios/verify-ipa.py out/ios/OneLine-*-unsigned.ipa
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -145,31 +152,3 @@ jobs:
             out/ios/shots
             out/ios/*.log
           if-no-files-found: ignore
-
-  # TẠM THỜI (chỉ trên nhánh claude/**): gom kết quả vào nhánh ci-out để xem ảnh chụp và lấy file IPA
-  publish:
-    name: Gom kết quả
-    if: always() && startsWith(github.ref, 'refs/heads/claude/')
-    needs: [web, apk, android, ios]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: art
-      - name: Thu nhỏ ảnh, đẩy lên nhánh ci-out
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RESULTS: ${{ toJSON(needs) }}
-        run: |
-          sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
-          find art -name '*.png' -exec mogrify -resize '420x>' {} + 2>/dev/null || true
-          find art -name 'logcat.txt' -exec sh -c 'tail -c 300000 "$1" > "$1.tail" && mv "$1.tail" "$1"' _ {} \;
-          rm -rf art/ios/*.xcresult
-          cd art
-          printf '%s\n' "$RESULTS" > results.json
-          echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt
-          git init -q && git checkout -q -b ci-out
-          git add -A && git -c user.name="ci" -c user.email="ci@users.noreply.github.com" commit -q -m "CI output ${{ github.run_id }}"
-          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}" ci-out
