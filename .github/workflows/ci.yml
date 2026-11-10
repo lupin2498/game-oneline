@@ -71,9 +71,7 @@ jobs:
         include:
           # TẠM (dò lỗi canvas không hiện trên máy ảo Android 7-9): GLES 3.0 (mặc định của máy ảo) so với GLES 2.0
           - { api: 24, target: default, feat: '' }
-          - { api: 24, target: default, feat: '-feature -GLESDynamicVersion', tag: '-es2' }
           - { api: 28, target: default, feat: '' }
-          - { api: 28, target: default, feat: '-feature -GLESDynamicVersion', tag: '-es2' }
           - { api: 30, target: google_apis, feat: '' }
     steps:
       - uses: actions/checkout@v4
