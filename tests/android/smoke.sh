@@ -3,7 +3,7 @@
 # cài, mở, chụp màn hình, GIỮ và KÉO bằng thao tác cảm ứng thật (adb input), nút Back, deep link, ẩn app.
 # Game ghi các mốc "[oneline] ..." ra logcat (console của WebView) nên đọc được kết quả từng thao tác.
 #
-#   bash tests/android/smoke.sh dist/OneLine-1.5.apk [thư-mục-kết-quả]
+#   bash tests/android/smoke.sh dist/OneLine-1.6.apk [thư-mục-kết-quả]
 set -uo pipefail
 APK="${1:?thiếu đường dẫn APK}"
 OUT="${2:-tests/.out/android}"

@@ -130,7 +130,7 @@ H.main('Bố cục', async function (t, cleanup) {
       ov: getComputedStyle(document.body).overflowY + '/' + getComputedStyle(de).overflowY, wide: de.scrollWidth > de.clientWidth + 1 };
   });
   t.ok('V1 Trang quyền riêng tư: nút Về game ngay đầu trang (không cần cuộn) và ở cuối trang', pi.n === 2 && pi.top >= 0 && pi.top < 120 && pi.last > pi.vh && pi.href === 'index.html,index.html', JSON.stringify(pi));
-  await pv.mouse.wheel(0, 5000); await pv.waitForTimeout(300);
+  await pv.evaluate(function () { window.scrollTo(0, 100000); }); await pv.waitForTimeout(300);
   const py = await pv.evaluate(function () { var b = document.querySelectorAll('a.back'); return { y: scrollY, lastBottom: b[b.length - 1].getBoundingClientRect().bottom, vh: innerHeight }; });
   t.ok('V2 Trang quyền riêng tư cuộn được tới cuối, không tràn ngang', py.y > 100 && py.lastBottom <= py.vh + 0.5 && !pi.wide && !/hidden/.test(pi.ov) && !pv._errs.length, JSON.stringify(py) + ' ' + pi.ov);
   await pv.click('a.back >> nth=1');

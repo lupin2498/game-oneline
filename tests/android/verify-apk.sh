@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Kiểm tra tĩnh một file APK (không cần máy ảo): manifest, nội dung, căn chỉnh zip, chữ ký.
-#   bash tests/android/verify-apk.sh dist/OneLine-1.5.apk
+#   bash tests/android/verify-apk.sh dist/OneLine-1.6.apk
 set -euo pipefail
 APK="${1:?thiếu đường dẫn APK}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"

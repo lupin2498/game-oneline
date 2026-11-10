@@ -30,7 +30,9 @@
   #wrap{position:relative;flex:none;width:100vw;height:158.334vw;max-width:63.158vh;max-height:100vh;visibility:hidden;
     -ms-touch-action:none;touch-action:none;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6);
     cursor:crosshair}
-  canvas{display:block;width:100%;height:100%;-ms-touch-action:none;touch-action:none}
+  /* nền gradient của sân chơi nằm ở CSS: canvas chỉ việc xoá rồi vẽ, không phải tô lại cả màn mỗi khung hình */
+  canvas{display:block;width:100%;height:100%;-ms-touch-action:none;touch-action:none;
+    background:#0a1424;background:linear-gradient(180deg,#070d18 0%,#0a1424 50%,#05090f 100%)}
   #ui{position:absolute;left:0;top:0;width:400px;height:633.34px;-webkit-transform-origin:0 0;transform-origin:0 0;pointer-events:none}
   #ui .panel{pointer-events:auto}
   .hud{position:absolute;left:0;right:0;top:0;display:flex;padding:12px 14px;pointer-events:none}
@@ -161,7 +163,7 @@
 <script>
 (function(){
 'use strict';
-var VERSION='1.5';
+var VERSION='1.6';
 var cv=document.getElementById('cv'), ctx=cv.getContext('2d'), wrap=document.getElementById('wrap'), ui=document.getElementById('ui');
 var W=480, H=760, STEP=92, Y_MIN=H*0.15, Y_MAX=H*0.78, R=6.5, M2PX=22;
 var JX=240, JY=680, JR=58, JK=25, JT=46;  // nút tròn: tâm, bán kính nền, bán kính núm, tầm lệch núm
@@ -172,7 +174,32 @@ function rnd(a,b){return a+Math.random()*(b-a);}
 
 /* ---------- co giãn khung chơi ---------- */
 var fitW=-1, fitH=-1, fitD=-1, fitOK=false, booted=0;
-function viewDpr(){ return Math.min(window.devicePixelRatio||1,2.5); }
+function viewDpr(){ return Math.min(window.devicePixelRatio||1,2.5)*quality; }
+
+/* Tự hạ độ phân giải canvas khi máy vẽ không kịp. Máy không có tăng tốc GPU cho canvas vẽ mỗi khung hình rất lâu,
+   mà dưới 20 khung hình/giây thì game chạy chậm lại như quay chậm. Vòng lặp đo trung bình từng đợt 45 khung hình:
+   hai đợt liền dưới ~28 khung hình/giây thì hạ dần độ phân giải (mỗi nấc 25%; hình mờ hơn chút, bù lại mượt) cho tới
+   khi nhanh hơn xứng với độ nét đã bỏ ra (mỗi nấc phải nhanh hơn ít nhất 12%). Hạ tới đáy mà vẫn không được thế
+   (tốc độ bị chặn bởi thứ khác) thì trả lại độ nét, thôi không thử. Máy chạy đều 30 khung hình/giây (tiết kiệm pin,
+   màn 30 Hz) không bị đụng tới. */
+var quality=1, Q_MIN=0.42, qN=0, qSum=0, qBad=0, qTry=0, qOld=1, qBase=0, qLock=false;
+var qSkip=4000;                              // chưa đo trong 4 giây đầu và 2 giây sau khi quay lại app (lúc đó máy nào cũng giật)
+document.addEventListener('visibilitychange',function(){
+  qN=0; qSum=0; qBad=0;
+  if(window.performance && performance.now) qSkip=performance.now()+2000;
+});
+function qDown(){ quality=Math.max(Q_MIN, Math.round(quality*75)/100); qTry++; }
+function adapt(avg){
+  if(qLock) return;
+  if(qTry){                                                  // đang thử hạ độ nét (qTry = số nấc đã hạ kể từ mức ổn gần nhất)
+    if(avg<qBase*Math.pow(0.88,qTry)){ qTry=0; log('quality '+quality+' ok avg='+Math.round(avg)); }
+    else if(quality>Q_MIN){ qDown(); return; }               // chưa đủ (màn hình làm tròn nhịp khung hình): hạ thêm một nấc
+    else { quality=qOld; qTry=0; qLock=true; log('quality '+quality+' lock avg='+Math.round(avg)); return; }
+  }
+  if(avg>36 && quality>Q_MIN){
+    if(++qBad>=2){ qBad=0; qOld=quality; qBase=avg; qDown(); log('quality '+quality+' try avg='+Math.round(avg)); }
+  } else qBad=0;
+}
 function fit(){
   var de=document.documentElement;
   var vw=window.innerWidth||de.clientWidth||0, vh=window.innerHeight||de.clientHeight||0, dpr=viewDpr();
@@ -414,13 +441,13 @@ function edges(){
   return [L,Rr];
 }
 function drawBg(){
-  var g=ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'#070d18'); g.addColorStop(.5,'#0a1424'); g.addColorStop(1,'#05090f');
-  ctx.fillStyle=g; ctx.fillRect(-12,-12,W+24,H+24);
+  ctx.clearRect(-12,-12,W+24,H+24);          // nền gradient là CSS của thẻ canvas (xem phần style)
   ctx.strokeStyle='rgba(125,255,212,.05)'; ctx.lineWidth=1;
-  var off=scroll%48;
-  for(var y=-48+off;y<H+48;y+=48){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-  for(var x=24;x<W;x+=48){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  var off=scroll%48, x, y;
+  ctx.beginPath();
+  for(y=-48+off;y<H+48;y+=48){ ctx.moveTo(0,y); ctx.lineTo(W,y); }
+  for(x=24;x<W;x+=48){ ctx.moveTo(x,0); ctx.lineTo(x,H); }
+  ctx.stroke();
 }
 function wallPath(pts,side){
   ctx.beginPath();
@@ -436,9 +463,11 @@ function edgeLine(pts){
 function hatch(){
   ctx.strokeStyle='rgba(255,255,255,.055)'; ctx.lineWidth=2;
   var off=scroll%30, k;
-  for(k=-H;k<W+H;k+=30){
-    ctx.beginPath(); ctx.moveTo(k,-30+off); ctx.lineTo(k+H+60,H+30+off); ctx.stroke();
-  }
+  // Gộp mọi nét vào MỘT path: vẽ từng nét một dưới vùng cắt (clip) của tường chậm gấp ~5 lần khi máy không có
+  // tăng tốc GPU cho canvas (đo được 32 ms -> 6 ms mỗi khung hình ở 1030x1631), làm game chạy như quay chậm
+  ctx.beginPath();
+  for(k=-H;k<W+H;k+=30){ ctx.moveTo(k,-30+off); ctx.lineTo(k+H+60,H+30+off); }
+  ctx.stroke();
 }
 function drawMaze(){
   var e=edges(), L=e[0], Rr=e[1], i;
@@ -741,9 +770,12 @@ $('ver').textContent='v'+VERSION;
 var frameErr=0;
 function loop(ts){
   if(!last) last=ts;
-  var dt=clamp((ts-last)/1000,0,0.05); last=ts;
-  // tự chỉnh lại khung nếu lỡ sự kiện resize (WebView vừa có kích thước, đổi màn hình, đổi tỉ lệ điểm ảnh)
-  refit();                                   // lỡ sự kiện resize / WebView vừa có kích thước / đổi tỉ lệ điểm ảnh: dàn lại ngay
+  var raw=ts-last, dt=clamp(raw/1000,0,0.05); last=ts;
+  if(raw>0 && raw<250 && ts>qSkip && !document.hidden){   // bỏ qua quãng nghỉ (ẩn app, chuyển tab) và lúc vừa mở
+    qSum+=raw;
+    if(++qN>=45){ adapt(qSum/qN); qN=0; qSum=0; }
+  }
+  refit();                                   // lỡ sự kiện resize / WebView vừa có kích thước / đổi tỉ lệ điểm ảnh / đổi độ nét: dàn lại ngay
   try{ step(dt); draw(); }
   catch(e){ if(frameErr++<3 && window.console) console.error('[oneline] frame error', e); }
   requestAnimationFrame(loop);

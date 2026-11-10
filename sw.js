@@ -1,7 +1,7 @@
 // Service worker: chạy offline + tự cập nhật.
 // Chiến lược "trả bản đã lưu ngay, đồng thời tải bản mới về cho lần mở sau" (stale-while-revalidate),
 // nên sửa bất kỳ file nào (kể cả firebase-config.js) rồi deploy là người chơi nhận được ở lần mở kế tiếp.
-const CACHE = 'one-line-v6';
+const CACHE = 'one-line-v7';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './firebase-config.js', './lib/online.js',
   './privacy.html', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png',
   './icons/maskable-512.png'];

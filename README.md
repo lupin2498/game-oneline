@@ -7,8 +7,8 @@ Hành lang hẹp dần (±54px → ±12px), thỉnh thoảng có cửa thắt, t
 
 | Bản | Cài thế nào |
 |---|---|
-| **Android** | Tải [`dist/OneLine-1.5.apk`](dist/) → mở file → cho phép "Cài ứng dụng không rõ nguồn gốc". Android 7.0 trở lên |
-| **iPhone / iPad** | [`dist/OneLine-1.5-unsigned.ipa`](dist/) cài bằng Sideloadly / AltStore (xem mục iOS), hoặc mở trang web bằng **Safari** → Chia sẻ → **Thêm vào màn hình chính** |
+| **Android** | Tải [`dist/OneLine-1.6.apk`](dist/) → mở file → cho phép "Cài ứng dụng không rõ nguồn gốc". Android 7.0 trở lên |
+| **iPhone / iPad** | [`dist/OneLine-1.6-unsigned.ipa`](dist/) cài bằng Sideloadly / AltStore (xem mục iOS), hoặc mở trang web bằng **Safari** → Chia sẻ → **Thêm vào màn hình chính** |
 | **Máy tính / trình duyệt** | Mở `index.html`, hoặc đưa lên GitHub Pages / Firebase Hosting rồi vào link |
 
 ## Nội dung repo
@@ -39,7 +39,7 @@ ký theo APK Signature Scheme v2, căn chỉnh zip 4 byte, chỉ xin quyền Int
 Build lại — **không cần Android Studio hay Android SDK**, chỉ cần JDK 11+, curl, zip:
 
 ```bash
-bash android/build.sh                          # -> dist/OneLine-1.5.apk
+bash android/build.sh                          # -> dist/OneLine-1.6.apk
 bash tests/android/verify-apk.sh dist/*.apk    # kiểm tra tĩnh: manifest, nội dung, căn chỉnh, chữ ký
 ```
 
@@ -60,7 +60,7 @@ Android chỉ cho cài đè khi bản mới ký **cùng khoá** với bản đan
 ## iOS
 
 Apple bắt buộc mọi app phải được ký bằng tài khoản Apple, nên **không tồn tại file cài iOS "mở là cài"**
-như APK. Repo cung cấp file **IPA chưa ký** (`dist/OneLine-1.5-unsigned.ipa`, do CI build trên macOS và đã chạy
+như APK. Repo cung cấp file **IPA chưa ký** (`dist/OneLine-1.6-unsigned.ipa`, do CI build trên macOS và đã chạy
 UI test trên iOS Simulator). Ba cách đưa lên máy:
 
 1. **Sideloadly hoặc AltStore (không cần máy Mac):** cài công cụ trên máy tính Windows/Mac, cắm iPhone,
@@ -135,8 +135,8 @@ npm install && npx playwright install chromium
 npm test                 # web: logic game, cảm ứng thật (đa chạm, giữ lâu), bố cục, biên, fuzz, PWA, Rót Nước
 npm run test:online      # Firebase Emulator: luật Firestore, đăng nhập, bảng xếp hạng, xoá dữ liệu (cần Java 21)
 node tests/web/soak.js 10        # độ bền: bot chơi liên tục 10 phút, theo dõi bộ nhớ
-python3 tests/ios/verify-ipa.py dist/OneLine-1.5-unsigned.ipa   # kiểm tra tĩnh IPA (chạy được trên mọi hệ điều hành)
-bash tests/android/smoke.sh dist/OneLine-1.5.apk   # trên máy ảo / điện thoại Android đang nối adb
+python3 tests/ios/verify-ipa.py dist/OneLine-1.6-unsigned.ipa   # kiểm tra tĩnh IPA (chạy được trên mọi hệ điều hành)
+bash tests/android/smoke.sh dist/OneLine-1.6.apk   # trên máy ảo / điện thoại Android đang nối adb
 bash tests/ios/run-ui-tests.sh                     # trên macOS: UI test trong iOS Simulator
 ```
 
@@ -145,7 +145,7 @@ Cầu nối đăng nhập của app (app ↔ trình duyệt hệ thống) đư�
 
 ```bash
 ONELINE_CONFIG_JS=tests/fixtures/firebase-config.login-test.js DIST=out/logintest bash android/build.sh
-bash tests/android/login.sh out/logintest/OneLine-1.5.apk    # Android; trên iOS, run-ui-tests.sh tự chạy lượt 2
+bash tests/android/login.sh out/logintest/OneLine-1.6.apk    # Android; trên iOS, run-ui-tests.sh tự chạy lượt 2
 ```
 
 CI (`.github/workflows/ci.yml`) chạy tất cả mỗi lần push: test web + online trên Chromium, build APK và kiểm tra

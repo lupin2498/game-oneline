@@ -22,6 +22,14 @@ if (want.indexOf('online') >= 0 && !process.env.FIRESTORE_EMULATOR_HOST && !proc
   console.error('Nhóm "online" cần Firebase Emulator. Chạy:  npm run test:online');
   process.exit(2);
 }
+// Trình duyệt khác Chromium: bỏ các bài cần giao thức riêng của Chromium (cảm ứng thật qua CDP) và service worker
+const BROWSER = process.env.BROWSER || 'chromium';
+if (BROWSER !== 'chromium') {
+  const skip = /(touch|fuzz|pwa)\.test\.js$/;
+  files.filter(function (f) { return skip.test(f); }).forEach(function (f) { console.log('SKIP  ' + path.basename(f) + ' (chỉ chạy trên Chromium)'); });
+  files = files.filter(function (f) { return !skip.test(f); });
+  console.log('Trình duyệt: ' + BROWSER);
+}
 const failed = [];
 const t0 = Date.now();
 for (const f of files) {

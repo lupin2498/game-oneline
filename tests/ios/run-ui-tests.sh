@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Chạy UI test (bấm / giữ / kéo thật) trên iOS Simulator. Cần macOS + Xcode + XcodeGen.
 #   bash tests/ios/run-ui-tests.sh [thư-mục-kết-quả]
-# Hai lượt: (1) app đúng như bản phát hành; (2) app build với cấu hình Firebase GIẢ để thử cầu nối đăng nhập.
+# Ba lượt: (1) app đúng như bản phát hành trên iPhone; (2) app build với cấu hình Firebase GIẢ để thử cầu nối
+# đăng nhập; (3) app đúng như bản phát hành trên iPad (chơi một lượt, tắt mở lại).
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT="${1:-$ROOT/tests/.out/ios}"
@@ -30,17 +31,29 @@ print("%s|%s|%s" % (best[1],best[2],best[3]) if best else "")
 ')"
 [ -n "$PICK" ] || { echo "Không tìm thấy iPhone simulator nào" >&2; exit 1; }
 UDID="${PICK%%|*}"
+# iPad trên bản iOS mới nhất đang có (không có thì bỏ lượt 3)
+IPAD="$(xcrun simctl list devices available -j | python3 -c '
+import json,sys,re
+d=json.load(sys.stdin)["devices"]
+def ver(rt):
+    m=re.search(r"iOS-(\d+)-(\d+)",rt); return (int(m.group(1)),int(m.group(2))) if m else (0,0)
+for rt in sorted([r for r in d if "iOS" in r], key=ver, reverse=True):
+    pads=[x for x in d[rt] if x["name"].startswith("iPad")]
+    if pads:
+        pads.sort(key=lambda x: ("mini" in x["name"], "Pro" in x["name"], x["name"]))
+        print("%s|%s|%s" % (pads[0]["udid"],pads[0]["name"],rt.split(".")[-1])); break
+')"
 echo "==> Simulator: $(cut -d'|' -f2 <<<"$PICK") ($(cut -d'|' -f3 <<<"$PICK"))"
 xcrun simctl boot "$UDID" 2>/dev/null || true
 xcrun simctl bootstatus "$UDID" -b >/dev/null 2>&1 || true
 
-# run_tests <tên lượt> <tệp log> <tham số chọn test>
+# run_tests <tên lượt> <tệp log> <tham số chọn test> [udid máy ảo] [thư mục ảnh chụp]
 run_tests(){
-  local name="$1" log="$2" pick="$3" rc
-  rm -rf "$OUT/$name.xcresult"
-  TEST_RUNNER_SHOT_DIR="$OUT/shots" xcodebuild test \
+  local name="$1" log="$2" pick="$3" dev="${4:-$UDID}" shots="${5:-$OUT/shots}" rc
+  rm -rf "$OUT/$name.xcresult"; mkdir -p "$shots"
+  TEST_RUNNER_SHOT_DIR="$shots" xcodebuild test \
     -project "$ROOT/ios/OneLine.xcodeproj" -scheme OneLine \
-    -destination "platform=iOS Simulator,id=$UDID" \
+    -destination "platform=iOS Simulator,id=$dev" \
     -derivedDataPath "$DERIVED" -resultBundlePath "$OUT/$name.xcresult" "$pick" \
     > "$log" 2>&1
   rc=$?
@@ -60,6 +73,18 @@ ONELINE_CONFIG_JS="$ROOT/tests/fixtures/firebase-config.login-test.js" bash "$RO
 rm -rf "$DERIVED"/Build/Products/*/OneLine.app/www          # buộc Xcode chép lại thư mục www vừa đổi
 TEST_RUNNER_LOGIN_TEST=1 run_tests Test-login "$OUT/xcodebuild-test-login.log" "-only-testing:OneLineUITests/OneLineLoginUITests" || FAIL=1
 ONELINE_CONFIG_JS="" bash "$ROOT/ios/prepare.sh" >/dev/null   # trả ios/www về cấu hình thật
+
+if [ -n "$IPAD" ]; then
+  echo "==> Lượt 3: iPad — $(cut -d'|' -f2 <<<"$IPAD") ($(cut -d'|' -f3 <<<"$IPAD"))"
+  rm -rf "$DERIVED"/Build/Products/*/OneLine.app/www
+  xcrun simctl boot "${IPAD%%|*}" 2>/dev/null || true
+  xcrun simctl bootstatus "${IPAD%%|*}" -b >/dev/null 2>&1 || true
+  run_tests Test-ipad "$OUT/xcodebuild-test-ipad.log" "-only-testing:OneLineUITests/OneLineUITests/test02_bestScoreSurvivesRelaunch" "${IPAD%%|*}" "$OUT/shots-ipad" || FAIL=1
+  xcrun simctl io "${IPAD%%|*}" screenshot "$OUT/shots-ipad/99-final.png" >/dev/null 2>&1 || true
+  xcrun simctl shutdown "${IPAD%%|*}" >/dev/null 2>&1 || true
+else
+  echo "==> Lượt 3: bỏ qua (không có iPad simulator)"
+fi
 
 # Ảnh chụp: test tự ghi vào shots/; nếu không ghi được thì lấy từ gói kết quả
 if [ -z "$(ls "$OUT/shots" 2>/dev/null)" ]; then

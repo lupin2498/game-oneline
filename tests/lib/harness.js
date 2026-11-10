@@ -1,7 +1,10 @@
 'use strict';
 // Khung test dùng chung: máy chủ tĩnh có gắn "móc" đọc trạng thái game, mở Chromium, gom lỗi JS.
 const http = require('http'), fs = require('fs'), path = require('path');
-const { chromium } = require('playwright');
+const playwright = require('playwright');
+// Trình duyệt chạy test: chromium (mặc định) | firefox | webkit  —  BROWSER=webkit node tests/run.js web
+const BROWSER = process.env.BROWSER || 'chromium';
+if (!playwright[BROWSER]) throw new Error('BROWSER phải là chromium, firefox hoặc webkit');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const OUT = path.join(ROOT, 'tests', '.out');
@@ -80,7 +83,8 @@ function fileCopy(name, configJs) {
 }
 
 async function launch(args) {
-  return chromium.launch({ args: ['--enable-precise-memory-info'].concat(args || []) });
+  if (BROWSER !== 'chromium') return playwright[BROWSER].launch();
+  return playwright.chromium.launch({ args: ['--enable-precise-memory-info'].concat(args || []) });
 }
 
 // Hàm trợ giúp chạy trong trang: bắn pointer event theo toạ độ game 480x760, chờ khung hình
@@ -105,7 +109,8 @@ async function newPage(browser, url, o) {
   o = o || {};
   const ctx = await browser.newContext({
     viewport: o.viewport || { width: 412, height: 860 }, deviceScaleFactor: o.dpr || 2,
-    hasTouch: !!o.touch, isMobile: !!o.mobile, userAgent: o.ua, serviceWorkers: o.sw ? 'allow' : 'block'
+    hasTouch: !!o.touch, isMobile: BROWSER === 'firefox' ? undefined : !!o.mobile,     // Firefox không có chế độ giả lập di động
+    userAgent: o.ua, serviceWorkers: o.sw ? 'allow' : 'block'
   });
   const page = await ctx.newPage();
   page._errs = []; page._logs = []; page._net = [];
@@ -178,7 +183,7 @@ function frameInfo(page) {
   });
 }
 
-module.exports = { ROOT, OUT, serve, fileCopy, launch, newPage, suite, main, snap, run, instrument, emulatorConfig, zeroViewport, frameInfo };
+module.exports = { BROWSER, ROOT, OUT, serve, fileCopy, launch, newPage, suite, main, snap, run, instrument, emulatorConfig, zeroViewport, frameInfo };
 
 // Xoá sạch dữ liệu Firebase Emulator (tài khoản + bảng điểm) trước mỗi file test online
 async function resetEmulators() {

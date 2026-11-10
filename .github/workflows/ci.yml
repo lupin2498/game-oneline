@@ -2,6 +2,7 @@ name: CI
 
 # Test toàn bộ rồi build bộ cài:
 #   web      test logic/cảm ứng/bố cục/PWA trên Chromium + test đăng nhập, bảng xếp hạng trên Firebase Emulator
+#   web-cross  chạy lại phần test web không phụ thuộc Chromium trên Firefox và WebKit (nhân của Safari)
 #   apk      build APK (không cần Android SDK) + kiểm tra tĩnh
 #   android  cài và chơi thử APK bằng thao tác cảm ứng thật trên máy ảo Android nhiều phiên bản,
 #            thử cầu nối đăng nhập (app <-> trình duyệt hệ thống) bằng bản build dùng cấu hình giả
@@ -50,6 +51,25 @@ jobs:
           path: tests/.out/*.png
           include-hidden-files: true
           if-no-files-found: ignore
+
+  web-cross:
+    name: Test web trên ${{ matrix.browser }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]      # webkit = nhân của Safari
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Test web (logic game, bố cục, biên, hiệu năng, Rót Nước)
+        run: BROWSER=${{ matrix.browser }} npm run test:web
 
   apk:
     name: Build APK
@@ -150,5 +170,34 @@ jobs:
           path: |
             out/ios/*.ipa
             out/ios/shots
+            out/ios/shots-ipad
             out/ios/*.log
           if-no-files-found: ignore
+
+  # TẠM THỜI (chỉ trên nhánh claude/**): gom kết quả vào nhánh ci-out để xem ảnh chụp và lấy file IPA
+  publish:
+    name: Gom kết quả
+    if: always() && startsWith(github.ref, 'refs/heads/claude/')
+    needs: [web, web-cross, apk, android, ios]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: art
+      - name: Thu nhỏ ảnh, đẩy lên nhánh ci-out
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          sudo apt-get install -y -qq imagemagick >/dev/null 2>&1 || true
+          find art -name '*.png' -exec mogrify -resize '420x>' {} + 2>/dev/null || true
+          find art -name 'logcat.txt' -exec sh -c 'tail -c 300000 "$1" > "$1.tail" && mv "$1.tail" "$1"' _ {} \;
+          rm -rf art/ios/*.xcresult
+          cd art
+          printf '%s\n' "$RESULTS" > results.json
+          echo "run ${{ github.run_id }} sha ${{ github.sha }}" > RUN.txt
+          git init -q && git checkout -q -b ci-out
+          git add -A && git -c user.name="ci" -c user.email="ci@users.noreply.github.com" commit -q -m "CI output ${{ github.run_id }}"
+          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}" ci-out

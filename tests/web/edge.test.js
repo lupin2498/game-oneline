@@ -54,7 +54,7 @@ H.main('Trường hợp biên', async function (t, cleanup) {
   t.ok('E2 Quãng đường ~91 km: không NaN, HUD vẫn đúng', !far.nan && far.frames > 5 && far.speed === 440 && /^9\d{4} m$/.test(far.hud), far.frames + ' khung, HUD ' + far.hud);
 
   // 3. chơi lại 300 lần
-  const h0 = await pg.evaluate(function () { return performance.memory.usedJSHeapSize / 1048576; });
+  const h0 = await pg.evaluate(function () { return performance.memory ? performance.memory.usedJSHeapSize / 1048576 : 0; });   // chỉ Chromium đo được bộ nhớ
   const again = await pg.evaluate(async function () {
     var d = window.__dbg;
     for (var i = 0; i < 300; i++) {
@@ -66,7 +66,7 @@ H.main('Trường hợp biên', async function (t, cleanup) {
     document.getElementById('bAgain').click();
     await window.__t.raf(3);
     var t0 = d.snap().time, r0 = performance.now(); await new Promise(function (r) { setTimeout(r, 1000); });
-    return { st: d.snap().st, gameSec: d.snap().time - t0, realSec: (performance.now() - r0) / 1000, heap: performance.memory.usedJSHeapSize / 1048576,
+    return { st: d.snap().st, gameSec: d.snap().time - t0, realSec: (performance.now() - r0) / 1000, heap: performance.memory ? performance.memory.usedJSHeapSize / 1048576 : 0,
       over: !document.getElementById('pOver').classList.contains('hide'), runs: JSON.parse(localStorage.getItem('oneline.runs') || '[]').length };
   });
   t.ok('E3 Chơi lại 300 lần: trạng thái sạch, chỉ một vòng lặp chạy', again.st === 'ready' && !again.over && Math.abs(again.gameSec - again.realSec) < 0.15 && again.heap < h0 + 12,
