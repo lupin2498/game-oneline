@@ -183,6 +183,9 @@ sleep 1
 CRASH="$(app_crashes)"
 JSERR="$(grep -a -F 'CONSOLE' "$OUT/logcat.txt" | grep -E "Uncaught|frame error|SyntaxError|is not defined|is not a function" | head -3)"
 ok "A13 Không crash, không ANR" "$([ -z "$CRASH" ] && echo 1 || echo 0)" "$CRASH"
+# Thoát app bằng nút Back (bước A11) phải gỡ WebView khỏi cửa sổ rồi mới huỷ; huỷ lúc còn gắn thì WebView ghi cảnh báo
+WD="$(grep -a -c -F 'WebView.destroy() called while WebView is still attached' "$OUT/logcat.txt" 2>/dev/null || true)"
+ok "A13b Thoát app: WebView được gỡ khỏi cửa sổ trước khi huỷ" "$([ "${WD:-0}" = 0 ] && echo 1 || echo 0)" "${WD:-0} cảnh báo của WebView"
 ok "A14 Không có lỗi JavaScript trong WebView" "$([ -z "$JSERR" ] && echo 1 || echo 0)" "$JSERR"
 lines > "$OUT/oneline-log.txt"
 echo "--- log của game ---"; cat "$OUT/oneline-log.txt"
