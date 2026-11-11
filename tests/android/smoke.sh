@@ -158,15 +158,19 @@ ok "A12c Mở lại app cũng không lộ bảng chưa co giãn" "$(edge_ok "$E2
 # ---------- trang quyền riêng tư mở ngay trong app; nút Back của máy đưa về game chứ không thoát app ----------
 NB="$(count 'boot v')"
 tap_text 'Bảng xếp hạng' >/dev/null; tap_text 'Quyền riêng tư' >/dev/null
-P="$(find_text '~Chính sách quyền riêng tư' 15)"
+# App ghi "oneline: page <tên tệp>" khi một trang của app nạp xong trong WebView: mốc chắc chắn cho việc trang đã mở
+# NGAY TRONG app. Chữ của trang đọc qua cây trợ năng chỉ để ghi nhận thêm: trên máy ảo chậm WebView có khi không kịp
+# dựng cây cho trang mới (đã gặp trên Android 16: trang mở, Back về game bình thường, nhưng 15 lần đọc đều không thấy chữ).
+wait_raw ' oneline *: page privacy\.html' 30; PG=$?
+P="$(find_text '~Chính sách quyền riêng tư' 6)"
 sleep 1; shot 08-privacy
 adb shell input keyevent 4
 # Về tới game = trang game nạp lại (thêm một dòng boot). Không dò nút qua cây trợ năng ở bước này: WebView 124
 # (máy ảo Android 15) không dựng lại cây sau khi lùi trang.
 wait_log "boot v" "$((NB + 1))" 20; sleep 2; shot 09-back-to-game
 TOP="$(top_activity)"
-ok "A12b Trang quyền riêng tư mở trong app; nút Back đưa về game (không thoát app)" "$([ -n "$P" ] && [ "$(count 'boot v')" -gt "$NB" ] && grep -q "$PKG" <<<"$TOP" && echo 1 || echo 0)" \
-   "trang riêng tư tại ${P:-KHÔNG THẤY}; về game: $(last 'boot v')"
+ok "A12b Trang quyền riêng tư mở trong app; nút Back đưa về game (không thoát app)" "$([ "$PG" = 0 ] && [ "$(count 'boot v')" -gt "$NB" ] && grep -q "$PKG" <<<"$TOP" && echo 1 || echo 0)" \
+   "app nạp privacy.html: $([ "$PG" = 0 ] && echo có || echo KHÔNG); chữ của trang: $([ -n "$P" ] && echo "thấy tại $P" || echo 'không đọc được qua cây trợ năng'); về game: $(last 'boot v')"
 
 # ---------- sân chơi có hiện không ----------
 # Game tự đọc lại canvas sau 30 khung hình ("canvas ok|blank"); ảnh chụp lúc sẵn sàng chơi cho biết màn hình có hiện.

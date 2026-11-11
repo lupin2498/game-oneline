@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,16 @@ public class MainActivity extends Activity {
             public void onPageFinished(WebView view, String url) {
                 pageReady = true;
                 flushAuth();
+                // Mốc để chẩn đoán / test (adb logcat -s oneline): trang nào của app vừa nạp xong. Chỉ ghi tên tệp
+                // trong gói app, không ghi tham số, không ghi địa chỉ bên ngoài.
+                if (url != null && url.startsWith(ASSET_BASE)) {
+                    String name = url.substring(ASSET_BASE.length());
+                    int cut = name.indexOf('?');
+                    if (cut >= 0) name = name.substring(0, cut);
+                    cut = name.indexOf('#');
+                    if (cut >= 0) name = name.substring(0, cut);
+                    Log.i("oneline", "page " + name);
+                }
             }
         });
         web.setBackgroundColor(0xFF04060C);

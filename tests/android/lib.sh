@@ -10,6 +10,15 @@ lines(){ grep -a -F '"[oneline] ' "$OUT/logcat.txt" 2>/dev/null | sed 's/.*"\[on
 app_crashes(){ grep -a -E "AndroidRuntime: Process: $PKG[, ]|ANR in $PKG( |\$|\))" "$OUT/logcat.txt" 2>/dev/null | head -3; }
 count(){ lines | grep -c -- "$1" || true; }
 last(){ lines | grep -- "$1" | tail -1; }
+# wait_raw <biểu thức chính quy> <giây>: chờ một dòng bất kỳ của logcat (không chỉ dòng "[oneline]" của trang)
+wait_raw(){
+  local i=0
+  while [ "$i" -lt "$(( $2 * 2 ))" ]; do
+    grep -a -q -E -- "$1" "$OUT/logcat.txt" 2>/dev/null && return 0
+    sleep 0.5; i=$((i+1))
+  done
+  return 1
+}
 # wait_log <mẫu> <số lần phải có> <giây>
 wait_log(){ local i=0; while [ "$i" -lt "$(( $3 * 2 ))" ]; do [ "$(count "$1")" -ge "$2" ] && return 0; sleep 0.5; i=$((i+1)); done; return 1; }
 # Ảnh chụp có lộ bố cục chưa co giãn không (nội dung bị cắt ở mép phải màn hình)? In số điểm sáng sát mép phải; "?" = không đọc được ảnh
