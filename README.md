@@ -160,6 +160,7 @@ nên sân chơi trống trong ảnh chụp; script nhận ra trường hợp nà
 
 Game ghi các mốc `[oneline] ...` ra console (khởi động, từng lượt chơi, trạng thái đăng nhập `auth user=… busy=… err=…`;
 không ghi tên, mã tài khoản hay token) — xem bằng `adb logcat | grep oneline` hoặc Web Inspector để chẩn đoán trên máy thật.
+App Android còn ghi `oneline: page <tên tệp>` mỗi khi nạp xong một trang của app (`index.html`, `privacy.html`).
 
 ## Game phụ: Rót Nước (Pour)
 
