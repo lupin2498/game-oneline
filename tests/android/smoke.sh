@@ -90,12 +90,18 @@ sleep 1; shot 02-ready
 # ---------- giữ yên 2 giây trên nút tròn: lượt chơi chỉ được kết thúc khi nhấc tay ----------
 # (2 giây = gấp 4 ngưỡng "giữ lâu" của Android. Không giữ lâu hơn: đoạn thẳng khởi động của mê cung chỉ bảo đảm
 #  an toàn 2,5 giây đầu cho người chơi đứng yên, sau đó tuỳ mê cung mà chạm tường.)
+# Nếu hệ thống cắt ngang thì lượt chơi kết thúc đúng lúc tới ngưỡng "giữ lâu" (mặc định 400-500 ms, tối đa 1.500 ms khi
+# người dùng chỉnh trong Trợ năng). Lượt phải dài hơn ngưỡng đó ít nhất 400 ms và không dưới 1,3 giây. Không đòi đủ
+# 2 giây: máy ảo chậm có lúc giao sự kiện chạm đầu tiên cho trang trễ vài trăm ms (đã gặp 316 ms) nên game đếm thiếu.
+LP="$(adb shell settings get secure long_press_timeout 2>/dev/null | tr -d '\r')"
+case "$LP" in ''|*[!0-9]*) LP=500;; esac
+NEED=1300; [ $((LP + 400)) -gt $NEED ] && NEED=$((LP + 400))
 read -r JX JY <<<"$(pt 240 680)"
 adb shell input swipe "$JX" "$JY" "$JX" "$JY" 2000
 wait_log "over reason=" 1 10
 L="$(last 'over reason=')"; T="$(sed -n 's/.* t=\([0-9]*\).*/\1/p' <<<"$L")"
 ok "A05 Giữ yên 2 giây trên nút tròn: không bị hệ thống cắt ngang (không menu giữ-lâu, không huỷ chạm)" \
-   "$(grep -q 'reason=lift' <<<"$L" && grep -q 'mode=stick' <<<"$L" && [ "${T:-0}" -ge 1700 ] && echo 1 || echo 0)" "$L"
+   "$(grep -q 'reason=lift' <<<"$L" && grep -q 'mode=stick' <<<"$L" && [ "${T:-0}" -ge "$NEED" ] && echo 1 || echo 0)" "$L (ngưỡng giữ lâu của máy $LP ms, cần >= $NEED ms)"
 sleep 1; shot 03-over-lift
 
 # ---------- kéo nút tròn sang phải: nhân vật phải đi theo và chạm tường ----------

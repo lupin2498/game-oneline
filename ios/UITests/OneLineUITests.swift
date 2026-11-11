@@ -178,8 +178,16 @@ final class OneLineUITests: XCTestCase {
         XCTAssertTrue(el("Bắt đầu").waitForExistence(timeout: 90))
         calibrate()
         startGame("Bắt đầu")
-        pt(240, 680).press(forDuration: 1.5)
-        XCTAssertTrue(el("Nhấc tay rồi!").waitForExistence(timeout: 8))
+        // Giữ nút tròn 1,5 giây rồi nhấc: game phải ghi nhận một lượt chơi. Simulator trên máy CI quá tải có lúc làm rơi
+        // cú chạm tổng hợp (game vẫn đứng chờ, không hiện bảng kết quả nào): khi đó chạm lại, tối đa 3 lần, và ghi
+        // "CHẠM LẠI" vào log. Bài này kiểm việc lưu kỷ lục; cú chạm ĐẦU TIÊN phải ăn ngay đã được kiểm ở test01.
+        var lifted = false
+        for attempt in 1...3 {
+            pt(240, 680).press(forDuration: 1.5)
+            if el("Nhấc tay rồi!").waitForExistence(timeout: 15) { lifted = true; break }
+            print("CHẠM LẠI: lần giữ thứ \(attempt) không được game ghi nhận")
+        }
+        XCTAssertTrue(lifted, "giữ nút tròn 1,5 giây rồi nhấc: game phải báo \"Nhấc tay rồi!\"")
         let best = meters().max() ?? 0
         XCTAssertGreaterThan(best, 0, "lượt 1,5 giây phải đi được vài mét")
 

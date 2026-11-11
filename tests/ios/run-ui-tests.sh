@@ -52,6 +52,14 @@ boot_sim(){
   sleep 8
   xcrun simctl terminate "$1" com.apple.Preferences >/dev/null 2>&1 || true
 }
+# iPad: bật LẦN ĐẦU ngay từ bây giờ, lúc chưa có gì khác chạy. Lần bật đầu tiên trên máy CI mới phải dựng dữ liệu hệ
+# thống (rất nặng, kéo dài cả sau khi báo bật xong); để yên một lúc rồi tắt, tới lượt 3 bật lại sẽ nhẹ. Không bật hai
+# máy ảo cùng lúc: máy CI ít RAM, chạy hai máy ảo là mọi thao tác chậm đi nhiều lần.
+if [ -n "$IPAD" ]; then
+  echo "==> Chuẩn bị iPad simulator (bật lần đầu rồi tắt)"
+  boot_sim "${IPAD%%|*}"; sleep 30
+  xcrun simctl shutdown "${IPAD%%|*}" >/dev/null 2>&1 || true
+fi
 echo "==> Simulator: $(cut -d'|' -f2 <<<"$PICK") ($(cut -d'|' -f3 <<<"$PICK"))"
 boot_sim "$UDID"
 
@@ -65,13 +73,16 @@ run_tests(){
     -derivedDataPath "$DERIVED" -resultBundlePath "$OUT/$name.xcresult" "$pick" \
     > "$log" 2>&1
   rc=$?
-  grep -E "Test Case .*(passed|failed|skipped)|error:|expected failure|KHUNG CHƠI|ĐĂNG NHẬP|XCTAssert|\*\* TEST|Executed [0-9]+ tests" "$log" | sed 's/^/  /' | tail -60
+  grep -E "Test Case .*(passed|failed|skipped)|error:|expected failure|KHUNG CHƠI|ĐĂNG NHẬP|CHẠM LẠI|XCTAssert|\*\* TEST|Executed [0-9]+ tests" "$log" | sed 's/^/  /' | tail -60
   # lượt phải thật sự chạy test: không có bài nào chạy, có bài hỏng, hoặc có bài bị bỏ qua, đều tính là lỗi.
   # ("expected failure" = Simulator không tắt kịp app cũ, xem launchFresh() trong UITests: không tính là bài hỏng)
   if [ $rc = 0 ] && grep -q "\*\* TEST SUCCEEDED \*\*" "$log" && grep -q -E "Executed [1-9][0-9]* tests?" "$log" \
      && ! grep -q -E "Executed [0-9]+ tests?,.* [1-9][0-9]* failures? \(" "$log" \
      && ! grep -q -E "Test Case .* skipped|with [1-9][0-9]* tests? skipped" "$log"; then return 0; fi
-  echo "==> $name: CÓ LỖI (xem $log)"; tail -40 "$log"; return 1
+  # hỏng: in diễn biến từng thao tác của bài test (đủ để chẩn đoán ngay từ log CI) rồi phần cuối log
+  echo "==> $name: CÓ LỖI (xem $log)"
+  grep -E "^ +t = +[0-9.]+s +(Tap|Press|Swipe|Synthesize|Waiting|Open|Launch|Terminate|Activate|Find the|Get all|Added attachment|Tear Down)|error:|CHẠM LẠI|Test Case" "$log" | cut -c1-200 | tail -150
+  tail -25 "$log"; return 1
 }
 
 FAIL=0
