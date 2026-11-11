@@ -1,15 +1,18 @@
 import XCTest
 
 extension XCUIApplication {
-    /// Mở app từ đầu (bản đang chạy bị tắt trước). Simulator trên máy CI chậm đôi khi báo "Failed to terminate" lúc tắt
-    /// bản đang chạy dù ngay sau đó app vẫn mở lên bình thường. Việc bị hệ thống tắt nằm ngoài tầm của app, nên RIÊNG
-    /// lỗi này được ghi là "lỗi đã lường trước" rồi thử lại; mọi lỗi khác, hoặc app không lên sau 3 lần, vẫn là lỗi thật.
+    /// Mở app từ đầu (bản đang chạy bị tắt trước). Simulator trên máy CI chậm đôi khi quá giờ ở chính khâu điều khiển
+    /// của XCTest — "Failed to terminate …" lúc tắt bản đang chạy, "Failed to get background assertion …" lúc vừa mở —
+    /// dù app vẫn lên bình thường. Hai việc này nằm ngoài tầm của app, nên RIÊNG hai lỗi đó được ghi là "lỗi đã lường
+    /// trước" rồi kiểm tra lại / thử lại; mọi lỗi khác, hoặc app không lên sau 3 lần, vẫn là lỗi thật.
     func launchFresh(file: StaticString = #filePath, line: UInt = #line) {
         for attempt in 1...3 {
             let opts = XCTExpectedFailure.Options()
             opts.isStrict = false
-            opts.issueMatcher = { issue in issue.compactDescription.contains("Failed to terminate") }
-            XCTExpectFailure("Simulator không tắt kịp bản app đang chạy (lần \(attempt))", options: opts) {
+            opts.issueMatcher = { issue in
+                issue.compactDescription.contains("Failed to terminate") || issue.compactDescription.contains("background assertion")
+            }
+            XCTExpectFailure("Simulator quá giờ khi tắt / mở app (lần \(attempt))", options: opts) {
                 self.launch()
             }
             if self.wait(for: .runningForeground, timeout: 30) { return }

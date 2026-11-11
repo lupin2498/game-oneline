@@ -43,9 +43,17 @@ for rt in sorted([r for r in d if "iOS" in r], key=ver, reverse=True):
         pads.sort(key=lambda x: ("mini" in x["name"], "Pro" in x["name"], x["name"]))
         print("%s|%s|%s" % (pads[0]["udid"],pads[0]["name"],rt.split(".")[-1])); break
 ')"
+# Khởi động máy ảo rồi mở thử một app hệ thống: máy ảo vừa bật còn bận việc nền, lần mở app đầu tiên của bài test
+# dễ quá giờ ("Failed to get background assertion", "Failed to terminate") trên máy CI chậm
+boot_sim(){
+  xcrun simctl boot "$1" 2>/dev/null || true
+  xcrun simctl bootstatus "$1" -b >/dev/null 2>&1 || true
+  xcrun simctl launch "$1" com.apple.Preferences >/dev/null 2>&1 || true
+  sleep 8
+  xcrun simctl terminate "$1" com.apple.Preferences >/dev/null 2>&1 || true
+}
 echo "==> Simulator: $(cut -d'|' -f2 <<<"$PICK") ($(cut -d'|' -f3 <<<"$PICK"))"
-xcrun simctl boot "$UDID" 2>/dev/null || true
-xcrun simctl bootstatus "$UDID" -b >/dev/null 2>&1 || true
+boot_sim "$UDID"
 
 # run_tests <tên lượt> <tệp log> <tham số chọn test> [udid máy ảo] [thư mục ảnh chụp]
 run_tests(){
@@ -76,11 +84,17 @@ rm -rf "$DERIVED"/Build/Products/*/OneLine.app/www          # buộc Xcode chép
 TEST_RUNNER_LOGIN_TEST=1 run_tests Test-login "$OUT/xcodebuild-test-login.log" "-only-testing:OneLineUITests/OneLineLoginUITests" || FAIL=1
 ONELINE_CONFIG_JS="" bash "$ROOT/ios/prepare.sh" >/dev/null   # trả ios/www về cấu hình thật
 
+# Ảnh chụp: test tự ghi vào shots/; nếu không ghi được thì lấy từ gói kết quả
+if [ -z "$(ls "$OUT/shots" 2>/dev/null)" ]; then
+  xcrun xcresulttool export attachments --path "$OUT/Test.xcresult" --output-path "$OUT/shots" >/dev/null 2>&1 || true
+fi
+# iPhone đã xong việc: chụp màn hình cuối rồi tắt, để máy CI không phải chạy hai máy ảo cùng lúc
+xcrun simctl io "$UDID" screenshot "$OUT/shots/99-final.png" >/dev/null 2>&1 || true
 if [ -n "$IPAD" ]; then
   echo "==> Lượt 3: iPad — $(cut -d'|' -f2 <<<"$IPAD") ($(cut -d'|' -f3 <<<"$IPAD"))"
   rm -rf "$DERIVED"/Build/Products/*/OneLine.app/www
-  xcrun simctl boot "${IPAD%%|*}" 2>/dev/null || true
-  xcrun simctl bootstatus "${IPAD%%|*}" -b >/dev/null 2>&1 || true
+  xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
+  boot_sim "${IPAD%%|*}"
   run_tests Test-ipad "$OUT/xcodebuild-test-ipad.log" "-only-testing:OneLineUITests/OneLineUITests/test02_bestScoreSurvivesRelaunch" "${IPAD%%|*}" "$OUT/shots-ipad" || FAIL=1
   xcrun simctl io "${IPAD%%|*}" screenshot "$OUT/shots-ipad/99-final.png" >/dev/null 2>&1 || true
   xcrun simctl shutdown "${IPAD%%|*}" >/dev/null 2>&1 || true
@@ -88,11 +102,6 @@ else
   echo "==> Lượt 3: bỏ qua (không có iPad simulator)"
 fi
 
-# Ảnh chụp: test tự ghi vào shots/; nếu không ghi được thì lấy từ gói kết quả
-if [ -z "$(ls "$OUT/shots" 2>/dev/null)" ]; then
-  xcrun xcresulttool export attachments --path "$OUT/Test.xcresult" --output-path "$OUT/shots" >/dev/null 2>&1 || true
-fi
-xcrun simctl io "$UDID" screenshot "$OUT/shots/99-final.png" >/dev/null 2>&1 || true
 echo "==> Ảnh chụp: $(ls "$OUT/shots" 2>/dev/null | wc -l | tr -d ' ') tệp trong $OUT/shots"
 if [ $FAIL = 0 ]; then echo "==> iOS UI test: tất cả đạt"; exit 0; fi
 echo "==> iOS UI test: CÓ LỖI"; exit 1
