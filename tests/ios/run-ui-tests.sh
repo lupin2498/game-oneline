@@ -85,14 +85,35 @@ run_tests(){
   tail -25 "$log"; return 1
 }
 
+# Lỗi của khâu điều khiển (XCTest / Simulator không mở, không tắt được app trong thời hạn), khác với một khẳng định
+# của bài test bị sai. "Không mở được app" là lời báo của launchFresh() sau 3 lần mở hỏng.
+INFRA='Failed to launch|Failed to terminate|background assertion|Timed out while launching|Không mở được app sau'
+only_infra(){   # đúng khi log có lỗi và MỌI dòng lỗi của bài test đều thuộc loại trên
+  local errs; errs="$(grep -E "error: -\[" "$1" | sort -u)"
+  [ -n "$errs" ] && ! grep -v -E "$INFRA" <<<"$errs" | grep -q .
+}
+# run_pass <các tham số của run_tests>: chạy một lượt; hỏng mà chỉ toàn lỗi của khâu điều khiển thì khởi động lại máy
+# ảo rồi chạy lại cả lượt, tối đa 2 lần (có ghi cảnh báo). Có bất kỳ khẳng định nào sai thì hỏng luôn, không chạy lại.
+run_pass(){
+  local try=1 dev="${4:-$UDID}"
+  while :; do
+    run_tests "$@" && return 0
+    if [ "$try" -ge 3 ] || ! only_infra "$2"; then return 1; fi
+    echo "::warning::iOS UI test, lượt $1: Simulator không mở/tắt được app trong thời hạn (lần $try) — khởi động lại máy ảo và chạy lại lượt này"
+    xcrun simctl shutdown "$dev" >/dev/null 2>&1 || true
+    sleep 5; boot_sim "$dev"
+    try=$((try+1))
+  done
+}
+
 FAIL=0
 echo "==> Lượt 1: chơi thử (app như bản phát hành)"
-run_tests Test "$OUT/xcodebuild-test.log" "-skip-testing:OneLineUITests/OneLineLoginUITests" || FAIL=1
+run_pass Test "$OUT/xcodebuild-test.log" "-skip-testing:OneLineUITests/OneLineLoginUITests" || FAIL=1
 
 echo "==> Lượt 2: cầu nối đăng nhập (app build với cấu hình test)"
 ONELINE_CONFIG_JS="$ROOT/tests/fixtures/firebase-config.login-test.js" bash "$ROOT/ios/prepare.sh"
 rm -rf "$DERIVED"/Build/Products/*/OneLine.app/www          # buộc Xcode chép lại thư mục www vừa đổi
-TEST_RUNNER_LOGIN_TEST=1 run_tests Test-login "$OUT/xcodebuild-test-login.log" "-only-testing:OneLineUITests/OneLineLoginUITests" || FAIL=1
+TEST_RUNNER_LOGIN_TEST=1 run_pass Test-login "$OUT/xcodebuild-test-login.log" "-only-testing:OneLineUITests/OneLineLoginUITests" || FAIL=1
 ONELINE_CONFIG_JS="" bash "$ROOT/ios/prepare.sh" >/dev/null   # trả ios/www về cấu hình thật
 
 # Ảnh chụp: test tự ghi vào shots/; nếu không ghi được thì lấy từ gói kết quả
@@ -106,7 +127,7 @@ if [ -n "$IPAD" ]; then
   rm -rf "$DERIVED"/Build/Products/*/OneLine.app/www
   xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
   boot_sim "${IPAD%%|*}"
-  run_tests Test-ipad "$OUT/xcodebuild-test-ipad.log" "-only-testing:OneLineUITests/OneLineUITests/test02_bestScoreSurvivesRelaunch" "${IPAD%%|*}" "$OUT/shots-ipad" || FAIL=1
+  run_pass Test-ipad "$OUT/xcodebuild-test-ipad.log" "-only-testing:OneLineUITests/OneLineUITests/test02_bestScoreSurvivesRelaunch" "${IPAD%%|*}" "$OUT/shots-ipad" || FAIL=1
   xcrun simctl io "${IPAD%%|*}" screenshot "$OUT/shots-ipad/99-final.png" >/dev/null 2>&1 || true
   xcrun simctl shutdown "${IPAD%%|*}" >/dev/null 2>&1 || true
 else

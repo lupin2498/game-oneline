@@ -71,6 +71,9 @@ schemes:
       config: Debug
     test:
       config: Debug
+      # Không gắn trình gỡ lỗi khi chạy test: có gắn thì mỗi lần bài test mở app đều phải đi vòng qua Xcode, trên máy CI
+      # chậm hay quá giờ ("Timed out while launching application via Xcode")
+      debugEnabled: false
       targets:
         - OneLineUITests
     archive:
